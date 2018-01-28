@@ -1,6 +1,8 @@
 from pypeds.entity import *
 from pypeds.pool import *
 
+__all__ = ['Scene']
+
 
 class Scene(object):
     def __init__(self, entities=None, model=None):
@@ -19,7 +21,7 @@ class Scene(object):
         """
         :return: iterator that contains all entities
         """
-        return self.__entities.get(Entity)
+        return self.__entities.select(Entity)
 
     # add and remove entity
     def add_entity(self, new_entity):
@@ -33,7 +35,7 @@ class Scene(object):
         """
         :return: iterator that contains all agents
         """
-        return self.__entities.get(Agent)
+        return self.__entities.select(Agent)
 
     def start(self):
         for agent in self.agents:

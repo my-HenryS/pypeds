@@ -6,7 +6,7 @@ class EntityPool(object):
     def __init__(self, entities):
         self.__entities = entities or []
 
-    def get(self, qType) -> iter:
+    def select(self, qType) -> iter:
         """get all entities that are instances of qType (or any of its super classes)
 
         :param qType: the query type
