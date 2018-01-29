@@ -5,19 +5,9 @@ __all__ = ['Shape2D', 'Circle2D', 'Box2D']
 
 class Shape2D(ABC):
 
-    @abstractmethod
-    def center(self) -> tuple:
-        """
-        :return: the center point (as a tuple) of the self
-        """
-        pass
-
-    @abstractmethod
-    def move_to(self, pos):
-        """ move the center point of self to 'pos'
-        :param pos: the new center point for shape
-        """
-        pass
+    def __init__(self, center):
+        self.center = center
+        self.drawer = None
 
     @abstractmethod
     def area(self) -> float:
@@ -35,10 +25,10 @@ class Shape2D(ABC):
         pass
 
     def distance(self, other) -> (float, tuple):
-        """We define the distance between two shapes as the minimum distance between any two points
+        """ We define the distance between two shapes as the minimum distance between any two points
          (assume to be point A and B) selected respectively from shape 'self' and 'other'.
 
-         It should later be implemented in a Distance Calculator.
+        It should later be implemented in a Distance Calculator.
         :param other: the other shape
         :return: the distance between  A and B, and a vector (as a tuple) from A to B (e.g. return 3.0, (2.5, -2.1))
         """
@@ -78,26 +68,28 @@ class DistanceCalculator(object):
 class Circle2D(Shape2D):
 
     def __init__(self, center, radius):
-        self.center, self.radius = center, radius
+        super().__init__(center)
+        self.radius = radius
 
-    def center(self) -> tuple:
-        return self.center
+    def area(self) -> float:
+        pass
 
-    def move_to(self, pos):
-        self.center = pos
+    def contains(self, point) -> bool:
+        pass
+
+    def bounds(self):
+        pass
+
+    def expand(self, degree):
+        pass
 
 
 class Box2D(Shape2D):
 
     def __init__(self, center, width, height):
-        self.center = center
+        super().__init__(center)
         self.w, self.h = width, height
 
-    def center(self) -> tuple:
-        return self.center
-
-    def move_to(self, pos):
-        self.center = pos
 
 
 
