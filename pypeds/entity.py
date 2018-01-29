@@ -27,7 +27,7 @@ class Agent(Entity):
         self.model.get_force(self, agent)
 
 
-class Dummy(Entity):  # TODO remove it after use
+class Dummy(Entity):  # FIXME remove it after use
     def __init__(self, shape):
         super(Dummy, self).__init__(shape)
 

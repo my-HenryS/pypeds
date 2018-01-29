@@ -30,7 +30,7 @@ class DrawerRegister(ABC):
 class ShapeDrawerRegister(DrawerRegister):
 
     def default_register(self):
-        self.register(Circle2D, Circle2DDrawer(self.device))
+        self.register(Circle2D, Circle2DDrawer(self.device))   # FIXME remove hard code
 
     def add_drawer_support(self, shape) -> bool:
         drawer = self.drawer_map[type(shape)]
@@ -50,13 +50,13 @@ class SceneDrawerRegister(DrawerRegister):
             self.shape_drawer_register = ShapeDrawerRegister(device, mode)
 
     def default_register(self):
-        self.register(Scene, SceneDrawer(self.device))
+        self.register(Scene, SceneDrawer(self.device)) # FIXME remove hard code
 
     def add_drawer_support(self, scene) -> bool:
         drawer = self.drawer_map[type(scene)]
         if drawer is not None:
             scene.drawer = drawer
-            for entity in scene.entities:   # TODO modify this line after implemented entity drawer and entity installer
+            for entity in scene.entities:   # FIXME modify this line after implemented entity drawer and entity installer
                 self.shape_drawer_register.add_drawer_support(entity.shape)
             return True
 
