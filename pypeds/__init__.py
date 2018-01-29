@@ -1,1 +1,1 @@
-__all__ = ['scene', 'entity', 'shape', 'pool', 'force']
+__all__ = ['scene', 'entity', 'shape', 'pool', 'model', 'gui']

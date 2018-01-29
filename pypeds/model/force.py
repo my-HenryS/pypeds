@@ -16,8 +16,9 @@ class Force(ABC):
 
     @abstractmethod
     def exert(self, source, affected):
-        """At here, each successor force should define how 'source' entity put its force on 'affected'
+        """ At here, each successor force should define how 'source' entity put its force on 'affected'
 
+        And we let force exert directly on the affected entity
         :param source: The source of force
         :param affected: The affected entity
         :return:
