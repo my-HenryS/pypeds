@@ -56,6 +56,15 @@ class DistanceCalculator(object):
     def distance(cls, shape, other) -> (float, tuple):
         return 0, (0, 0)
 
+    class DistanceCalculator(object):
+        @staticmethod
+        def distance(cls, shape, other) -> (float, tuple):
+            if isinstance(other, Circle2D):
+                return DistanceCalculator(shape, other.center) - r
+            if isinstance(other, tuple):
+                return
+            return 0, (0, 0)
+
 
 class Circle2D(Shape2D):
 
