@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import math
 
 __all__ = ['Shape2D', 'Circle2D', 'Box2D']
 
@@ -72,16 +73,18 @@ class Circle2D(Shape2D):
         self.radius = radius
 
     def area(self) -> float:
-        pass
+        return math.pi() * self.radius * self.radius
 
     def contains(self, point) -> bool:
-        pass
+        dist, dirt = self.center.distance(point)
+        return dist < self.radius
 
     def bounds(self):
-        pass
+        return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
     def expand(self, degree):
-        pass
+        self.radius += degree
+        return self
 
 
 class Box2D(Shape2D):
@@ -89,6 +92,15 @@ class Box2D(Shape2D):
     def __init__(self, center, width, height):
         super().__init__(center)
         self.w, self.h = width, height
+
+    def area(self) -> float:
+        return self.w * self.h
+
+    def contains(self, point) -> bool:
+        return (point.x >= self.center.x - self.w / 2) \
+               and (point.x <= self.center.x + self.w / 2) \
+               and (point.y >= self.center.y - self.h /2) \
+               and (point.y <= self.center.y + self.h /2)
 
 
 
