@@ -20,21 +20,36 @@ class Panel(SceneListener):
         self.drawer_register = None
 
     def register_drawer(self, drawer_register):
+        """ Give value to attribute 'drawer_register'.
+        And call add_drawer_support() to register entities and shapes with drawer in self.scene.
+        Shall be called after assigned a listening scene.
+        :param drawer_register: a scene_drawer_register
+        """
         self.drawer_register = drawer_register
         self.drawer_register.add_drawer_support(self.scene)
 
     def on_added(self, scene):
+        """ When added to scene, Panel call drawer_register to register its entities and shapes with drawers.
+        If default_drawer_register is set to True, the drawer_register uses 'default' mode.
+        :param scene: the listening scene
+        """
         self.scene = scene
         if self.default_drawer_register:
             self.register_drawer(SceneDrawerRegister(self.canvas, mode="default"))
 
     def on_stepped(self):
+        """ At each step, we call scene drawer to draw.
+
+        """
         self.scene.drawer.draw(self.scene)
 
     def on_removed(self):
         pass
 
     def config_window(self):
+        """ Let window init at the center of screen
+        :return:
+        """
         window = self.window
         # window.resizable(False, False)  we remain the window resizable
         window.update()  # update window ,must do

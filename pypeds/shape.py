@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import math
 
 __all__ = ['Shape2D', 'Circle2D', 'Box2D']
 
@@ -14,14 +13,6 @@ class Shape2D(ABC):
     def area(self) -> float:
         """
         :return: the area of self
-        """
-        pass
-
-    @abstractmethod
-    def contains(self, point) -> bool:
-        """
-        :param point: point (as a tuple)
-        :return: whether self contains 'point'
         """
         pass
 
@@ -44,7 +35,7 @@ class Shape2D(ABC):
 
     def hits(self, other) -> bool:
         """
-        :param other: the other shape
+        :param other: the other shape, including point
         :return: whether the two shapes are intersected
         """
         dist, dirt = self.distance(other)
@@ -61,7 +52,7 @@ class Shape2D(ABC):
 
 
 class DistanceCalculator(object):
-    @classmethod
+    @staticmethod
     def distance(cls, shape, other) -> (float, tuple):
         return 0, (0, 0)
 
@@ -75,10 +66,6 @@ class Circle2D(Shape2D):
     def area(self) -> float:
         return math.pi() * self.radius * self.radius
 
-    def contains(self, point) -> bool:
-        dist, dirt = self.center.distance(point)
-        return dist < self.radius
-
     def bounds(self):
         return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
@@ -91,17 +78,30 @@ class Box2D(Shape2D):
 
     def __init__(self, center, width, height):
         super().__init__(center)
-        self.w, self.h = width, height
+        self.width, self.height = width, height
+
+    @property
+    def e_left(self):
+        return self.center[0] - self.width / 2
+
+    @property
+    def e_right(self):
+        return self.center[0] + self.width / 2
+
+    @property
+    def e_down(self):
+        return self.center[1] - self.height / 2
+
+    @property
+    def e_up(self):
+        return self.center[1] + self.height / 2
 
     def area(self) -> float:
         return self.w * self.h
 
-    def contains(self, point) -> bool:
-        return (point.x >= self.center.x - self.w / 2) \
-               and (point.x <= self.center.x + self.w / 2) \
-               and (point.y >= self.center.y - self.h /2) \
-               and (point.y <= self.center.y + self.h /2)
 
+    def bounds(self):
+        pass
 
-
-
+    def expand(self, degree):
+        pass
