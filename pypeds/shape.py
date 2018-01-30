@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 import math
-
-__all__ = ['Shape2D', 'Circle2D', 'Box2D', 'Ellipse2D']
+__all__ = ['Shape2D', 'Circle2D', 'Box2D']
 
 
 class Shape2D(ABC):
@@ -100,17 +99,8 @@ class Box2D(Shape2D):
     def area(self) -> float:
         return self.w * self.h
 
-
     def bounds(self):
         pass
 
     def expand(self, degree):
         pass
-
-
-class Ellipse2D(Shape2D):
-
-    def __init__(self, center, a, b):
-        super().__init__(center)
-        self.a = a
-        self.b = b
