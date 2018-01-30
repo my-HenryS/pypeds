@@ -16,14 +16,6 @@ class Shape2D(ABC):
         """
         pass
 
-    @abstractmethod
-    def contains(self, point) -> bool:
-        """
-        :param point: point (as a tuple)
-        :return: whether self contains 'point'
-        """
-        pass
-
     def distance(self, other) -> (float, tuple):
         """ We define the distance between two shapes as the minimum distance between any two points
          (assume to be point A and B) selected respectively from shape 'self' and 'other'.
@@ -43,7 +35,7 @@ class Shape2D(ABC):
 
     def hits(self, other) -> bool:
         """
-        :param other: the other shape
+        :param other: the other shape, including point
         :return: whether the two shapes are intersected
         """
         dist, dirt = self.distance(other)
@@ -60,7 +52,7 @@ class Shape2D(ABC):
 
 
 class DistanceCalculator(object):
-    @classmethod
+    @staticmethod
     def distance(cls, shape, other) -> (float, tuple):
         return 0, (0, 0)
 
@@ -72,24 +64,44 @@ class Circle2D(Shape2D):
         self.radius = radius
 
     def area(self) -> float:
-        pass
-
-    def contains(self, point) -> bool:
-        pass
+        return math.pi() * self.radius * self.radius
 
     def bounds(self):
-        pass
+        return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
     def expand(self, degree):
-        pass
+        self.radius += degree
+        return self
 
 
 class Box2D(Shape2D):
 
     def __init__(self, center, width, height):
         super().__init__(center)
-        self.w, self.h = width, height
+        self.width, self.height = width, height
+
+    @property
+    def e_left(self):
+        return self.center[0] - self.width / 2
+
+    @property
+    def e_right(self):
+        return self.center[0] + self.width / 2
+
+    @property
+    def e_down(self):
+        return self.center[1] - self.height / 2
+
+    @property
+    def e_up(self):
+        return self.center[1] + self.height / 2
+
+    def area(self) -> float:
+        return self.w * self.h
 
 
+    def bounds(self):
+        pass
 
-
+    def expand(self, degree):
+        pass
