@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import math
-__all__ = ['Shape2D', 'Circle2D', 'Box2D']
+__all__ = ['Shape2D', 'Circle2D', 'Box2D', 'Ellipse2D']
 
 
 class Shape2D(ABC):
@@ -54,16 +54,11 @@ class Shape2D(ABC):
 class DistanceCalculator(object):
     @staticmethod
     def distance(cls, shape, other) -> (float, tuple):
-        return 0, (0, 0)
-
-    class DistanceCalculator(object):
-        @staticmethod
-        def distance(cls, shape, other) -> (float, tuple):
-            if isinstance(other, Circle2D):
-                return DistanceCalculator(shape, other.center) - r
-            if isinstance(other, tuple):
-                return
-            return 0, (0, 0)
+         if isinstance(other, Circle2D):
+            return DistanceCalculator(shape, other.center) - other.radius
+         if isinstance(other, tuple):
+            return
+         return 0, (0, 0)
 
 
 class Circle2D(Shape2D):
@@ -109,7 +104,43 @@ class Box2D(Shape2D):
         return self.w * self.h
 
     def bounds(self):
-        pass
+        return self
 
     def expand(self, degree):
-        pass
+        self.width += degree
+        self.heigth += degree
+        return self
+
+
+class Ellipse2D(Shape2D):
+
+    def __init__(self, center, a, b, angle):
+        super().__init__(center)
+        self.a, self.b, self.angle = a, b, angle
+
+    @property
+    def c_left(self):
+        return center[0] + (self.a + self.b) * math.cos(self.angle) / (-2), center[1] + (self.a + self.b) * math.cos(self.angle) / (-2)
+
+    @property
+    def c_right(self):
+        return center[0] + (self.a + self.b) * math.cos(self.angle) / 2, center[1] + (self.a + self.b) * math.cos(self.angle) / 2
+
+    def area(self) -> float:
+        return math.pi() * self.a * self.b
+
+    def bounds(self):
+        if math.fabs(self.angle % math.pi()) < 0:
+            return Box2D(self.center, 2 * self.a, 2 * self.b)
+        elif math.fabs((self.angle % math.pi()) - math.pi() / 2) < 0:
+            return Box2D(self.center, 2 * self.b, 2 * self.a)
+        else:
+            k = (-1) * math.tan(self.angle)
+            h_height = math.sqrt((self.a * self.a * k * k + self.b * self.b) / (k * k + 1))
+            h_width = math.sqrt(self.a * self.a + self.b * self.b - h_height * h_height)
+            return Box2D(self.center, 2 * h_width, 2 * h_height)
+
+    def expand(self, degree):
+        self.a += degree
+        self.b += degree
+        return self
