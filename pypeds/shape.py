@@ -108,7 +108,7 @@ class Box2D(Shape2D):
 
     def expand(self, degree):
         self.width += degree
-        self.heigth += degree
+        self.height += degree
         return self
 
 
@@ -120,19 +120,25 @@ class Ellipse2D(Shape2D):
 
     @property
     def c_left(self):
-        return center[0] + (self.a + self.b) * math.cos(self.angle) / (-2), center[1] + (self.a + self.b) * math.cos(self.angle) / (-2)
+        return (center[0] + (self.a + self.b) * math.cos(self.angle) / (-2),
+                center[1] + (self.a + self.b) * math.cos(self.angle) / (-2))
 
     @property
     def c_right(self):
-        return center[0] + (self.a + self.b) * math.cos(self.angle) / 2, center[1] + (self.a + self.b) * math.cos(self.angle) / 2
+        return (center[0] + (self.a + self.b) * math.cos(self.angle) / 2,
+                center[1] + (self.a + self.b) * math.cos(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
 
     def bounds(self):
-        if math.fabs(self.angle % math.pi()) < 0:
+        """
+        Three stances of ellipse：horizontal, vertical, oblique
+        :return:
+        """
+        if self.angle % math.pi() == 0:
             return Box2D(self.center, 2 * self.a, 2 * self.b)
-        elif math.fabs((self.angle % math.pi()) - math.pi() / 2) < 0:
+        elif math.fabs(self.angle % math.pi()) - math.pi() / 2 == 0:
             return Box2D(self.center, 2 * self.b, 2 * self.a)
         else:
             k = (-1) * math.tan(self.angle)
