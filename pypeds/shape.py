@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import math
-__all__ = ['Shape2D', 'Circle2D', 'Box2D', 'Ellipse2D']
+__all__ = ['Shape2D', 'Circle2D', 'Box2D', 'Ellipse2D', 'Rectangle2D']
 
 
 class Shape2D(ABC):
@@ -80,35 +80,35 @@ class Circle2D(Shape2D):
 
 class Box2D(Shape2D):
 
-    def __init__(self, center, width, height):
+    def __init__(self, center, length, width):
         super().__init__(center)
-        self.width, self.height = width, height
+        self.length, self.width = length, width
 
     @property
     def e_left(self):
-        return self.center[0] - self.width / 2
+        return self.center[0] - self.length / 2
 
     @property
     def e_right(self):
-        return self.center[0] + self.width / 2
+        return self.center[0] + self.length / 2
 
     @property
     def e_down(self):
-        return self.center[1] - self.height / 2
+        return self.center[1] - self.width / 2
 
     @property
     def e_up(self):
-        return self.center[1] + self.height / 2
+        return self.center[1] + self.width / 2
 
     def area(self) -> float:
-        return self.w * self.h
+        return self.length * self.width
 
     def bounds(self):
         return self
 
     def expand(self, degree):
-        self.width += degree
-        self.height += degree
+        self.length += 2 * degree
+        self.width += 2 * degree
         return self
 
 
@@ -116,17 +116,21 @@ class Ellipse2D(Shape2D):
 
     def __init__(self, center, a, b, angle):
         super().__init__(center)
-        self.a, self.b, self.angle = a, b, angle
+        if a > b:
+            self.a, self.b = a, b
+        else:
+            self.a, self.b = b, a
+        self.angle = angle
 
     @property
     def c_left(self):
         return (center[0] + (self.a + self.b) * math.cos(self.angle) / (-2),
-                center[1] + (self.a + self.b) * math.cos(self.angle) / (-2))
+                center[1] + (self.a + self.b) * math.sin(self.angle) / (-2))
 
     @property
     def c_right(self):
         return (center[0] + (self.a + self.b) * math.cos(self.angle) / 2,
-                center[1] + (self.a + self.b) * math.cos(self.angle) / 2)
+                center[1] + (self.a + self.b) * math.sin(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
@@ -149,4 +153,23 @@ class Ellipse2D(Shape2D):
     def expand(self, degree):
         self.a += degree
         self.b += degree
+        return self
+
+
+class Rectangle2D(Shape2D):
+
+    def __init__(self, center, length, width, angle):
+        super().__init__(center)
+        self.length, self.width, self.angle = length, width, angle
+
+    def area(self) -> float:
+        return self.length * self.width
+
+    def bounds(self):
+        return Box2D(self.center, self.length * math.cos(self.angle) + self.width * math.sin(self.angle),
+                     self.length * math.sin(self.angle) + self.width * math.cos(self.angle))
+
+    def expand(self, degree):
+        self.length += 2 * degree
+        self.width += 2 * degree
         return self
