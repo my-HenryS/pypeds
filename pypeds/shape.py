@@ -54,11 +54,51 @@ class Shape2D(ABC):
 class DistanceCalculator(object):
     @staticmethod
     def distance(cls, shape, other) -> (float, tuple):
-         if isinstance(other, Circle2D):
-            return DistanceCalculator(shape, other.center) - other.radius
-         if isinstance(other, tuple):
-            return
-         return 0, (0, 0)
+        """
+        There are 5 kinds of shape : tuple(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
+        The combination of <shape * other> is divided to 5 * 5 conditions
+        :param cls:
+        :param shape:
+        :param other:the distance and distance between two shapes(distance defined as a unit vector)
+        :return:
+        """
+        if isinstance(other, tuple):
+            if isinstance(shape, tuple):
+                dis = math.sqrt((other[0] - shape[0]) * (other[0] - shape[0]) + (other[1] - shape[1]) * (other[1] - shape[1]))
+                return dis, ((other[0] - shape[0]) / dis, (other[1] - shape[1]) / dis)
+            if isinstance(shape, Circle2D):
+                dis, dir = DistanceCalculator.distance(shape.center, other)
+                return dis - shape.radius, dir
+            if isinstance(shape, Ellipse2D):
+                dis, dir = DistanceCalculator.distance(other, shape)
+                return dis, ((-1) * dir[0], (-1) * dir[1])
+            if isinstance(shape, Box2D):
+                pass
+            if isinstance(shape, Rectangle2D):
+                pass
+        if isinstance(other, Circle2D):
+            dis, dir = DistanceCalculator.distance(shape, other.center)
+            return dis - other.radius, dir
+        if isinstance(other, Ellipse2D):
+            l_dis, l_dir = DistanceCalculator.distance(shape, other.c_left())
+            r_dis, r_dir = DistanceCalculator.distance(shape, other.c_right())
+            m_dis, m_dir = DistanceCalculator.distance(shape, other.center)
+            l_dis -= (other.a - other.b) / 2
+            r_dis -= (other.a - other.b) / 2
+            m_dis -= other.b
+            if l_dis < r_dis:
+                if l_dis < m_dis:
+                    return l_dis, l_dir
+                else:
+                    return m_dis, m_dir
+            else:
+                if r_dis < m_dis:
+                    return r_dis, r_dir
+                else:
+                    return m_dis, m_dir
+        if isinstance(other, Box2D or Rectangle2D):
+            dis, dir = DistanceCalculator.distance(other, shape)
+            return dis, ((-1)*dir[0], (-1)*dir[1])
 
 
 class Circle2D(Shape2D):
