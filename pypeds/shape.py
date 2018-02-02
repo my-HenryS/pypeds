@@ -56,6 +56,7 @@ class DistanceCalculator(object):
     def distance(cls, shape, other) -> (float, tuple):
         return 0, (0, 0)
 
+
 class Circle2D(Shape2D):
 
     def __init__(self, center, radius):
@@ -63,16 +64,14 @@ class Circle2D(Shape2D):
         self.radius = radius
 
     def area(self) -> float:
-        pass
-
-    def contains(self, point) -> bool:
-        pass
+        return math.pi() * self.radius * self.radius
 
     def bounds(self):
-        pass
+        return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
     def expand(self, degree):
-        pass
+        self.radius += degree
+        return self
 
 
 class Box2D(Shape2D):
@@ -98,10 +97,8 @@ class Box2D(Shape2D):
         return self.center[1] + self.height / 2
 
     def area(self) -> float:
-        pass
+        return self.w * self.h
 
-    def contains(self, point) -> bool:
-        pass
 
     def bounds(self):
         pass
