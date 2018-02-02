@@ -27,19 +27,19 @@ class Shape2D(ABC):
         return DistanceCalculator.distance(self, other)
 
     @abstractmethod
-    def bounds(self):
+    def bound(self):
         """
         :return: the outbound (as a Box2D) of self
         """
         pass
 
-    def hits(self, other) -> bool:
+    @abstractmethod
+    def intersects(self, other) -> bool:
         """
         :param other: the other shape, including point
         :return: whether the two shapes are intersected
         """
-        dist, dirt = self.distance(other)
-        return dist <= 0
+        pass
 
     @abstractmethod
     def expand(self, degree):
@@ -80,8 +80,8 @@ class DistanceCalculator(object):
             dis, dir = DistanceCalculator.distance(shape, other.center)
             return dis - other.radius, dir
         if isinstance(other, Ellipse2D):
-            l_dis, l_dir = DistanceCalculator.distance(shape, other.c_left())
-            r_dis, r_dir = DistanceCalculator.distance(shape, other.c_right())
+            l_dis, l_dir = DistanceCalculator.distance(shape, other.c_left)
+            r_dis, r_dir = DistanceCalculator.distance(shape, other.c_right)
             m_dis, m_dir = DistanceCalculator.distance(shape, other.center)
             l_dis -= (other.a - other.b) / 2
             r_dis -= (other.a - other.b) / 2
@@ -110,7 +110,7 @@ class Circle2D(Shape2D):
     def area(self) -> float:
         return math.pi() * self.radius * self.radius
 
-    def bounds(self):
+    def bound(self):
         return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
     def expand(self, degree):
@@ -143,7 +143,7 @@ class Box2D(Shape2D):
     def area(self) -> float:
         return self.length * self.width
 
-    def bounds(self):
+    def bound(self):
         return self
 
     def expand(self, degree):
@@ -164,18 +164,18 @@ class Ellipse2D(Shape2D):
 
     @property
     def c_left(self):
-        return (center[0] + (self.a + self.b) * math.cos(self.angle) / (-2),
-                center[1] + (self.a + self.b) * math.sin(self.angle) / (-2))
+        return (self.center[0] + (self.a + self.b) * math.cos(self.angle) / (-2),
+                self.center[1] + (self.a + self.b) * math.sin(self.angle) / (-2))
 
     @property
     def c_right(self):
-        return (center[0] + (self.a + self.b) * math.cos(self.angle) / 2,
-                center[1] + (self.a + self.b) * math.sin(self.angle) / 2)
+        return (self.center[0] + (self.a + self.b) * math.cos(self.angle) / 2,
+                self.center[1] + (self.a + self.b) * math.sin(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
 
-    def bounds(self):
+    def bound(self):
         """
         Three stances of ellipse：horizontal, vertical, oblique
         :return:
@@ -205,7 +205,7 @@ class Rectangle2D(Shape2D):
     def area(self) -> float:
         return self.length * self.width
 
-    def bounds(self):
+    def bound(self):
         return Box2D(self.center, self.length * math.cos(self.angle) + self.width * math.sin(self.angle),
                      self.length * math.sin(self.angle) + self.width * math.cos(self.angle))
 
