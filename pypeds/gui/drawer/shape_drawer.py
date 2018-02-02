@@ -1,27 +1,38 @@
 from abc import ABC, abstractmethod
 
-# TODO write docs
-
 
 class ShapeDrawer(ABC):
     def __init__(self, device):
         self.device = device
-        self.default_color = "black"
 
     @abstractmethod
-    def render(self, shape, color):
-        pass
-
     def draw(self, shape):
-        self.render(shape, self.default_color)
+        """ Call painter to draw shape with proposed color
+
+        :param shape: the drawable shape object
+        :return:
+        """
 
 
 class Circle2DDrawer(ShapeDrawer):
+
     def __init__(self, device):
         super().__init__(device)
+        self.color = "black"
 
-    def render(self, shape, color):
-        x, y = shape.center
-        r = shape.radius
-        self.device.create_oval(x, y, (x+2*r), (y+2*r), fill=color)
+    def draw(self, circle):
+        x, y = circle.center
+        r = circle.radius
+        self.device.drawEllipse(x, y, (x+2*r), (y+2*r))    # draw ellipse by defining its bound box
+
+
+class Box2DDrawer(ShapeDrawer):
+
+    def __init__(self, device):
+        super().__init__(device)
+        self.color = "black"
+
+    def draw(self, box):
+        l, d, r, u = box.e_left, box.e_down, box.e_right, box.e_up
+        self.device.drawRectangle(l, d, r, u)
 
