@@ -117,6 +117,10 @@ class Circle2D(Shape2D):
         self.radius += degree
         return self
 
+    def intersects(self, other) -> bool:
+        pass
+
+
 
 class Box2D(Shape2D):
 
@@ -150,6 +154,10 @@ class Box2D(Shape2D):
         self.length += 2 * degree
         self.width += 2 * degree
         return self
+
+    def intersects(self, other) -> bool:
+        pass
+
 
 
 class Ellipse2D(Shape2D):
@@ -195,6 +203,10 @@ class Ellipse2D(Shape2D):
         self.b += degree
         return self
 
+    def intersects(self, other) -> bool:
+        pass
+
+
 
 class Rectangle2D(Shape2D):
 
@@ -213,3 +225,7 @@ class Rectangle2D(Shape2D):
         self.length += 2 * degree
         self.width += 2 * degree
         return self
+
+    def intersects(self, other) -> bool:
+        pass
+
