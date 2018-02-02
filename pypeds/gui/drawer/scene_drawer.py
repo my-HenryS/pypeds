@@ -1,5 +1,6 @@
 # TODO write docs
 
+
 class SceneDrawer(object):
     def __init__(self, device):
         self.device = device
