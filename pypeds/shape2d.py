@@ -14,17 +14,16 @@ class Vector2D:
         return Vector2D(self.x-other.x, self.y-other.y)
 
     def __mul__(self, other):
-        return (self.x * other.x) + (self.y * other.y)
-
-    def get_scaled(self, rate):
-        return Vector2D(rate * self.x, rate * self.y)
-
-    def scale(self, rate):
-        self.x *= rate
-        self.y *= rate
+        if isinstance(other, Vector2D):
+            return (self.x * other.x) + (self.y * other.y)
+        elif isinstance(other, float) or isinstance(other, int):
+            return Vector2D(other * self.x, other * self.y)
 
     def dist(self, other):
         return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+
+    def __str__(self):
+        return "(%s,%s)" % (self.x, self.y)
 
 
 class Point2D(Vector2D):
