@@ -60,6 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.center()
         self.painter = QPainter()
         self.panel = panel
+        self.retranslateUi(self)
 
     def center(self):
         """
