@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from pypeds.shape import *
+from pypeds.shape2d import *
 from pypeds.scene import *
-from .shape_drawer import *
-from .scene_drawer import *
+from pypeds.entity import *
+from pypeds.gui.drawer.shape_drawer import *
+from pypeds.gui.drawer.scene_drawer import *
+from pypeds.gui.drawer.entity_drawer import *
 
 # TODO write docs
 
@@ -28,14 +30,48 @@ class DrawerRegister(ABC):
 
 
 class ShapeDrawerRegister(DrawerRegister):
-
+    # there are no inheritance between shapes
     def default_register(self):
         self.register(Circle2D, Circle2DDrawer(self.device))   # FIXME remove hard code
+        self.register(Box2D, Box2DDrawer(self.device))
 
     def add_drawer_support(self, shape) -> bool:
+        """ Find the exact shape drawer
+
+        :param shape: shape
+        :return: success or not
+        """
         drawer = self.drawer_map[type(shape)]
         if drawer is not None:
             shape.drawer = drawer
+            return True
+
+        return False
+
+
+class EntityDrawerRegister(DrawerRegister):
+    # there are inheritance between entities
+    def __init__(self, device, mode="default"):
+        super().__init__(device, mode)
+        self.shape_drawer_register = ShapeDrawerRegister(device, mode)
+
+    def default_register(self):
+        self.register(Entity, EntityDrawer(self.device))    # FIXME remove hard code
+
+    def add_drawer_support(self, entity) -> bool:
+        """ Find the first-matched entity drawer by matching either the entity class itself or any of its super classes
+           and register drawers for it shapes
+
+        :param entity: entity
+        :return: success or not
+        """
+        drawer = None
+        for d_type in self.drawer_map:
+            if issubclass(type(entity), d_type):
+                drawer = self.drawer_map[d_type]
+        if drawer is not None:
+            entity.drawer = drawer
+            self.shape_drawer_register.add_drawer_support(entity.shape)
             return True
 
         return False
@@ -45,19 +81,22 @@ class SceneDrawerRegister(DrawerRegister):
 
     def __init__(self, device, mode="default"):
         super().__init__(device, mode)
-        self.shape_drawer_register = None
-        if mode == "default":
-            self.shape_drawer_register = ShapeDrawerRegister(device, mode)
+        self.entity_drawer_register = EntityDrawerRegister(device, mode)
 
     def default_register(self):
-        self.register(Scene, SceneDrawer(self.device)) # FIXME remove hard code
+        self.register(Scene, SceneDrawer(self.device))  # FIXME remove hard code
 
     def add_drawer_support(self, scene) -> bool:
+        """ Find the scene drawer and register all drawers for its entities
+
+        :param scene: scene
+        :return: success or not
+        """
         drawer = self.drawer_map[type(scene)]
         if drawer is not None:
             scene.drawer = drawer
-            for entity in scene.entities:   # FIXME modify this line after implemented entity drawer and entity installer
-                self.shape_drawer_register.add_drawer_support(entity.shape)
+            for entity in scene.entities:
+                self.entity_drawer_register.add_drawer_support(entity)
             return True
 
         return False

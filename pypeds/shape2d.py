@@ -1,6 +1,41 @@
 from abc import ABC, abstractmethod
 import math
-__all__ = ['Shape2D', 'Circle2D', 'Box2D', 'Ellipse2D', 'Rectangle2D']
+
+
+class Vector2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Vector2D(self.x+other.x, self.y+other.y)
+
+    def __sub__(self, other):
+        return Vector2D(self.x-other.x, self.y-other.y)
+
+    def __mul__(self, other):
+        if isinstance(other, Vector2D):
+            return (self.x * other.x) + (self.y * other.y)
+        elif isinstance(other, float) or isinstance(other, int):
+            return Vector2D(other * self.x, other * self.y)
+        else:
+            raise ArithmeticError("Vector2D cannot multiply with %s object." % type(other))
+
+    def __truediv__(self, other):
+        if isinstance(other, float) or isinstance(other, int):
+            return Vector2D(self.x / other,  self.y / other)
+        else:
+            raise ArithmeticError("Vector2D cannot be divided by %s object." % type(other))
+
+    def dist(self, other):
+        return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
+
+    def __str__(self):
+        return "(%.2f,%.2f)" % (self.x, self.y)
+
+
+class Point2D(Vector2D):
+    pass
 
 
 class Shape2D(ABC):
@@ -16,13 +51,13 @@ class Shape2D(ABC):
         """
         pass
 
-    def distance(self, other) -> (float, tuple):
+    def distance(self, other) -> (float, Vector2D):
         """ We define the distance between two shapes as the minimum distance between any two points
          (assume to be point A and B) selected respectively from shape 'self' and 'other'.
 
         It should later be implemented in a Distance Calculator.
         :param other: the other shape
-        :return: the distance between  A and B, and a vector (as a tuple) from A to B (e.g. return 3.0, (2.5, -2.1))
+        :return: the distance between  A and B, and a unit vector (as a Vector2D) from A to B (e.g. 3.0, (0.6, -0.8))
         """
         return DistanceCalculator.distance(self, other)
 
@@ -53,25 +88,25 @@ class Shape2D(ABC):
 
 class DistanceCalculator(object):
     @staticmethod
-    def distance(cls, shape, other) -> (float, tuple):
+    def distance(cls, shape, other) -> (float, Vector2D):
         """
-        There are 5 kinds of shape : tuple(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
+        There are 5 kinds of shape : Vector2D(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
         The combination of <shape * other> is divided to 5 * 5 conditions
         :param cls:
         :param shape:
         :param other:the distance and distance between two shapes(distance defined as a unit vector)
         :return:
         """
-        if isinstance(other, tuple):
-            if isinstance(shape, tuple):
-                dis = math.sqrt((other[0] - shape[0]) * (other[0] - shape[0]) + (other[1] - shape[1]) * (other[1] - shape[1]))
-                return dis, ((other[0] - shape[0]) / dis, (other[1] - shape[1]) / dis)
+        if isinstance(other, Point2D):
+            if isinstance(shape, Point2D):
+                dis = other.dist(shape)
+                return dis, ((other.x - shape.x) / dis, (other.y - shape.y) / dis)
             if isinstance(shape, Circle2D):
                 dis, dir = DistanceCalculator.distance(shape.center, other)
                 return dis - shape.radius, dir
             if isinstance(shape, Ellipse2D):
                 dis, dir = DistanceCalculator.distance(other, shape)
-                return dis, ((-1) * dir[0], (-1) * dir[1])
+                return dis, ((-1) * dir.x, (-1) * dir.y)
             if isinstance(shape, Box2D):
                 pass
             if isinstance(shape, Rectangle2D):
@@ -98,7 +133,7 @@ class DistanceCalculator(object):
                     return m_dis, m_dir
         if isinstance(other, Box2D or Rectangle2D):
             dis, dir = DistanceCalculator.distance(other, shape)
-            return dis, ((-1)*dir[0], (-1)*dir[1])
+            return dis, ((-1)*dir.x, (-1)*dir.y)
 
 
 class Circle2D(Shape2D):
@@ -121,7 +156,6 @@ class Circle2D(Shape2D):
         pass
 
 
-
 class Box2D(Shape2D):
 
     def __init__(self, center, length, width):
@@ -130,19 +164,19 @@ class Box2D(Shape2D):
 
     @property
     def e_left(self):
-        return self.center[0] - self.length / 2
+        return self.center.x - self.length / 2
 
     @property
     def e_right(self):
-        return self.center[0] + self.length / 2
+        return self.center.x + self.length / 2
 
     @property
     def e_down(self):
-        return self.center[1] - self.width / 2
+        return self.center.y - self.width / 2
 
     @property
     def e_up(self):
-        return self.center[1] + self.width / 2
+        return self.center.y + self.width / 2
 
     def area(self) -> float:
         return self.length * self.width
@@ -159,7 +193,6 @@ class Box2D(Shape2D):
         pass
 
 
-
 class Ellipse2D(Shape2D):
 
     def __init__(self, center, a, b, angle):
@@ -172,13 +205,13 @@ class Ellipse2D(Shape2D):
 
     @property
     def c_left(self):
-        return (self.center[0] + (self.a + self.b) * math.cos(self.angle) / (-2),
-                self.center[1] + (self.a + self.b) * math.sin(self.angle) / (-2))
+        return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / (-2),
+                self.center.y + (self.a + self.b) * math.sin(self.angle) / (-2))
 
     @property
     def c_right(self):
-        return (self.center[0] + (self.a + self.b) * math.cos(self.angle) / 2,
-                self.center[1] + (self.a + self.b) * math.sin(self.angle) / 2)
+        return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / 2,
+                self.center.y + (self.a + self.b) * math.sin(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
@@ -207,7 +240,6 @@ class Ellipse2D(Shape2D):
         pass
 
 
-
 class Rectangle2D(Shape2D):
 
     def __init__(self, center, length, width, angle):
@@ -228,4 +260,3 @@ class Rectangle2D(Shape2D):
 
     def intersects(self, other) -> bool:
         pass
-
