@@ -1,11 +1,12 @@
 from pypeds.entity import *
 from pypeds.pool import *
 from abc import ABC, abstractmethod
+from threading import Thread
 
 __all__ = ['Scene', 'SceneListener']
 
 
-class Scene(object):
+class Scene(Thread):
 
     def __init__(self, entities=None, model=None):
         """ Define operations to the variable 'entities'.
@@ -13,6 +14,7 @@ class Scene(object):
         add_entity() and remove_entity(). We use EntityPool.get() to get a proportion of entities of a specific type.
 
         """
+        super().__init__()
         self.entities = EntityPool(entities)
         self.model = model
         self.time_step = 0
@@ -64,6 +66,13 @@ class Scene(object):
         # call listeners
         for lis in self.listeners:
             lis.on_stepped()
+
+    def start(self):
+        """ When called run(), scene thread will automatically step_next()
+         
+        """
+        while True:
+            self.step_next()
 
 
 class SceneListener(ABC):
