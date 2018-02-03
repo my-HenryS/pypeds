@@ -1,6 +1,7 @@
 from pypeds.example.model.sfmodel import SFModel
 from pypeds.shape2d import *
 from pypeds.gui.panel import *
+import sys
 
 
 
