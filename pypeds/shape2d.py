@@ -16,9 +16,12 @@ class Vector2D:
     def __mul__(self, other):
         return (self.x * other.x) + (self.y * other.y)
 
+    def get_scaled(self, rate):
+        return Vector2D(rate * self.x, rate * self.y)
+
     def scale(self, rate):
-        self.x = rate * self.x
-        self.y = rate * self.y
+        self.x *= rate
+        self.y *= rate
 
     def dist(self, other):
         return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
