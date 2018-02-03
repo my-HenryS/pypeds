@@ -18,12 +18,20 @@ class Vector2D:
             return (self.x * other.x) + (self.y * other.y)
         elif isinstance(other, float) or isinstance(other, int):
             return Vector2D(other * self.x, other * self.y)
+        else:
+            raise ArithmeticError("Vector2D cannot multiply with %s object." % type(other))
+
+    def __truediv__(self, other):
+        if isinstance(other, float) or isinstance(other, int):
+            return Vector2D(self.x / other,  self.y / other)
+        else:
+            raise ArithmeticError("Vector2D cannot be divided by %s object." % type(other))
 
     def dist(self, other):
         return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
     def __str__(self):
-        return "(%s,%s)" % (self.x, self.y)
+        return "(%.2f,%.2f)" % (self.x, self.y)
 
 
 class Point2D(Vector2D):
@@ -252,3 +260,12 @@ class Rectangle2D(Shape2D):
 
     def intersects(self, other) -> bool:
         pass
+
+v1 = Vector2D(1,2)
+v2 = Vector2D(3,4)
+r = 3
+print(v1*v2)
+print(v1*r)
+print(v1-v2)
+print(v1/r)
+print(v1/v2)
