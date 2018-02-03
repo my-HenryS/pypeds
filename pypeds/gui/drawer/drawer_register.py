@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pypeds.shape import *
+from pypeds.shape2d import *
 from pypeds.scene import *
 from pypeds.entity import *
 from pypeds.gui.drawer.shape_drawer import *

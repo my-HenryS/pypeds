@@ -260,12 +260,3 @@ class Rectangle2D(Shape2D):
 
     def intersects(self, other) -> bool:
         pass
-
-v1 = Vector2D(1,2)
-v2 = Vector2D(3,4)
-r = 3
-print(v1*v2)
-print(v1*r)
-print(v1-v2)
-print(v1/r)
-print(v1/v2)
