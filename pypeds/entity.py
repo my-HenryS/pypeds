@@ -1,13 +1,11 @@
 from abc import ABC, abstractmethod
 
-__all__ = ['Entity', 'Agent', 'Dummy']
-
 
 class Entity(ABC):
 
     def __init__(self, shape):
         self.shape = shape
-        self.model = None
+        self._model = None
         self.drawer = None
         self.name = None
 
@@ -15,22 +13,62 @@ class Entity(ABC):
         self.shape.move_to(pos)
 
     @abstractmethod
-    def affect(self, agent):
+    def affected(self, affection):
         pass
 
+    @property
+    @abstractmethod
+    def view(self):
+        pass
 
-class Agent(Entity):
+    @property
+    def model(self):
+        return self._model
+
+    @model.setter
+    def model(self, model):
+        self._model = model
+
+
+class Blockable:
+    pass
+
+
+class Movable(Entity):
+
+    def __init__(self, shape,):
+        super(Movable, self).__init__(shape)
+        self.velocity = None
+        self.acc = None
+        self.mass = None
+
+    def affected(self, affection):
+        if affection.a_type == "Force":
+            force = affection.value
+            self.acc = force / self.mass
+            self.velocity += self.acc * self.model.time_per_step
+            self.shape.center += self.velocity * self.model.time_per_step
+
+    @property
+    def model(self):
+        return self._model
+
+    @model.setter
+    def model(self, model):
+        self._model = model
+        self.velocity = model.zero_velocity()
+        self.acc = model.zero_velocity()
+
+    @property
+    def view(self):
+        return self.shape.expand(3)
+
+
+class Agent(Movable, Blockable):
     def __init__(self, shape):
-        super(Agent, self).__init__(shape)
+        super().__init__(shape)
+        self.path = None
 
-    def affect(self, agent):
-        self.model.get_force(self, agent)
-
-
-class Dummy(Entity):  # FIXME remove it after use
-    def __init__(self, shape):
-        super(Dummy, self).__init__(shape)
-
-    def affect(self, agent):
-        self.model.get_force(self, agent)
+    def next_step(self):
+        return self.path.next_step()
 

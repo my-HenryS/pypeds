@@ -1,1 +1,0 @@
-__all__ = ['drawer_register', 'scene_drawer', 'shape_drawer']

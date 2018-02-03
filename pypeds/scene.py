@@ -14,7 +14,6 @@ class Scene(Thread):
         add_entity() and remove_entity(). We use EntityPool.get() to get a proportion of entities of a specific type.
 
         """
-        super().__init__()
         self.entities = EntityPool(entities)
         self.model = model
         self.time_step = 0
@@ -66,13 +65,6 @@ class Scene(Thread):
         # call listeners
         for lis in self.listeners:
             lis.on_stepped()
-
-    def start(self):
-        """ When called run(), scene thread will automatically step_next()
-         
-        """
-        while True:
-            self.step_next()
 
 
 class SceneListener(ABC):
