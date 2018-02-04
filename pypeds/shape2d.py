@@ -102,11 +102,19 @@ class Shape2D(ABC):
         """
         pass
 
-    @abstractmethod
     def intersects(self, other) -> bool:
         """
-        :param other: the other shape, including point
+        :param other: the other shape
         :return: whether the two shapes are intersected
+        """
+        dist, dirt = self.distance(other)
+        return dist <= 0
+
+    @abstractmethod
+    def contains(self, point) -> bool:
+        """
+        :param point: the point in the space
+        :return: whether the point is in the shape
         """
         pass
 
@@ -186,8 +194,9 @@ class Circle2D(Shape2D):
         self.radius += degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        dis, dir = DistanceCalculator.distance(self.center, point)
+        return dis <= self.radius
 
 
 class Box2D(Shape2D):
@@ -223,8 +232,8 @@ class Box2D(Shape2D):
         self.width += 2 * degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        return self.e_left <= point.x <= self.e_right and self.e_down <= point.y <= self.e_up
 
 
 class Ellipse2D(Shape2D):
@@ -270,8 +279,9 @@ class Ellipse2D(Shape2D):
         self.b += degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        return DistanceCalculator.distance(self.center, point) <= self.b and DistanceCalculator.distance(self.c_left, point) \
+               <= (self.a - self.b) / 2 and DistanceCalculator.distance(self.c_right, point) <= (self.a - self.b) / 2
 
 
 class Rectangle2D(Shape2D):
@@ -292,7 +302,7 @@ class Rectangle2D(Shape2D):
         self.width += 2 * degree
         return self
 
-    def intersects(self, other) -> bool:
+    def contains(self, point) -> bool:
         pass
 
 v1 = Vector2D(1,2)
