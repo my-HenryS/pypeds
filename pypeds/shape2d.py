@@ -39,43 +39,51 @@ class Point2D(Vector2D):
 
 
 class Segment2D:
-    def __init__(self, p_1, p_2):
-        if p_1.x < p_2.x:
-            self.x_left = p_1.x
-            self.y_left = p_1.y
-            self.x_right = p_2.x
-            self.y_right = p_2.y
-        elif p_1.x > p_2.x:
-            self.x_left = p_2.x
-            self.y_left = p_2.y
-            self.x_right = p_1.x
-            self.y_right = p_1.y
+    def __init__(self, center, length, angle):
+        self.center = center
+        self.length = length
+        self.angle = angle
+
+    @property
+    def x1(self):
+        return self.center[0] - self.length * math.cos(self.angle) / 2
+
+    @property
+    def y1(self):
+        return self.center[1] - self.length * math.sin(self.angle) / 2
+
+    @property
+    def x2(self):
+        return self.center[0] + self.length * math.cos(self.angle) / 2
+
+    @property
+    def y2(self):
+        return self.center[1] + self.length * math.sin(self.angle) / 2
 
     def distance(self, point) -> (float, Vector2D):
-        dx_self = self.x_right - self.x_left
-        dy_self = self.y_right - self.y_left
-        dx_inter = point.x - self.x_left
-        dy_inter = point.y - self.y_left
-        scale = (dx_self * dx_inter + dy_self * dy_inter) / (dx_self * dx_self + dy_self * dy_self)
+        dx12 = self.x2 - self.x1
+        dy12 = self.y2 - self.y1
+        dx1 = point.x - self.x1
+        dy1 = point.y - self.y1
+        scale = (dx1 * dx12 + dy1 * dy12) / (dx12 * dx12 + dy12 * dy12)
         if scale < 0:
-            tx = self.x_left
-            ty = self.y_left
+            tx = self.x1
+            ty = self.y1
         elif scale > 1:
-            tx = self.x_right
-            ty = self.y_right
+            tx = self.x2
+            ty = self.y2
         else:
-            tx = self.x_left + scale * dx_self
-            ty = self.y_left + scale * dy_self
+            tx = self.x1 + scale * dx12
+            ty = self.y1 + scale * dy12
         tx -= point.x
         ty -= point.y
         dis = math.sqrt(tx * tx + ty * ty)
         return dis, (-tx/dis, -ty/dis)
 
-    def moveto(self, p_left, p_right):
-        self.x_left = p_left.x
-        self.y_left = p_left.y
-        self.x_right = p_right.x
-        self.y_right = p_right.y
+    def moveto(self, center, length, angle):
+        self.center = center
+        self.length = length
+        self.angle = angle
         return self
 
 
@@ -218,8 +226,7 @@ class Box2D(Shape2D):
     def __init__(self, center, length, width):
         super().__init__(center)
         self.length, self.width = length, width
-        self.l_left, self.l_right = ((0, 0), (0, 0)), ((0, 0), (0, 0))
-        self.l_down, self.l_up = ((0, 0), (0, 0)), ((0, 0), (0, 0))
+        self.l_left, self.l_right, self.l_down, self.l_up = ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0)
 
     @property
     def e_left(self):
@@ -239,19 +246,19 @@ class Box2D(Shape2D):
 
     @property
     def get_left(self):
-        return self.l_left.moveto((self.e_left, self.e_down), (self.e_left, self.e_up))
+        return self.l_left.moveto((self.e_left, self.center[1]), self.width, math.pi/2)
 
     @property
     def get_right(self):
-        return self.l_right.moveto((self.e_right, self.e_down), (self.e_right, self.e_up))
+        return self.l_right.moveto((self.e_right, self.center[1]), self.width, math.pi/2)
 
     @property
     def get_down(self):
-        return self.l_down.moveto((self.e_left, self.e_down), (self.e_right, self.e_down))
+        return self.l_down.moveto((self.center[0], self.e_down), self.length, 0)
 
     @property
     def get_up(self):
-        return self.l_left.moveto((self.e_left, self.e_up), (self.e_right, self.e_up))
+        return self.l_up.moveto((self.center[0], self.e_up), self.length, 0)
 
     def area(self) -> float:
         return self.length * self.width
