@@ -45,36 +45,36 @@ class Segment2D:
         self.angle = angle
 
     @property
-    def x1(self):
+    def x_left(self):
         return self.center[0] - self.length * math.cos(self.angle) / 2
 
     @property
-    def y1(self):
+    def y_left(self):
         return self.center[1] - self.length * math.sin(self.angle) / 2
 
     @property
-    def x2(self):
+    def x_right(self):
         return self.center[0] + self.length * math.cos(self.angle) / 2
 
     @property
-    def y2(self):
+    def y_right(self):
         return self.center[1] + self.length * math.sin(self.angle) / 2
 
     def distance(self, point) -> (float, Vector2D):
-        dx12 = self.x2 - self.x1
-        dy12 = self.y2 - self.y1
-        dx1 = point.x - self.x1
-        dy1 = point.y - self.y1
-        scale = (dx1 * dx12 + dy1 * dy12) / (dx12 * dx12 + dy12 * dy12)
+        dx_self = self.x_right - self.x_left
+        dy_self = self.y_right - self.y_left
+        dx_inter = point.x - self.x_left
+        dy_inter = point.y - self.y_left
+        scale = (dx_inter * dx_self + dy_inter * dy_self) / (dx_self * dx_self + dy_self * dy_self)
         if scale < 0:
-            tx = self.x1
-            ty = self.y1
+            tx = self.x_left
+            ty = self.y_left
         elif scale > 1:
-            tx = self.x2
-            ty = self.y2
+            tx = self.x_right
+            ty = self.y_right
         else:
-            tx = self.x1 + scale * dx12
-            ty = self.y1 + scale * dy12
+            tx = self.x_left + scale * dx_self
+            ty = self.y_left + scale * dy_self
         tx -= point.x
         ty -= point.y
         dis = math.sqrt(tx * tx + ty * ty)
@@ -328,6 +328,28 @@ class Rectangle2D(Shape2D):
     def __init__(self, center, length, width, angle):
         super().__init__(center)
         self.length, self.width, self.angle = length, width, angle
+        self.l_left, self.l_right, self.l_down, self.l_up = ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0)
+
+    @property
+    def get_left(self):
+        return self.l_left.moveto((self.center[0] - self.length * math.cos(self.angle) / 2,
+                                   self.center[1] - self.length * math.sin(self.angle) / 2), self.width,
+                                  math.pi / 2 + self.angle)
+    @property
+    def get_right(self):
+        return self.l_left.moveto((self.center[0] + self.length * math.cos(self.angle) / 2,
+                                   self.center[1] + self.length * math.sin(self.angle) / 2), self.width,
+                                  math.pi / 2 + self.angle)
+
+    @property
+    def get_down(self):
+        return self.l_left.moveto((self.center[0] + self.length * math.sin(self.angle) / 2,
+                                   self.center[1] - self.length * math.cos(self.angle) / 2), self.length, self.angle)
+
+    @property
+    def get_up(self):
+        return self.l_left.moveto((self.center[0] - self.length * math.sin(self.angle) / 2,
+                                   self.center[1] + self.length * math.cos(self.angle) / 2), self.length, self.angle)
 
     def area(self) -> float:
         return self.length * self.width
