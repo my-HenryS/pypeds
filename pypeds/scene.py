@@ -69,7 +69,7 @@ class Scene(Thread):
         for lis in self.listeners:
             lis.on_stepped()
 
-    def start(self):
+    def run(self):
         """ When called run(), scene thread will automatically step_next()
          
         """

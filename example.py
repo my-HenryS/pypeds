@@ -2,12 +2,12 @@ from pypeds.example.model.sfmodel import SFModel
 from pypeds.shape2d import *
 from pypeds.gui.panel import *
 import sys
-
+import qdarkstyle
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-
+    #app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     scene = Scene()
     model = SFModel(0.004)
     scene.model = model
@@ -16,5 +16,4 @@ if __name__ == "__main__":
     panel = Panel("Simulation")
     scene.add_listener(panel)
     panel.show()
-    scene.run()
-    app.exec_()
+    sys.exit(app.exec_())

@@ -10,7 +10,7 @@ class Entity(ABC):
         self.name = None
 
     def move_to(self, pos):
-        self.shape.move_to(pos)
+        self.shape.center = pos
 
     @abstractmethod
     def affected(self, affection):
