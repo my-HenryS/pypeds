@@ -226,7 +226,8 @@ class Box2D(Shape2D):
     def __init__(self, center, length, width):
         super().__init__(center)
         self.length, self.width = length, width
-        self.l_left, self.l_right, self.l_down, self.l_up = ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0)
+        self.l_left, self.l_right = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
 
     @property
     def e_left(self):
@@ -319,8 +320,10 @@ class Ellipse2D(Shape2D):
         return self
 
     def contains(self, point) -> bool:
-        return DistanceCalculator.distance(self.center, point) <= self.b and DistanceCalculator.distance(self.c_left, point) \
-               <= (self.a - self.b) / 2 and DistanceCalculator.distance(self.c_right, point) <= (self.a - self.b) / 2
+        return DistanceCalculator.distance(self.center, point) <= self.b and DistanceCalculator.distance(self.c_left,
+                                                                                                         point) <= (
+                           self.a - self.b) / 2 and DistanceCalculator.distance(self.c_right, point) <= (
+                           self.a - self.b) / 2
 
 
 class Rectangle2D(Shape2D):
@@ -328,7 +331,8 @@ class Rectangle2D(Shape2D):
     def __init__(self, center, length, width, angle):
         super().__init__(center)
         self.length, self.width, self.angle = length, width, angle
-        self.l_left, self.l_right, self.l_down, self.l_up = ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0), ((0, 0), 0, 0)
+        self.l_left, self.l_right = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
 
     @property
     def get_left(self):
@@ -364,13 +368,8 @@ class Rectangle2D(Shape2D):
         return self
 
     def contains(self, point) -> bool:
-        pass
-
-v1 = Vector2D(1,2)
-v2 = Vector2D(3,4)
-r = 3
-print(v1*v2)
-print(v1*r)
-print(v1-v2)
-print(v1/r)
-print(v1/v2)
+        p_trans = Point2D(
+            (point[0] - self.center[0]) * math.cos(self.angle) + (point[1] - self.center[1]) * math.sin(self.angle),
+            (-1) * (point[0] - self.center[0]) * math.sin(self.angle) + (point[1] - self.center[1]) * math.cos(
+                self.angle))
+        return Box2D(self.center, self.length, self.width).contains(p_trans)
