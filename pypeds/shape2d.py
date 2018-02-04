@@ -38,6 +38,40 @@ class Point2D(Vector2D):
     pass
 
 
+class Segment2D:
+    def __init__(self, p_1, p_2):
+        if p_1.x < p_2.x:
+            self.x_left = p_1.x
+            self.y_left = p_1.y
+            self.x_right = p_2.x
+            self.y_right = p_2.y
+        elif p_1.x > p_2.x:
+            self.x_left = p_2.x
+            self.y_left = p_2.y
+            self.x_right = p_1.x
+            self.y_right = p_1.y
+
+    def distance(self, point) -> (float, Vector2D):
+        dx_self = self.x_right - self.x_left
+        dy_self = self.y_right - self.y_left
+        dx_inter = point.x - self.x_left
+        dy_inter = point.y - self.y_left
+        scale = (dx_self * dx_inter + dy_self * dy_inter) / (dx_self * dx_self + dy_self * dy_self)
+        if scale < 0:
+            tx = self.x_left
+            ty = self.y_left
+        elif scale > 1:
+            tx = self.x_right
+            ty = self.y_right
+        else:
+            tx = self.x_left + scale * dx_self
+            ty = self.y_left + scale * dy_self
+        tx -= point.x
+        ty -= point.y
+        dis = math.sqrt(tx * tx + ty * ty)
+        return dis, (-tx/dis, -ty/dis)
+
+
 class Shape2D(ABC):
 
     def __init__(self, center):
@@ -106,7 +140,7 @@ class DistanceCalculator(object):
                 return dis - shape.radius, dir
             if isinstance(shape, Ellipse2D):
                 dis, dir = DistanceCalculator.distance(other, shape)
-                return dis, ((-1) * dir.x, (-1) * dir.y)
+                return dis, dir.mul(-1)
             if isinstance(shape, Box2D):
                 pass
             if isinstance(shape, Rectangle2D):
@@ -133,7 +167,7 @@ class DistanceCalculator(object):
                     return m_dis, m_dir
         if isinstance(other, Box2D or Rectangle2D):
             dis, dir = DistanceCalculator.distance(other, shape)
-            return dis, ((-1)*dir.x, (-1)*dir.y)
+            return dis, dir.mul(-1)
 
 
 class Circle2D(Shape2D):
@@ -206,12 +240,12 @@ class Ellipse2D(Shape2D):
     @property
     def c_left(self):
         return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / (-2),
-                self.center.y + (self.a + self.b) * math.sin(self.angle) / (-2))
+                       self.center.y + (self.a + self.b) * math.sin(self.angle) / (-2))
 
     @property
     def c_right(self):
         return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / 2,
-                self.center.y + (self.a + self.b) * math.sin(self.angle) / 2)
+                       self.center.y + (self.a + self.b) * math.sin(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
