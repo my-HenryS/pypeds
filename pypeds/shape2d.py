@@ -71,6 +71,13 @@ class Segment2D:
         dis = math.sqrt(tx * tx + ty * ty)
         return dis, (-tx/dis, -ty/dis)
 
+    def moveto(self, p_left, p_right):
+        self.x_left = p_left.x
+        self.y_left = p_left.y
+        self.x_right = p_right.x
+        self.y_right = p_right.y
+        return self
+
 
 class Shape2D(ABC):
 
@@ -149,10 +156,17 @@ class DistanceCalculator(object):
             if isinstance(shape, Ellipse2D):
                 dis, dir = DistanceCalculator.distance(other, shape)
                 return dis, dir.mul(-1)
-            if isinstance(shape, Box2D):
-                pass
-            if isinstance(shape, Rectangle2D):
-                pass
+            if isinstance(shape, Box2D or Rectangle2D):
+                dis1, dir1 = DistanceCalculator.distance(shape.get_left, other)
+                dis2, dir2 = DistanceCalculator.distance(shape.get_right, other)
+                dis3, dir3 = DistanceCalculator.distance(shape.get_down, other)
+                dis4, dir4 = DistanceCalculator.distance(shape.get_up, other)
+                dis = (dis1, dis2, dis3, dis4)
+                dir = (dir1, dir2, dir3, dir4)
+                if not shape.contains(other):
+                    return min(dis), dir[dis.index(min(dis))]
+                else:
+                    return (-1) * min(dis), dir[dis.index(min(dis))]
         if isinstance(other, Circle2D):
             dis, dir = DistanceCalculator.distance(shape, other.center)
             return dis - other.radius, dir
@@ -204,6 +218,8 @@ class Box2D(Shape2D):
     def __init__(self, center, length, width):
         super().__init__(center)
         self.length, self.width = length, width
+        self.l_left, self.l_right = ((0, 0), (0, 0)), ((0, 0), (0, 0))
+        self.l_down, self.l_up = ((0, 0), (0, 0)), ((0, 0), (0, 0))
 
     @property
     def e_left(self):
@@ -220,6 +236,22 @@ class Box2D(Shape2D):
     @property
     def e_up(self):
         return self.center.y + self.width / 2
+
+    @property
+    def get_left(self):
+        return self.l_left.moveto((self.e_left, self.e_down), (self.e_left, self.e_up))
+
+    @property
+    def get_right(self):
+        return self.l_right.moveto((self.e_right, self.e_down), (self.e_right, self.e_up))
+
+    @property
+    def get_down(self):
+        return self.l_down.moveto((self.e_left, self.e_down), (self.e_right, self.e_down))
+
+    @property
+    def get_up(self):
+        return self.l_left.moveto((self.e_left, self.e_up), (self.e_right, self.e_up))
 
     def area(self) -> float:
         return self.length * self.width
