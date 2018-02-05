@@ -159,14 +159,40 @@ class DistanceCalculator(object):
                 dist = other.dist(shape)
                 return dist, ((other.x - shape.x) / dist, (other.y - shape.y) / dist)
             if isinstance(shape, Circle2D):
-                dist, dirt = DistanceCalculator.distance(shape.center, other)
-                dist -= shape.radius
-                if dist <= 0:
-                    return dist, dirt.mul(-1)
-                return dist, dirt
+                dist, dirt = DistanceCalculator.distance(other, shape)
+                return dist, dirt.mul(-1)
+                # dist, dirt = DistanceCalculator.distance(shape.center, other)
+                # dist -= shape.radius
+                # if dist <= 0:
+                #     return dist, dirt.mul(-1)
+                # return dist, dirt
             if isinstance(shape, Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt.mul(-1)
+                # l_dist, l_dirt = DistanceCalculator.distance(shape.c_left, other)
+                # r_dist, r_dirt = DistanceCalculator.distance(shape.c_right, other)
+                # m_dist, m_dirt = DistanceCalculator.distance(shape.center, other)
+                # l_dist -= (shape.a - shape.b) / 2
+                # r_dist -= (shape.a - shape.b) / 2
+                # m_dist -= shape.b
+                # if l_dist < r_dist:
+                #     if l_dist < m_dist:
+                #         if l_dist < 0:
+                #             return l_dist, l_dirt.mul(-1)
+                #         return l_dist, l_dirt
+                #     else:
+                #         if m_dist < 0:
+                #             return m_dist, m_dirt.mul(-1)
+                #         return m_dist, m_dirt
+                # else:
+                #     if r_dist < m_dist:
+                #         if r_dist < 0:
+                #             return r_dist, r_dirt.mul(-1)
+                #         return r_dist, r_dirt
+                #     else:
+                #         if m_dist < 0:
+                #             return m_dist, m_dirt.mul(-1)
+                #         return m_dist, m_dirt
             if isinstance(shape, Box2D or Rectangle2D):
                 dist1, dirt1 = DistanceCalculator.distance(shape.get_left, other)
                 dist2, dirt2 = DistanceCalculator.distance(shape.get_right, other)
@@ -179,7 +205,10 @@ class DistanceCalculator(object):
                 return - min(dist), dirt[dist.index(min(dist))].mul(-1)
         if isinstance(other, Circle2D):
             dist, dirt = DistanceCalculator.distance(shape, other.center)
-            return dist - other.radius, dirt
+            dist -= other.radius
+            if dist <= 0:
+                return dist, dirt
+            return dist, dirt.mul(-1)
         if isinstance(other, Ellipse2D):
             l_dist, l_dirt = DistanceCalculator.distance(shape, other.c_left)
             r_dist, r_dirt = DistanceCalculator.distance(shape, other.c_right)
@@ -189,13 +218,21 @@ class DistanceCalculator(object):
             m_dist -= other.b
             if l_dist < r_dist:
                 if l_dist < m_dist:
+                    if l_dist < 0:
+                        return l_dist, l_dirt.mul(-1)
                     return l_dist, l_dirt
                 else:
+                    if m_dist < 0:
+                        return m_dist, m_dirt.mul(-1)
                     return m_dist, m_dirt
             else:
                 if r_dist < m_dist:
+                    if r_dist < 0:
+                        return r_dist, r_dirt.mul(-1)
                     return r_dist, r_dirt
                 else:
+                    if m_dist < 0:
+                        return m_dist, m_dirt.mul(-1)
                     return m_dist, m_dirt
         if isinstance(other, Box2D or Rectangle2D):
             dist, dirt = DistanceCalculator.distance(other, shape)
