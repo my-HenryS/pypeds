@@ -3,9 +3,9 @@ from abc import ABC, abstractmethod
 
 class Model(ABC):
 
-    def __init__(self, time_per_step, regulations = None):
+    def __init__(self, time_per_step, regulations=None):
         self.time_per_step = time_per_step
-        self.regulations = regulations
+        self.regulations = regulations or []
 
     def step_next(self, scene):
         """ Define how will the model controls each entity's movement (or other changes in their attributes)
