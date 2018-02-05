@@ -9,9 +9,9 @@ class PsychologicalForceRegulation(Regulation):
 
         self._is_multiple = False
         self._source_class = Blockable
-        self._affected_class = Pedestrian
+        self._target_class = Pedestrian
 
-    def exert(self, source, affected):
+    def exert(self, source, target):
 
 
         pass
@@ -23,9 +23,9 @@ class BodyForceRegulation(Regulation):
 
         self._is_multiple = False
         self._source_class = Blockable
-        self._affected_class = Pedestrian
+        self._target_class = Pedestrian
 
-    def exert(self, source, affected):
+    def exert(self, source, target):
 
 
         pass
@@ -37,9 +37,9 @@ class SelfDrivenForceRegulation(Regulation):
 
         self._is_multiple = False
         self._source_class = Pedestrian
-        self._affected_class = Pedestrian
+        self._target_class = Pedestrian
 
-    def exert(self, source, affected):
+    def exert(self, source, target):
 
 
         pass

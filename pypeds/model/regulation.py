@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+# TODO affected -> target
 
 
 class Regulation(ABC):
@@ -6,13 +7,13 @@ class Regulation(ABC):
         self.model = model
 
     @abstractmethod
-    def exert(self, source, affected):
-        """ At here, each successor force should define how 'source' entity puts its force on 'affected' (which could
+    def exert(self, source, target):
+        """ At here, each successor force should define how 'source' entity puts its force on 'target' (which could
          be one or many)
 
         And we let affection exert directly on the affected entity
         :param source: The source of force
-        :param affected: The affected entity
+        :param target: The target entity or entities
         :return:
         """
         pass
@@ -44,15 +45,15 @@ class Regulation(ABC):
         self._source_class = source_class
 
     @property
-    def affected_class(self):
+    def target_class(self):
         try:
-            return self._affected_class
+            return self._target_class
         except AttributeError:
             raise NotImplementedError(
                 "Subclasses of Regulation must set an instance attribute "
-                "self._affected_class in it's __init__ method")
+                "self._target_class in it's __init__ method")
 
-    @affected_class.setter
-    def affected_class(self, affected_class):
-        self._affected_class = affected_class
+    @target_class.setter
+    def target_class(self, target_class):
+        self._target_class = target_class
 

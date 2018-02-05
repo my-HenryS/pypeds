@@ -7,31 +7,30 @@ class Model(ABC):
         self.time_per_step = time_per_step
         self.regulations = regulations
 
-    def step_next(self, entities):
+    def step_next(self, scene):
         """ Define how will the model controls each entity's movement (or other changes in their attributes)
 
-        :param entities:
+        :param scene:
         :return:
         """
         for regulation in self.regulations:
             # get interact classes
             s_class = regulation.source_class
-            a_class = regulation.affected_class
+            t_class = regulation.target_class
 
             # select interact entities
-            sources = entities.select_all(s_class)
-            affecteds = entities.select_all(a_class)
+            sources = scene.entities_of_type(s_class)
 
             # exert
             for source in sources:
                 # select affected entities in view
-                affecteds_in_view = affecteds.select_all_within(source.view)
+                targets_in_view = scene.entities_of_type_in_region(a_class, source.view)
 
                 # decide whether to affect together or not
                 if regulation.is_multiple:
-                    regulation.exert(source, affecteds_in_view)
+                    regulation.exert(source, targets_in_view)
                 else:
-                    for affected in affecteds_in_view:
+                    for affected in targets_in_view:
                         regulation.exert(source, affected)
 
     @abstractmethod
