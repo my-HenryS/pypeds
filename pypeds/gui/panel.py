@@ -15,9 +15,8 @@ class Panel(SceneListener):
         self.default_drawer_register = True
         self.drawer_register = None
 
-        self.window = MainWindow(self, title)
+        self.window = MainWindow(self, title, fps)
         self.painter = self.window.painter
-        self.fps = fps
 
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.
@@ -57,7 +56,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Extends UI class with window and drawer methods
     """
-    def __init__(self, panel=None, title=""):
+    def __init__(self, panel, title, fps):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle(title)
@@ -65,7 +64,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.panel = panel
         self.retranslateUi(self)
         # init paint area and assigned to scroll area
-        self.area = PaintArea(self)
+        self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
 
     def center(self):
@@ -85,22 +84,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def painter(self):
         return self.area.painter
 
-    @property
-    def fps(self):
-        return self.panel.fps
-
 
 class PaintArea(QWidget):
     """
     A paint area that shows the whole scene
     """
-    def __init__(self, window):
+    def __init__(self, window, fps):
         super().__init__()
         self.window = window
         self.painter = QPainter()
         # set clock timer to
         self.checkThreadTimer = QtCore.QTimer(self)
-        self.checkThreadTimer.start(self.window.fps)
+        self.checkThreadTimer.start(fps)
         self.checkThreadTimer.timeout.connect(self.update)
 
     @property
