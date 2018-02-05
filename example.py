@@ -16,4 +16,5 @@ if __name__ == "__main__":
     panel = Panel("Simulation")
     scene.add_listener(panel)
     panel.show()
+    scene.start()
     sys.exit(app.exec_())

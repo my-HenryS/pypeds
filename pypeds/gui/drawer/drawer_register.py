@@ -8,8 +8,9 @@ from pypeds.gui.drawer.entity_drawer import *
 
 # TODO write docs
 
+
 class DrawerRegister(ABC):
-    def __init__(self, device, mode="default"):
+    def __init__(self, device=None, mode="default"):
         self.device = device
 
         # drawer_map : drawer -> drawable_type
