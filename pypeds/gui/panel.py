@@ -8,23 +8,27 @@ class Panel(SceneListener):
     """
     Wraps window class with scene listener. panel--window has a 1-to-1 relationship
     """
-    def __init__(self, title="", scene=None, width=200, height=200):
+    def __init__(self, title="", scene=None, fps=16):
         super().__init__(scene)
         self.scene = scene
 
         self.default_drawer_register = True
         self.drawer_register = None
 
-        self.window = MainWindow(title, self)
+        self.window = MainWindow(self, title)
         self.painter = self.window.painter
+        self.fps = fps
 
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.
         And call add_drawer_support() to register entities and shapes with drawer in self.scene.
         Shall be called after assigned a listening scene.
+        Set drawer_register's device to self.painter
         :param drawer_register: a scene_drawer_register
         """
         self.drawer_register = drawer_register
+        if self.drawer_register.device is not self.painter:
+            self.drawer_register.device = self.painter
         self.drawer_register.add_drawer_support(self.scene)
 
     def on_added(self, scene):
@@ -40,7 +44,7 @@ class Panel(SceneListener):
         """ At each step, we call scene drawer to draw.
 
         """
-        self.window.paintEvent(None)
+        #self.window.paintEvent(None)
 
     def on_removed(self):
         pass
@@ -53,14 +57,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Extends UI class with window and drawer methods
     """
-    def __init__(self, title="", panel=None):
+    def __init__(self, panel=None, title=""):
         super().__init__()
         self.setupUi(self)
         self.setWindowTitle(title)
         self.center()
-        self.painter = QPainter()
         self.panel = panel
         self.retranslateUi(self)
+        # init paint area and assigned to scroll area
+        self.area = PaintArea(self)
+        self.scrollArea.setWidget(self.area)
 
     def center(self):
         """
@@ -75,6 +81,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def scene(self):
         return self.panel.scene
 
+    @property
+    def painter(self):
+        return self.area.painter
+
+    @property
+    def fps(self):
+        return self.panel.fps
+
+
+class PaintArea(QWidget):
+    """
+    A paint area that shows the whole scene
+    """
+    def __init__(self, window):
+        super().__init__()
+        self.window = window
+        self.painter = QPainter()
+        # set clock timer to
+        self.checkThreadTimer = QtCore.QTimer(self)
+        self.checkThreadTimer.start(self.window.fps)
+        self.checkThreadTimer.timeout.connect(self.update)
+
+    @property
+    def scene(self):
+        return self.window.scene
+
     def paintEvent(self, e):
         """ Define that window will call scene's drawer to draw themselves (and it then will call entities
          & then shapes to draw)
@@ -85,3 +117,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.painter.begin(self)
         self.scene.drawer.draw(self.scene)
         self.painter.end()
+
+
+
+
+
