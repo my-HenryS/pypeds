@@ -21,7 +21,7 @@ class Scene(Thread):
 
     @property
     def entities(self):
-        return self._entities.select_all(Entity)
+        return self._entities.select_by_type(Entity)
     """
     Add and remove entity
     
@@ -33,12 +33,27 @@ class Scene(Thread):
     def remove_entity(self, entity):
         self._entities.remove(entity)
 
-    def select_all(self, q_type) -> iter:
+    def entities_of_type(self, q_type) -> iter:
         """
         :param: q_type: the query type
         :return: iterator that contains all required entities
         """
-        return self._entities.select_all(q_type)
+        return self._entities.select_by_type(q_type)
+
+    def entities_in_region(self, region) -> iter:
+        """
+        :param: region: the query region
+        :return: iterator that contains all required entities
+        """
+        return self._entities.select_by_region(region)
+
+    def entities_of_type_in_region(self, q_type, region) -> iter:
+        """
+        :param: region: the query region
+        :param: q_type: the query type
+        :return: iterator that contains all required entities
+        """
+        return self._entities.select_type_in_region(q_type, region)
 
     """
         Define listener as a property which returns a iterator. Adding or Deleting listeners could only use functions
@@ -60,7 +75,7 @@ class Scene(Thread):
     # TODO Formally define step_next here using block comments
     def step_next(self):
         # call model to step next
-        # self.model.step_next(self.entities) TODO remove comment
+        self.model.step_next(self)
 
         # time_step increment
         self.time_step += 1
