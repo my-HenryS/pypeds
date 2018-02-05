@@ -7,5 +7,5 @@ class EntityDrawer(ABC):
     def __init__(self, device):
         self.device = device
 
-    def draw(self, shape):
-        pass
+    def draw(self, entity):
+        entity.shape.drawer.draw(entity.shape)

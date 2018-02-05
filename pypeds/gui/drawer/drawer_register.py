@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pypeds.shape import *
+from pypeds.shape2d import *
 from pypeds.scene import *
 from pypeds.entity import *
 from pypeds.gui.drawer.shape_drawer import *
@@ -8,8 +8,9 @@ from pypeds.gui.drawer.entity_drawer import *
 
 # TODO write docs
 
+
 class DrawerRegister(ABC):
-    def __init__(self, device, mode="default"):
+    def __init__(self, device=None, mode="default"):
         self.device = device
 
         # drawer_map : drawer -> drawable_type
