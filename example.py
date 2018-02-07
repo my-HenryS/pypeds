@@ -15,7 +15,7 @@ if __name__ == "__main__":
     model = DirectMovingModel(0.004)
     scene.model = model
     scene.add_entity(Pedestrian(Circle2D(center=Point2D(4, 4), radius=5)))
-    scene.add_entity(Pedestrian(Box2D(center=Point2D(11, 6), length=4, width=10)))
+    scene.add_entity(Pedestrian(Circle2D(center=Point2D(11, 6), radius=5)))
     panel = Panel("Simulation")
     scene.add_listener(panel)
     panel.show()

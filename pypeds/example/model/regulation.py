@@ -1,9 +1,9 @@
 from pypeds.example.entity import *
 from pypeds.entity import Blockable
-from pypeds.model.regulation import Regulation
+from pypeds.model.regulation import SingleTargetRegulation, Regulation
 
 
-class PsychologicalForceRegulation(Regulation):
+class PsychologicalForceRegulation(SingleTargetRegulation):
     def __init__(self, model):
         super().__init__(model)
 
@@ -11,13 +11,13 @@ class PsychologicalForceRegulation(Regulation):
         self._source_class = Blockable
         self._target_class = Pedestrian
 
-    def exert(self, source, target):
+    def exert_single(self, source, target):
 
 
         pass
 
 
-class BodyForceRegulation(Regulation):
+class BodyForceRegulation(SingleTargetRegulation):
     def __init__(self, model):
         super().__init__(model)
 
@@ -25,13 +25,13 @@ class BodyForceRegulation(Regulation):
         self._source_class = Blockable
         self._target_class = Pedestrian
 
-    def exert(self, source, target):
+    def exert_single(self, source, target):
 
 
         pass
 
 
-class SelfDrivenForceRegulation(Regulation):
+class SelfDrivenForceRegulation(SingleTargetRegulation):
     def __init__(self, model):
         super().__init__(model)
 
@@ -39,7 +39,7 @@ class SelfDrivenForceRegulation(Regulation):
         self._source_class = Pedestrian
         self._target_class = Pedestrian
 
-    def exert(self, source, target):
+    def exert_single(self, source, target):
 
 
         pass

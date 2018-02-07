@@ -97,6 +97,11 @@ class PaintArea(QWidget):
         self.checkThreadTimer = QtCore.QTimer(self)
         self.checkThreadTimer.start(fps)
         self.checkThreadTimer.timeout.connect(self.update)
+        self.zoom = 1.0
+        self.offset_x = 0.0
+        self.offset_y = 0.0
+        self.last_x = -1
+        self.last_y = -1
 
     @property
     def scene(self):
@@ -110,10 +115,27 @@ class PaintArea(QWidget):
         :return:
         """
         self.painter.begin(self)
+        self.painter.translate(self.offset_x, self.offset_y)
+        #self.painter.scale(self.zoom, self.zoom)
         self.scene.drawer.draw(self.scene)
         self.painter.end()
 
+    def wheelEvent(self, event: QtGui.QWheelEvent):
+        self.zoom = self.zoom + event.angleDelta().y() / 1200.0
+        if self.zoom < 1:
+            self.zoom = 1
 
+    def mousePressEvent(self, event: QtGui.QMouseEvent):
+        if self.last_x is not -1:
+            self.offset_x += event.pos().x() - self.last_x
+            self.offset_y += event.pos().y() - self.last_y
+        else:
+            self.last_x = event.pos().x()
+            self.last_y = event.pos().y()
+
+    def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
+        self.last_x = -1
+        self.last_y = -1
 
 
 

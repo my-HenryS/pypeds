@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-# TODO affected -> target
 
 
 class Regulation(ABC):
@@ -7,13 +6,13 @@ class Regulation(ABC):
         self.model = model
 
     @abstractmethod
-    def exert(self, source, target):
-        """ At here, each successor force should define how 'source' entity puts its force on 'target' (which could
-         be one or many)
+    def exert(self, source, targets):
+        """ At here, each successor force should define how 'source' entity puts its force on each 'target' (which should be
+         iterable)
 
-        And we let affection exert directly on the affected entity
-        :param source: The source of force
-        :param target: The target entity or entities
+        And we let affection exert directly on the affected entity by calling its affected
+        :param source: The source entity of force
+        :param targets: The target entities
         :return:
         """
         pass
@@ -57,3 +56,21 @@ class Regulation(ABC):
     def target_class(self, target_class):
         self._target_class = target_class
 
+
+class SingleTargetRegulation(Regulation):
+    """
+    inheritance of regulation, but exert affection only on a single target
+    """
+    def exert(self, source, targets):
+        for target in targets:
+            self.exert_single(source, target)
+
+    @abstractmethod
+    def exert_single(self, source, target):
+        """ Define how source exert affection on single target
+
+        :param source:
+        :param target:
+        :return:
+        """
+        pass

@@ -24,14 +24,11 @@ class Model(ABC):
             # exert
             for source in sources:
                 # select affected entities in view
-                targets_in_view = scene.entities_of_type_in_region(a_class, source.view)
+                targets_in_view = scene.entities_of_type_in_region(t_class, source.view)
 
-                # decide whether to affect together or not
-                if regulation.is_multiple:
-                    regulation.exert(source, targets_in_view)
-                else:
-                    for affected in targets_in_view:
-                        regulation.exert(source, affected)
+                # let source exert affection on targets in view
+                regulation.exert(source, targets_in_view)
+
 
     @abstractmethod
     def zero_velocity(self):

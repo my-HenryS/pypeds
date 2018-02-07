@@ -61,7 +61,7 @@ class Movable(Entity):
 
     @property
     def view(self):
-        return self.shape.expand(3)
+        return self.shape.expand(3)     # FIXME set abstract property view_range and remove hard code
 
 
 class Agent(Movable, Blockable):
