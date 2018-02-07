@@ -147,7 +147,7 @@ class Shape2D(ABC):
 
 class DistanceCalculator(object):
     @staticmethod
-    def distance(cls, shape, other) -> (float, Vector2D):
+    def distance(shape, other) -> (float, Vector2D):
         """
         There are 5 kinds of shape : Vector2D(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
         The combination of <shape * other> is divided to 5 * 5 conditions
@@ -162,7 +162,7 @@ class DistanceCalculator(object):
                 return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
             if isinstance(shape, Circle2D or Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
-                return dist, dirt.mul(-1)
+                return dist, dirt*(-1)
             ## TODO When the shape contains centers of shape and other, dirt calculating maybe is error
             if isinstance(shape, Box2D or Rectangle2D):
                 dist1, dirt1 = shape.get_left.distance(other)
@@ -172,14 +172,14 @@ class DistanceCalculator(object):
                 dist = (dist1, dist2, dist3, dist4)
                 dirt = (dirt1, dirt2, dirt3, dirt4)
                 if shape.contains(other):
-                    return - min(dist), dirt[dist.index(min(dist))].mul(-1)
+                    return - min(dist), dirt[dist.index(min(dist))]*(-1)
                 return min(dist), dirt[dist.index(min(dist))]
         if isinstance(other, Circle2D):
             dist, dirt = DistanceCalculator.distance(shape, other.center)
             dist -= other.radius
             if dist <= 0:
                 return dist, dirt
-            return dist, dirt.mul(-1)
+            return dist, dirt*(-1)
         if isinstance(other, Ellipse2D):
             l_dist, l_dirt = DistanceCalculator.distance(shape, other.c_left)
             r_dist, r_dirt = DistanceCalculator.distance(shape, other.c_right)
@@ -190,7 +190,7 @@ class DistanceCalculator(object):
             dist = (l_dist, r_dist, m_dist)
             dirt = (l_dirt, r_dirt, m_dirt)
             if min(dist) < 0:
-                return - min(dist), dirt[dist.index(min(dist))].mul(-1)
+                return - min(dist), dirt[dist.index(min(dist))]*(-1)
             return min(dist), dirt[dist.index(min(dist))]
 
 

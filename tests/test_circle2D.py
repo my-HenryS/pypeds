@@ -10,4 +10,4 @@ class TestCircle2D(TestCase):
 
     def test_distance(self):
         dist, dirt = self.circle_test.distance(Point2D(3, 0))
-        self.assertAlmostEqual(dist, -2, delta=1.0e-10)
+        self.assertAlmostEqual(dist, -1, delta=1.0e-10)
