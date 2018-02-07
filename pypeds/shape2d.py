@@ -78,7 +78,9 @@ class Segment2D:
         tx -= point.x
         ty -= point.y
         dist = math.sqrt(tx * tx + ty * ty)
-        return dist, (-tx/dist, -ty/dist)
+        if -1.0e-10 < dist < 1.0e-10:
+            return 0, Vector2D(0, 0)
+        return dist, Vector2D(-tx/dist, -ty/dist)
 
     def moveto(self, center, length, angle):
         self.center = center
@@ -157,7 +159,7 @@ class DistanceCalculator(object):
         if isinstance(other, Point2D):
             if isinstance(shape, Point2D):
                 dist = other.dist(shape)
-                return dist, ((other.x - shape.x) / dist, (other.y - shape.y) / dist)
+                return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
             if isinstance(shape, Circle2D or Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt.mul(-1)
@@ -218,8 +220,8 @@ class Box2D(Shape2D):
     def __init__(self, center, length, width):
         super().__init__(center)
         self.length, self.width = length, width
-        self.l_left, self.l_right = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
-        self.l_down, self.l_up = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
+        self.l_left, self.l_right = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
 
     @property
     def e_left(self):
@@ -323,8 +325,8 @@ class Rectangle2D(Shape2D):
     def __init__(self, center, length, width, angle):
         super().__init__(center)
         self.length, self.width, self.angle = length, width, angle
-        self.l_left, self.l_right = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
-        self.l_down, self.l_up = Segment2D((0, 0), 0, 0), Segment2D((0, 0), 0, 0)
+        self.l_left, self.l_right = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
 
     @property
     def get_left(self):
