@@ -1,7 +1,7 @@
 from pypeds.gui.drawer.drawer_register import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from pypeds.gui.ui.main_window import *
+from pypeds.gui.ui.mainwindow_main import *
 
 
 class Panel(SceneListener):
@@ -49,7 +49,7 @@ class Panel(SceneListener):
         self.window.show()
 
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+class MainWindow(Ui_MainWindow_Main):
     """
     Extends UI class with window and drawer methods
     """
