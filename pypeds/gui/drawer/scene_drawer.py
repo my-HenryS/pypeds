@@ -7,6 +7,6 @@ class SceneDrawer(object):
         self.background_color = "black"
 
     def draw(self, scene):
-        for entity in scene.entities:  # FIXME modify this line after implemented entity drawer and entity installer
-            entity.shape.drawer.draw(entity.shape)
+        for entity in scene.entities:
+            entity.drawer.draw(entity)
 

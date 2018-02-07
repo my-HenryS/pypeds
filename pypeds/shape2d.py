@@ -362,6 +362,7 @@ class Rectangle2D(Shape2D):
         self.width += 2 * degree
         return self
 
+
     def contains(self, point) -> bool:
         p_trans = Point2D(
             (point.x - self.center.x) * math.cos(self.angle) + (point.y - self.center.y) * math.sin(self.angle),
