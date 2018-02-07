@@ -38,6 +38,57 @@ class Point2D(Vector2D):
     pass
 
 
+class Segment2D:
+    def __init__(self, center, length, angle):
+        self.center = center
+        self.length = length
+        self.angle = angle
+
+    @property
+    def x_left(self):
+        return self.center.x - self.length * math.cos(self.angle) / 2
+
+    @property
+    def y_left(self):
+        return self.center.y - self.length * math.sin(self.angle) / 2
+
+    @property
+    def x_right(self):
+        return self.center.x + self.length * math.cos(self.angle) / 2
+
+    @property
+    def y_right(self):
+        return self.center.y + self.length * math.sin(self.angle) / 2
+
+    def distance(self, point) -> (float, Vector2D):
+        dx_self = self.x_right - self.x_left
+        dy_self = self.y_right - self.y_left
+        dx_inter = point.x - self.x_left
+        dy_inter = point.y - self.y_left
+        scale = (dx_inter * dx_self + dy_inter * dy_self) / (dx_self * dx_self + dy_self * dy_self)
+        if scale < 0:
+            tx = self.x_left
+            ty = self.y_left
+        elif scale > 1:
+            tx = self.x_right
+            ty = self.y_right
+        else:
+            tx = self.x_left + scale * dx_self
+            ty = self.y_left + scale * dy_self
+        tx -= point.x
+        ty -= point.y
+        dist = math.sqrt(tx * tx + ty * ty)
+        if -1.0e-10 < dist < 1.0e-10:
+            return 0, Vector2D(0, 0)
+        return dist, Vector2D(-tx/dist, -ty/dist)
+
+    def moveto(self, center, length, angle):
+        self.center = center
+        self.length = length
+        self.angle = angle
+        return self
+
+
 class Shape2D(ABC):
 
     def __init__(self, center):
@@ -68,11 +119,19 @@ class Shape2D(ABC):
         """
         pass
 
-    @abstractmethod
     def intersects(self, other) -> bool:
         """
-        :param other: the other shape, including point
+        :param other: the other shape
         :return: whether the two shapes are intersected
+        """
+        dist, dirt = self.distance(other)
+        return dist <= 0
+
+    @abstractmethod
+    def contains(self, point) -> bool:
+        """
+        :param point: the point in the space
+        :return: whether the point is in the shape
         """
         pass
 
@@ -88,7 +147,7 @@ class Shape2D(ABC):
 
 class DistanceCalculator(object):
     @staticmethod
-    def distance(cls, shape, other) -> (float, Vector2D):
+    def distance(shape, other) -> (float, Vector2D):
         """
         There are 5 kinds of shape : Vector2D(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
         The combination of <shape * other> is divided to 5 * 5 conditions
@@ -99,41 +158,40 @@ class DistanceCalculator(object):
         """
         if isinstance(other, Point2D):
             if isinstance(shape, Point2D):
-                dis = other.dist(shape)
-                return dis, ((other.x - shape.x) / dis, (other.y - shape.y) / dis)
-            if isinstance(shape, Circle2D):
-                dis, dir = DistanceCalculator.distance(shape.center, other)
-                return dis - shape.radius, dir
-            if isinstance(shape, Ellipse2D):
-                dis, dir = DistanceCalculator.distance(other, shape)
-                return dis, ((-1) * dir.x, (-1) * dir.y)
-            if isinstance(shape, Box2D):
-                pass
-            if isinstance(shape, Rectangle2D):
-                pass
+                dist = other.dist(shape)
+                return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
+            if isinstance(shape, Circle2D or Ellipse2D):
+                dist, dirt = DistanceCalculator.distance(other, shape)
+                return dist, dirt*(-1)
+            ## TODO When the shape contains centers of shape and other, dirt calculating maybe is error
+            if isinstance(shape, Box2D or Rectangle2D):
+                dist1, dirt1 = shape.get_left.distance(other)
+                dist2, dirt2 = shape.get_right.distance(other)
+                dist3, dirt3 = shape.get_down.distance(other)
+                dist4, dirt4 = shape.get_up.distance(other)
+                dist = (dist1, dist2, dist3, dist4)
+                dirt = (dirt1, dirt2, dirt3, dirt4)
+                if shape.contains(other):
+                    return - min(dist), dirt[dist.index(min(dist))]*(-1)
+                return min(dist), dirt[dist.index(min(dist))]
         if isinstance(other, Circle2D):
-            dis, dir = DistanceCalculator.distance(shape, other.center)
-            return dis - other.radius, dir
+            dist, dirt = DistanceCalculator.distance(shape, other.center)
+            dist -= other.radius
+            if dist <= 0:
+                return dist, dirt
+            return dist, dirt*(-1)
         if isinstance(other, Ellipse2D):
-            l_dis, l_dir = DistanceCalculator.distance(shape, other.c_left)
-            r_dis, r_dir = DistanceCalculator.distance(shape, other.c_right)
-            m_dis, m_dir = DistanceCalculator.distance(shape, other.center)
-            l_dis -= (other.a - other.b) / 2
-            r_dis -= (other.a - other.b) / 2
-            m_dis -= other.b
-            if l_dis < r_dis:
-                if l_dis < m_dis:
-                    return l_dis, l_dir
-                else:
-                    return m_dis, m_dir
-            else:
-                if r_dis < m_dis:
-                    return r_dis, r_dir
-                else:
-                    return m_dis, m_dir
-        if isinstance(other, Box2D or Rectangle2D):
-            dis, dir = DistanceCalculator.distance(other, shape)
-            return dis, ((-1)*dir.x, (-1)*dir.y)
+            l_dist, l_dirt = DistanceCalculator.distance(shape, other.c_left)
+            r_dist, r_dirt = DistanceCalculator.distance(shape, other.c_right)
+            m_dist, m_dirt = DistanceCalculator.distance(shape, other.center)
+            l_dist -= (other.a - other.b) / 2
+            r_dist -= (other.a - other.b) / 2
+            m_dist -= other.b
+            dist = (l_dist, r_dist, m_dist)
+            dirt = (l_dirt, r_dirt, m_dirt)
+            if min(dist) < 0:
+                return - min(dist), dirt[dist.index(min(dist))]*(-1)
+            return min(dist), dirt[dist.index(min(dist))]
 
 
 class Circle2D(Shape2D):
@@ -152,8 +210,9 @@ class Circle2D(Shape2D):
         self.radius += degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        dist, dirt = DistanceCalculator.distance(self.center, point)
+        return dist <= self.radius
 
 
 class Box2D(Shape2D):
@@ -161,6 +220,8 @@ class Box2D(Shape2D):
     def __init__(self, center, length, width):
         super().__init__(center)
         self.length, self.width = length, width
+        self.l_left, self.l_right = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
 
     @property
     def e_left(self):
@@ -178,6 +239,22 @@ class Box2D(Shape2D):
     def e_up(self):
         return self.center.y + self.width / 2
 
+    @property
+    def get_left(self):
+        return self.l_left.moveto((self.e_left, self.center.y), self.width, math.pi/2)
+
+    @property
+    def get_right(self):
+        return self.l_right.moveto((self.e_right, self.center.y), self.width, math.pi/2)
+
+    @property
+    def get_down(self):
+        return self.l_down.moveto((self.center.x, self.e_down), self.length, 0)
+
+    @property
+    def get_up(self):
+        return self.l_up.moveto((self.center.x, self.e_up), self.length, 0)
+
     def area(self) -> float:
         return self.length * self.width
 
@@ -189,8 +266,8 @@ class Box2D(Shape2D):
         self.width += 2 * degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        return self.e_left <= point.x <= self.e_right and self.e_down <= point.y <= self.e_up
 
 
 class Ellipse2D(Shape2D):
@@ -205,13 +282,13 @@ class Ellipse2D(Shape2D):
 
     @property
     def c_left(self):
-        return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / (-2),
-                self.center.y + (self.a + self.b) * math.sin(self.angle) / (-2))
+        return Point2D(self.center.x - (self.a + self.b) * math.cos(self.angle) / 2,
+                       self.center.y - (self.a + self.b) * math.sin(self.angle) / 2)
 
     @property
     def c_right(self):
         return Point2D(self.center.x + (self.a + self.b) * math.cos(self.angle) / 2,
-                self.center.y + (self.a + self.b) * math.sin(self.angle) / 2)
+                       self.center.y + (self.a + self.b) * math.sin(self.angle) / 2)
 
     def area(self) -> float:
         return math.pi() * self.a * self.b
@@ -221,23 +298,26 @@ class Ellipse2D(Shape2D):
         Three stances of ellipse：horizontal, vertical, oblique
         :return:
         """
-        if self.angle % math.pi() == 0:
+        if -1.0e-10 < self.angle % math.pi < 1.0e-10:
             return Box2D(self.center, 2 * self.a, 2 * self.b)
-        elif math.fabs(self.angle % math.pi()) - math.pi() / 2 == 0:
+        elif -1.0e-10 < math.fabs(self.angle % math.pi) - math.pi / 2 < 1.0e-10:
             return Box2D(self.center, 2 * self.b, 2 * self.a)
         else:
-            k = (-1) * math.tan(self.angle)
-            h_height = math.sqrt((self.a * self.a * k * k + self.b * self.b) / (k * k + 1))
-            h_width = math.sqrt(self.a * self.a + self.b * self.b - h_height * h_height)
-            return Box2D(self.center, 2 * h_width, 2 * h_height)
+            k = - math.tan(self.angle)
+            h_width = math.sqrt((self.a * self.a * k * k + self.b * self.b) / (k * k + 1))
+            h_length = math.sqrt(self.a * self.a + self.b * self.b - h_width * h_width)
+            return Box2D(self.center, 2 * h_length, 2 * h_width)
 
     def expand(self, degree):
         self.a += degree
         self.b += degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+    def contains(self, point) -> bool:
+        return DistanceCalculator.distance(self.center, point) <= self.b or DistanceCalculator.distance(self.c_left,
+                                                                                                        point) <= (
+                           self.a - self.b) / 2 or DistanceCalculator.distance(self.c_right, point) <= (
+                           self.a - self.b) / 2
 
 
 class Rectangle2D(Shape2D):
@@ -245,18 +325,46 @@ class Rectangle2D(Shape2D):
     def __init__(self, center, length, width, angle):
         super().__init__(center)
         self.length, self.width, self.angle = length, width, angle
+        self.l_left, self.l_right = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
+        self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
+
+    @property
+    def get_left(self):
+        return self.l_left.moveto((self.center.x - self.length * math.cos(self.angle) / 2,
+                                   self.center.y - self.length * math.sin(self.angle) / 2), self.width,
+                                  math.pi / 2 + self.angle)
+    @property
+    def get_right(self):
+        return self.l_right.moveto((self.center.x + self.length * math.cos(self.angle) / 2,
+                                    self.center.y + self.length * math.sin(self.angle) / 2), self.width,
+                                   math.pi / 2 + self.angle)
+
+    @property
+    def get_down(self):
+        return self.l_down.moveto((self.center.x + self.width * math.sin(self.angle) / 2,
+                                   self.center.y - self.width * math.cos(self.angle) / 2), self.length, self.angle)
+
+    @property
+    def get_up(self):
+        return self.l_up.moveto((self.center.x - self.width * math.sin(self.angle) / 2,
+                                 self.center.y + self.width * math.cos(self.angle) / 2), self.length, self.angle)
 
     def area(self) -> float:
         return self.length * self.width
 
     def bound(self):
-        return Box2D(self.center, self.length * math.cos(self.angle) + self.width * math.sin(self.angle),
-                     self.length * math.sin(self.angle) + self.width * math.cos(self.angle))
+        return Box2D(self.center,
+                     self.length * math.fabs(math.cos(self.angle)) + self.width * math.fabs(math.sin(self.angle)),
+                     self.length * math.fabs(math.sin(self.angle)) + self.width * math.fabs(math.cos(self.angle)))
 
     def expand(self, degree):
         self.length += 2 * degree
         self.width += 2 * degree
         return self
 
-    def intersects(self, other) -> bool:
-        pass
+
+    def contains(self, point) -> bool:
+        p_trans = Point2D(
+            (point.x - self.center.x) * math.cos(self.angle) + (point.y - self.center.y) * math.sin(self.angle),
+            - (point.x - self.center.x) * math.sin(self.angle) + (point.y - self.center.y) * math.cos(self.angle))
+        return Box2D(self.center, self.length, self.width).contains(p_trans)
