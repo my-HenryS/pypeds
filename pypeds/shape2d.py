@@ -159,6 +159,8 @@ class DistanceCalculator(object):
         if isinstance(other, Point2D):
             if isinstance(shape, Point2D):
                 dist = other.dist(shape)
+                if dist == 0:
+                    return 0, Vector2D(0, 0)
                 return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
             if isinstance(shape, Circle2D or Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
@@ -172,14 +174,14 @@ class DistanceCalculator(object):
                 dist = (dist1, dist2, dist3, dist4)
                 dirt = (dirt1, dirt2, dirt3, dirt4)
                 if shape.contains(other):
-                    return - min(dist), dirt[dist.index(min(dist))]*(-1)
+                    return - min(dist), dirt[dist.index(min(dist))]
                 return min(dist), dirt[dist.index(min(dist))]
         if isinstance(other, Circle2D):
             dist, dirt = DistanceCalculator.distance(shape, other.center)
             dist -= other.radius
             if dist <= 0:
-                return dist, dirt
-            return dist, dirt*(-1)
+                return dist, dirt*(-1)
+            return dist, dirt
         if isinstance(other, Ellipse2D):
             l_dist, l_dirt = DistanceCalculator.distance(shape, other.c_left)
             r_dist, r_dirt = DistanceCalculator.distance(shape, other.c_right)
@@ -241,19 +243,19 @@ class Box2D(Shape2D):
 
     @property
     def get_left(self):
-        return self.l_left.moveto((self.e_left, self.center.y), self.width, math.pi/2)
+        return self.l_left.moveto(Point2D(self.e_left, self.center.y), self.width, math.pi/2)
 
     @property
     def get_right(self):
-        return self.l_right.moveto((self.e_right, self.center.y), self.width, math.pi/2)
+        return self.l_right.moveto(Point2D(self.e_right, self.center.y), self.width, math.pi/2)
 
     @property
     def get_down(self):
-        return self.l_down.moveto((self.center.x, self.e_down), self.length, 0)
+        return self.l_down.moveto(Point2D(self.center.x, self.e_down), self.length, 0)
 
     @property
     def get_up(self):
-        return self.l_up.moveto((self.center.x, self.e_up), self.length, 0)
+        return self.l_up.moveto(Point2D(self.center.x, self.e_up), self.length, 0)
 
     def area(self) -> float:
         return self.length * self.width
@@ -330,23 +332,23 @@ class Rectangle2D(Shape2D):
 
     @property
     def get_left(self):
-        return self.l_left.moveto((self.center.x - self.length * math.cos(self.angle) / 2,
+        return self.l_left.moveto(Point2D(self.center.x - self.length * math.cos(self.angle) / 2,
                                    self.center.y - self.length * math.sin(self.angle) / 2), self.width,
                                   math.pi / 2 + self.angle)
     @property
     def get_right(self):
-        return self.l_right.moveto((self.center.x + self.length * math.cos(self.angle) / 2,
+        return self.l_right.moveto(Point2D(self.center.x + self.length * math.cos(self.angle) / 2,
                                     self.center.y + self.length * math.sin(self.angle) / 2), self.width,
                                    math.pi / 2 + self.angle)
 
     @property
     def get_down(self):
-        return self.l_down.moveto((self.center.x + self.width * math.sin(self.angle) / 2,
+        return self.l_down.moveto(Point2D(self.center.x + self.width * math.sin(self.angle) / 2,
                                    self.center.y - self.width * math.cos(self.angle) / 2), self.length, self.angle)
 
     @property
     def get_up(self):
-        return self.l_up.moveto((self.center.x - self.width * math.sin(self.angle) / 2,
+        return self.l_up.moveto(Point2D(self.center.x - self.width * math.sin(self.angle) / 2,
                                  self.center.y + self.width * math.cos(self.angle) / 2), self.length, self.angle)
 
     def area(self) -> float:
@@ -361,7 +363,6 @@ class Rectangle2D(Shape2D):
         self.length += 2 * degree
         self.width += 2 * degree
         return self
-
 
     def contains(self, point) -> bool:
         p_trans = Point2D(
