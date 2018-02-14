@@ -11,7 +11,7 @@ class EntityPool(object):
         :param q_type: the query type
         :return: iterator that contains all the satisfied instances
         """
-        return filter(lambda x: isinstance(x, q_type), self.__entities).__iter__() if len(self.__entities) is not 0 \
+        return filter(lambda x: isinstance(x, q_type), self.__entities) if len(self.__entities) is not 0 \
             else []
 
     def select_by_region(self, region):
@@ -20,7 +20,7 @@ class EntityPool(object):
         :param region: the query region
         :return: iterator that contains all the satisfied instances
         """
-        return filter(lambda x: region.intersects(x.shape), self.__entities).__iter__() \
+        return filter(lambda x: region.intersects(x.shape), self.__entities) \
             if len(self.__entities) is not 0 else [].__iter__()
 
     def select_type_in_region(self, q_type, region):
@@ -30,7 +30,7 @@ class EntityPool(object):
         :param q_type: the query type
         :return: iterator that contains all the satisfied instances
         """
-        return filter(lambda x: isinstance(x, q_type) and region.intersects(x.shape), self.__entities).__iter__() \
+        return filter(lambda x: isinstance(x, q_type) and region.intersects(x.shape), self.__entities) \
             if len(self.__entities) is not 0 else [].__iter__()
 
     def add(self, new_entity):

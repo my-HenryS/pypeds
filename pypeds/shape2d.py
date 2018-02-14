@@ -1,6 +1,13 @@
 from abc import ABC, abstractmethod
 import math
 
+def create_vector(type, *args):   # TODO: consider upgrade it to create_shape
+    if type == Vector2D:
+        return Vector2D(*args)
+
+    if type == Point2D:
+        return Point2D(*args)
+
 
 class Vector2D:
     def __init__(self, x, y):
@@ -8,24 +15,33 @@ class Vector2D:
         self.y = y
 
     def __add__(self, other):
-        return Vector2D(self.x+other.x, self.y+other.y)
+        return create_vector(type(self), self.x+other.x, self.y+other.y)
+
+    add = __add__
 
     def __sub__(self, other):
-        return Vector2D(self.x-other.x, self.y-other.y)
+        return create_vector(type(self), self.x-other.x, self.y-other.y)
+
+    sub = __sub__
 
     def __mul__(self, other):
         if isinstance(other, Vector2D):
             return (self.x * other.x) + (self.y * other.y)
         elif isinstance(other, float) or isinstance(other, int):
-            return Vector2D(other * self.x, other * self.y)
+            return create_vector(type(self), other * self.x, other * self.y)
         else:
             raise ArithmeticError("Vector2D cannot multiply with %s object." % type(other))
 
+    __rmul__ = __mul__
+    mul = __mul__
+
     def __truediv__(self, other):
         if isinstance(other, float) or isinstance(other, int):
-            return Vector2D(self.x / other,  self.y / other)
+            return create_vector(type(self), self.x / other, self.y / other)
         else:
             raise ArithmeticError("Vector2D cannot be divided by %s object." % type(other))
+
+    div = __truediv__
 
     def dist(self, other):
         return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
@@ -33,9 +49,47 @@ class Vector2D:
     def __str__(self):
         return "(%.2f,%.2f)" % (self.x, self.y)
 
+    def __abs__(self):
+        return math.sqrt(self.x**2 + self.y**2)
+
+    def unit(self):
+        if abs(self) != 0:
+            return self / abs(self)
+        else:
+            return create_vector(Vector2D, 0, 0)
+
+    def rotate(self, angle):
+        """ Rotate anticlockwise angle
+        :param angle: in radian measure
+        """
+
+        self.x, self.y = self.__rotate(angle)
+
+    def get_rotation(self, angle):   # TODO better implementation
+        """ Get the rotated vector (another vector) of self
+
+        :return: rotated vector
+        """
+        new_x, new_y = self.__rotate(angle)
+        return create_vector(Vector2D, new_x, new_y)
+
+    def __rotate(self, angle):
+        if self.x != 0:
+            ori_angle = math.atan(self.y / self.x)
+        elif self.y > 0:
+            ori_angle = math.pi / 2
+        elif self.y < 0:
+            ori_angle = math.pi * 3 / 2
+        else:
+            return 0, 0
+        r = abs(self)
+        new_x = r * math.cos(ori_angle + angle)
+        new_y = r * math.sin(ori_angle + angle)
+        return new_x, new_y
 
 class Point2D(Vector2D):
     pass
+
 
 
 class Segment2D:
@@ -136,7 +190,7 @@ class Shape2D(ABC):
         pass
 
     @abstractmethod
-    def expand(self, degree):
+    def get_expand(self, degree):
         """
         TODO: implement formal definition
         :param degree:
@@ -177,6 +231,8 @@ class DistanceCalculator(object):
                     return - min(dist), dirt[dist.index(min(dist))]
                 return min(dist), dirt[dist.index(min(dist))]
         if isinstance(other, Circle2D):
+            if DistanceCalculator.distance(shape, other.center) is None:
+                a = 0
             dist, dirt = DistanceCalculator.distance(shape, other.center)
             dist -= other.radius
             if dist <= 0:
@@ -208,9 +264,8 @@ class Circle2D(Shape2D):
     def bound(self):
         return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
-    def expand(self, degree):
-        self.radius += degree
-        return self
+    def get_expand(self, degree):
+        return Circle2D(self.center, self.radius + degree)
 
     def contains(self, point) -> bool:
         dist, dirt = DistanceCalculator.distance(self.center, point)
@@ -263,10 +318,8 @@ class Box2D(Shape2D):
     def bound(self):
         return self
 
-    def expand(self, degree):
-        self.length += 2 * degree
-        self.width += 2 * degree
-        return self
+    def get_expand(self, degree):
+        return Box2D(self.center, self.length + 2 * degree, self.width + 2 * degree)
 
     def contains(self, point) -> bool:
         return self.e_left <= point.x <= self.e_right and self.e_down <= point.y <= self.e_up
@@ -310,10 +363,8 @@ class Ellipse2D(Shape2D):
             h_length = math.sqrt(self.a * self.a + self.b * self.b - h_width * h_width)
             return Box2D(self.center, 2 * h_length, 2 * h_width)
 
-    def expand(self, degree):
-        self.a += degree
-        self.b += degree
-        return self
+    def get_expand(self, degree):
+        return Ellipse2D(self.center, self.a + degree, self.b + degree, self.angle)
 
     def contains(self, point) -> bool:
         return DistanceCalculator.distance(self.center, point) <= self.b or DistanceCalculator.distance(self.c_left,
@@ -359,10 +410,8 @@ class Rectangle2D(Shape2D):
                      self.length * math.fabs(math.cos(self.angle)) + self.width * math.fabs(math.sin(self.angle)),
                      self.length * math.fabs(math.sin(self.angle)) + self.width * math.fabs(math.cos(self.angle)))
 
-    def expand(self, degree):
-        self.length += 2 * degree
-        self.width += 2 * degree
-        return self
+    def get_expand(self, degree):
+        return Rectangle2D(self.center, self.length + degree, self.width + degree, self.angle)
 
     def contains(self, point) -> bool:
         p_trans = Point2D(

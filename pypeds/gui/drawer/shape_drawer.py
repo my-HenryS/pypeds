@@ -19,7 +19,7 @@ class Circle2DDrawer(ShapeDrawer):
 
     def __init__(self, device):
         super().__init__(device)
-        self.color = QColor(0, 0, 0, 100)
+        self.color = QColor(0, 0, 0, 200)
 
     def draw(self, circle):
         x, y = circle.center.x, circle.center.y
@@ -32,7 +32,7 @@ class Box2DDrawer(ShapeDrawer):
 
     def __init__(self, device):
         super().__init__(device)
-        self.color = QColor(0, 0, 0, 100)
+        self.color = QColor(0, 0, 0, 200)
 
     def draw(self, box):
         l, d, w, h = box.e_left, box.e_down, box.length, box.width

@@ -29,6 +29,8 @@ class Entity(ABC):
     def model(self, model):
         self._model = model
 
+    def distance(self, other):
+        return self.shape.distance(other.shape)
 
 class Blockable:
     pass
@@ -61,7 +63,7 @@ class Movable(Entity):
 
     @property
     def view(self):
-        return self.shape.expand(3)     # FIXME set abstract property view_range and remove hard code
+        return self.shape.get_expand(3)     # FIXME set abstract property view_range and remove hard code
 
 
 class Agent(Movable, Blockable):

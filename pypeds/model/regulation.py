@@ -62,6 +62,7 @@ class SingleTargetRegulation(Regulation):
     inheritance of regulation, but exert affection only on a single target
     """
     def exert(self, source, targets):
+
         for target in targets:
             self.exert_single(source, target)
 

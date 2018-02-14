@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import time
 
 
 class Model(ABC):
@@ -13,6 +14,7 @@ class Model(ABC):
         :param scene:
         :return:
         """
+        time.sleep(self.time_per_step)    # FIXME  implement frame lock
         for regulation in self.regulations:
             # get interact classes
             s_class = regulation.source_class

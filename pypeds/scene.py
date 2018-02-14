@@ -91,6 +91,9 @@ class Scene(Thread):
         while True:
             self.step_next()
 
+    def stop(self):
+        self._is_stopped = True   # inherit from class Thread
+
 
 class SceneListener(ABC):
 

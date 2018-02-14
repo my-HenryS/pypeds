@@ -66,6 +66,7 @@ class MainWindow(Ui_MainWindow_Main):
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.pushButton_2.clicked.connect(self.start)
 
     def center(self):
         """
@@ -84,6 +85,8 @@ class MainWindow(Ui_MainWindow_Main):
     def painter(self):
         return self.area.painter
 
+    def start(self):
+        self.scene.start()
 
 class PaintArea(QWidget):
     """
