@@ -10,7 +10,7 @@ class SFModel(Model):
         self.regulations = []
         self.regulations.append(PsychologicalForceRegulation(self))
         self.regulations.append(BodyForceRegulation(self))
-        self.regulations.append(SelfDrivenForceRegulation(self))
+        self.regulations.append(SelfDrivenForceRegulation(self, 3, 0.5))
 
     def zero_angular_velocity(self):
         return 0
