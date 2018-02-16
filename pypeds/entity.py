@@ -9,16 +9,8 @@ class Entity(ABC):
         self.drawer = None
         self.name = None
 
-    def move_to(self, pos):
-        self.shape.center = pos
-
     @abstractmethod
     def affected(self, affection):
-        pass
-
-    @property
-    @abstractmethod
-    def view(self):
         pass
 
     @property
@@ -32,11 +24,30 @@ class Entity(ABC):
     def distance(self, other):
         return self.shape.distance(other.shape)
 
-class Blockable:
+    @property
+    def position(self):
+        return self.shape.center
+
+    @position.setter
+    def position(self, pos):
+        self.shape.center = pos
+
+
+class Blockable(Entity):
     pass
 
 
-class Movable(Entity):
+class Goal(Entity):
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.recorder = []
+
+    def affected(self, affection):
+        if affection.a_type == "Record":
+            self.recorder.append(affection.value)
+
+
+class Movable(Blockable):
 
     def __init__(self, shape,):
         super(Movable, self).__init__(shape)
@@ -49,7 +60,7 @@ class Movable(Entity):
             force = affection.value
             self.acc = force / self.mass
             self.velocity += self.acc * self.model.time_per_step
-            self.shape.center += self.velocity * self.model.time_per_step
+            self.position += self.velocity * self.model.time_per_step
 
     @property
     def model(self):
@@ -61,16 +72,24 @@ class Movable(Entity):
         self.velocity = model.zero_velocity()
         self.acc = model.zero_velocity()
 
-    @property
-    def view(self):
-        return self.shape.get_expand(3)     # FIXME set abstract property view_range and remove hard code
+
+class Escapable(Movable):
+
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.escaped = False
+
+    def affected(self, affection):
+        super().affected(affection)
+        if affection.a_type == "Escape":
+            self.escaped = affection.value
 
 
-class Agent(Movable, Blockable):
+class Agent(Escapable):
     def __init__(self, shape):
         super().__init__(shape)
         self.path = None
 
     def next_step(self):
-        return self.path.next_step()
+        return self.path.next_step(self.position)
 
