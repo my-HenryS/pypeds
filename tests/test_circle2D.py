@@ -46,6 +46,7 @@ class TestCircle2D(TestCase):
         self.assertAlmostEqual(dist, 2, delta=1.0e-10)
         self.assertAlmostEqual(dirt.x, 1, delta=1.0e-10)
         self.assertAlmostEqual(dirt.y, 0, delta=1.0e-10)
+        # TODO implement Box2D.dist Circle2d
 
         dist, dirt = self.circle_test.distance(self.box_in)
         self.assertAlmostEqual(dist, -1, delta=1.0e-10)

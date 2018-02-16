@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import math
+from functools import lru_cache
 
 def create_vector(type, *args):   # TODO: consider upgrade it to create_shape
     if type == Vector2D:
@@ -65,7 +66,7 @@ class Vector2D:
 
         self.x, self.y = self.__rotate(angle)
 
-    def get_rotation(self, angle):   # TODO better implementation
+    def get_rotation(self, angle):
         """ Get the rotated vector (another vector) of self
 
         :return: rotated vector
@@ -192,9 +193,8 @@ class Shape2D(ABC):
     @abstractmethod
     def get_expand(self, degree):
         """
-        TODO: implement formal definition
-        :param degree:
-        :return:
+        :param degree: the expand degree
+        :return: expand shape in specifically defined direction by degree
         """
         pass
 
@@ -231,8 +231,6 @@ class DistanceCalculator(object):
                     return - min(dist), dirt[dist.index(min(dist))]
                 return min(dist), dirt[dist.index(min(dist))]
         if isinstance(other, Circle2D):
-            if DistanceCalculator.distance(shape, other.center) is None:
-                a = 0
             dist, dirt = DistanceCalculator.distance(shape, other.center)
             dist -= other.radius
             if dist <= 0:

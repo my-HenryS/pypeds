@@ -1,16 +1,16 @@
-from pypeds.gui.drawer.drawer_register import *
+from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from pypeds.gui.ui.mainwindow_main import *
+from pypeds.scene import SceneListener
 
 
 class Panel(SceneListener):
     """
     Wraps window class with scene listener. panel--window has a 1-to-1 relationship
     """
-    def __init__(self, title="", scene=None, fps=16):
-        super().__init__(scene)
-        self.scene = scene
+    def __init__(self, title="", fps=16):
+        super().__init__()
 
         self.default_drawer_register = True
         self.drawer_register = None
@@ -30,12 +30,18 @@ class Panel(SceneListener):
             self.drawer_register.device = self.painter
         self.drawer_register.add_drawer_support(self.scene)
 
-    def on_added(self, scene):
+    def on_added(self):
+        """ After being added,  # TODO define behaviours
+
+        :return:
+        """
+        pass
+
+    def on_begin(self):
         """ When added to scene, Panel call drawer_register to register its entities and shapes with drawers.
         If default_drawer_register is set to True, the drawer_register uses 'default' mode.
         :param scene: the listening scene
         """
-        self.scene = scene
         if self.default_drawer_register:
             self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))
 
@@ -43,7 +49,6 @@ class Panel(SceneListener):
         """ At each step, we call scene drawer to draw.
 
         """
-        #self.window.paintEvent(None)
 
     def on_removed(self):
         pass
@@ -88,6 +93,7 @@ class MainWindow(Ui_MainWindow_Main):
     def start(self):
         self.scene.start()
 
+
 class PaintArea(QWidget):
     """
     A paint area that shows the whole scene
@@ -119,8 +125,9 @@ class PaintArea(QWidget):
         """
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
-        #self.painter.scale(self.zoom, self.zoom)
-        self.scene.drawer.draw(self.scene)
+        self.painter.scale(self.zoom, self.zoom)
+        if self.scene.drawer is not None:
+            self.scene.drawer.draw(self.scene)
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):
