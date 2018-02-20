@@ -25,9 +25,9 @@ class Tkinter_UI():
 
         self.label.pack()
 
-        canvas=tk.Canvas(self.top,bg="white",height=500,width=1000)
+        self.canvas=tk.Canvas(self.top,bg="white",height=500,width=1000)
 
-        canvas.pack()
+        self.canvas.pack()
 
         self.btn1 = tk.Button(self.top, text="Start", command=self.btnRunClicked)
 
