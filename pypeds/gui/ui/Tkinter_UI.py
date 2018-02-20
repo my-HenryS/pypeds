@@ -19,11 +19,15 @@ class Tkinter_UI():
 
         self.top.title("Tkinter_UI")
 
+        self.top.geometry("1000x800")
+
         self.label = tk.Label(self.top, text="the simulation is stopped", height=5, width=20, fg="blue")
 
         self.label.pack()
 
-        tk.Frame(height = 500,width = 1000).pack()
+        canvas=tk.Canvas(self.top,bg="white",height=500,width=1000)
+
+        canvas.pack()
 
         self.btn1 = tk.Button(self.top, text="Start", command=self.btnRunClicked)
 
