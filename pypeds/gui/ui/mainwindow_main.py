@@ -7,9 +7,22 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import *
 from PyQt5 import QtWidgets
+from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
+import qdarkstyle
+import sys
 
 class Ui_MainWindow_Main(QtWidgets.QMainWindow):
+
+    close_signal = pyqtSignal()
+
+    def __init__(self):
+        super(Ui_MainWindow_Main, self).__init__()
+        self.setupUi(self)
+        self.retranslateUi(self)
+
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1130, 874)
@@ -204,3 +217,30 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.pushButton_2.setText(_translate("MainWindow", "Run"))
         self.pushButton_3.setText(_translate("MainWindow", "Termination"))
         self.pushButton_4.setText(_translate("MainWindow", "Pause"))
+
+    def handle_click(self):
+        if not self.isVisible():
+            self.show()
+
+    def handle_close(self):
+        self.close()
+
+
+def Event(ex,s):
+    '''
+    the click event related to the switch of the UI
+    :param ex:Ui_mainwindow_main
+    :param s:Ui_mianwindow_setting
+    :return:the switch of the UI
+    '''
+    ex.pushButton.clicked.connect(s.handle_click)
+    ex.pushButton.clicked.connect(ex.hide)
+    ex.close_signal.connect(ex.close)
+    s.pushButton_7.clicked.connect(ex.handle_click)
+    s.pushButton_7.clicked.connect(s.hide)
+    s.close_signal.connect(s.close)
+    s.pushButton_8.clicked.connect(ex.handle_click)
+    s.pushButton_8.clicked.connect(s.hide)
+    s.close_signal.connect(s.close)
+    ex.show()
+
