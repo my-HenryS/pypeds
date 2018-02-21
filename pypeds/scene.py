@@ -6,7 +6,7 @@ from threading import Thread
 
 class Scene(Thread):
 
-    def __init__(self, model=None):
+    def __init__(self, model=None, strategy = None):
         """ Define operations to the variable 'entities'.
         We here define a entities pool and restrict modifying it only with functions
         add_entity() and remove_entity(). We use EntityPool.get() to get a proportion of entities of a specific type.
@@ -18,10 +18,11 @@ class Scene(Thread):
         self.time_step = 0
         self._listeners = []
         self.drawer = None
+        self.strategy = strategy
 
     @property
     def entities(self):
-        return self._entities.select_all(Entity)
+        return self._entities.select_by_type(Entity)
     """
     Add and remove entity
     
@@ -33,12 +34,27 @@ class Scene(Thread):
     def remove_entity(self, entity):
         self._entities.remove(entity)
 
-    def select_all(self, q_type) -> iter:
+    def entities_of_type(self, q_type: object) -> object:
         """
         :param: q_type: the query type
         :return: iterator that contains all required entities
         """
-        return self._entities.select_all(q_type)
+        return self._entities.select_by_type(q_type)
+
+    def entities_in_region(self, region) -> iter:
+        """
+        :param: region: the query region
+        :return: iterator that contains all required entities
+        """
+        return self._entities.select_by_region(region)
+
+    def entities_of_type_in_region(self, q_type, region) -> iter:
+        """
+        :param: region: the query region
+        :param: q_type: the query type
+        :return: iterator that contains all required entities
+        """
+        return self._entities.select_type_in_region(q_type, region)
 
     """
         Define listener as a property which returns a iterator. Adding or Deleting listeners could only use functions
@@ -50,18 +66,24 @@ class Scene(Thread):
         return self._listeners.__iter__()
 
     def add_listener(self, new_listener):
+        new_listener.scene = self
         self._listeners.append(new_listener)
-        new_listener.on_added(self)
+        new_listener.on_added()
 
     def remove_listener(self, listener):
         self._listeners.remove(listener)
         listener.on_removed(self)
 
-    # TODO Formally define step_next here using block comments
+    def begin(self):
+        """
+        Call all listener's on_begin
+        """
+        for lis in self.listeners:
+            lis.on_begin()
+
     def step_next(self):
         # call model to step next
-        # self.model.step_next(self.entities) TODO remove comment
-
+        self.model.step_next(self)
         # time_step increment
         self.time_step += 1
 
@@ -69,36 +91,47 @@ class Scene(Thread):
         for lis in self.listeners:
             lis.on_stepped()
 
-    def start(self):
-        """ When called run(), scene thread will automatically step_next()
+    def run(self):
+        """ When called run(), scene thread will first call begin() then automatically step_next()
          
         """
+        self.begin()   # pack up
         while True:
-            self.step_next()
+            self.step_next()   # step next
+
+    def stop(self):
+        self._is_stopped = True   # inherit from class Thread
 
 
 class SceneListener(ABC):
 
-    def __init__(self, scene=None):
-        self.scene = scene
+    def __init__(self):
+        self.scene = None
 
     @abstractmethod
-    def on_added(self, scene):
-        """ Define lister's behavior after being added
+    def on_added(self):
+        """ Define listener's behaviour after being added
+
+        """
+        pass
+
+    @abstractmethod
+    def on_begin(self):
+        """ Define listener's behavior before the scene begin to start
 
         """
         pass
 
     @abstractmethod
     def on_stepped(self):
-        """ Define lister's behavior after each step
+        """ Define listener's behavior after each step
 
         """
         pass
 
     @abstractmethod
     def on_removed(self):
-        """ Define lister's behavior after being removed
+        """ Define listener's behavior after being removed
 
         """
         pass
