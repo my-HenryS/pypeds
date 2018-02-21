@@ -12,9 +12,12 @@ class TestCircle2D(TestCase):
         self.circle_in = Circle2D(Point2D(3, -5), 5)
         self.circle_on = Circle2D(Point2D(9, 12), 5)
         self.circle_out = Circle2D(Point2D(15, 4), 5)
-        self.box_in = Box2D(Point2D(-1.5, 2), 3, 4)
+        self.box_in = Box2D(Point2D(-1.5, 4), 3, 8)
         self.box_on = Box2D(Point2D(2, -3), 4, 4)
         self.box_out = Box2D(Point2D(-3.6, -4.8), 3, 4)
+        self.ellipse_in = Ellipse2D(Point2D(3, -3), 5, 3, 0)
+        self.ellipse_on = Ellipse2D(Point2D(13, 4), 5, 3, 0)
+        self.ellipse_out = Ellipse2D(Point2D(-3.6, -4.8), 5, 3, math.acos(0.6))
 
     def test_distance(self):
         dist, dirt = self.circle_test.distance(self.point_in)
@@ -46,10 +49,9 @@ class TestCircle2D(TestCase):
         self.assertAlmostEqual(dist, 2, delta=1.0e-10)
         self.assertAlmostEqual(dirt.x, 1, delta=1.0e-10)
         self.assertAlmostEqual(dirt.y, 0, delta=1.0e-10)
-        # TODO implement Box2D.dist Circle2d
 
         dist, dirt = self.circle_test.distance(self.box_in)
-        self.assertAlmostEqual(dist, -1, delta=1.0e-10)
+        self.assertAlmostEqual(dist, -2, delta=1.0e-10)
         self.assertAlmostEqual(dirt.x, 1, delta=1.0e-10)
         self.assertAlmostEqual(dirt.y, 0, delta=1.0e-10)
 
@@ -59,6 +61,21 @@ class TestCircle2D(TestCase):
         self.assertAlmostEqual(dirt.y, 1, delta=1.0e-10)
 
         dist, dirt = self.circle_test.distance(self.box_out)
+        self.assertAlmostEqual(dist, 3.5, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.x, -0.6, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.y, -0.8, delta=1.0e-10)
+
+        dist, dirt = self.circle_test.distance(self.ellipse_in)
+        self.assertAlmostEqual(dist, -1, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.x, 0, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.y, 1, delta=1.0e-10)
+
+        dist, dirt = self.circle_test.distance(self.ellipse_on)
+        self.assertAlmostEqual(dist, 0, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.x, -1, delta=1.0e-10)
+        self.assertAlmostEqual(dirt.y, 0, delta=1.0e-10)
+
+        dist, dirt = self.circle_test.distance(self.ellipse_out)
         self.assertAlmostEqual(dist, 1, delta=1.0e-10)
         self.assertAlmostEqual(dirt.x, -0.6, delta=1.0e-10)
         self.assertAlmostEqual(dirt.y, -0.8, delta=1.0e-10)

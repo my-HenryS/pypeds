@@ -324,6 +324,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 if __name__=="__main__":
     app = QtWidgets.QApplication(sys.argv)
     win = Ui_MainWindow()
-    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     win.show()
     sys.exit(app.exec_())
