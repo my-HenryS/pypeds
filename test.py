@@ -1,19 +1,32 @@
-from Box2D import *
+from pypeds.example.model.sfmodel import SFModel, Pedestrian
+from pypeds.scene import Scene
+from pypeds.shape2d import Circle2D, Point2D
 
-class P(object):
-    def __init__(self, x):
-        self.__x = x
 
-    @property
-    def x(self):
-        return self.__x
+class A(object):
 
-    @x.setter
-    def x(self, new_x):
-        self.__x = new_x
+    def func(self):
+        print(type(self))
 
-p = P([1])
-p.x = [10002]
-p.x.append(1)
-Box2D.b2CircleShape()
-print(p.x)
+class B(A):
+    pass
+
+
+a = B()
+a.func()
+
+scene = Scene()
+model = SFModel(0.004)
+scene.model = model
+ped = Pedestrian(Circle2D(center=Point2D(4, 11), radius=5))
+scene.add_entity(ped)
+scene.add_entity(Pedestrian(Circle2D(center=Point2D(11, 11), radius=5)))
+
+peds = scene.entities_of_type(Pedestrian)
+for agent in peds:
+    print(agent)
+
+scene.remove_entity(ped)
+
+for agent in peds:
+    print(agent)

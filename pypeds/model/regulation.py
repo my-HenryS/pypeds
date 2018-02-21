@@ -6,29 +6,16 @@ class Regulation(ABC):
         self.model = model
 
     @abstractmethod
-    def exert(self, source, affected):
-        """ At here, each successor force should define how 'source' entity puts its force on 'affected' (which could
-         be one or many)
+    def exert(self, source, targets):
+        """ At here, each successor force should define how 'source' entity puts its force on each 'target' (which should be
+         iterable)
 
-        And we let affection exert directly on the affected entity
-        :param source: The source of force
-        :param affected: The affected entity
+        And we let affection exert directly on the affected entity by calling its affected
+        :param source: The source entity of force
+        :param targets: The target entities
         :return:
         """
         pass
-
-    @property
-    def is_multiple(self):
-        try:
-            return self._is_multiple
-        except AttributeError:
-            raise NotImplementedError(
-                "Subclasses of Regulation must set an instance attribute "
-                "self._is_multiple in it's __init__ method")
-
-    @is_multiple.setter
-    def is_multiple(self, is_multiple):
-        self._is_multiple = is_multiple
 
     @property
     def source_class(self):
@@ -44,15 +31,64 @@ class Regulation(ABC):
         self._source_class = source_class
 
     @property
-    def affected_class(self):
+    def target_class(self):
         try:
-            return self._affected_class
+            return self._target_class
         except AttributeError:
             raise NotImplementedError(
                 "Subclasses of Regulation must set an instance attribute "
-                "self._affected_class in it's __init__ method")
+                "self._target_class in it's __init__ method")
 
-    @affected_class.setter
-    def affected_class(self, affected_class):
-        self._affected_class = affected_class
+    @target_class.setter
+    def target_class(self, target_class):
+        self._target_class = target_class
 
+
+class SingleTargetRegulation(Regulation):
+    """
+    Source entity in single target affection only affect on a single target each function call. It may have multiple targets
+    to affect each time step.
+    """
+    def exert(self, source, targets):
+        for target in targets:
+            self.exert_single(source, target)
+
+    @abstractmethod
+    def exert_single(self, source, target):
+        """ Define how source exert affection on single target
+
+        :param source:
+        :param target:
+        :return:
+        """
+        pass
+
+
+class SelfDrivenRegulation(ABC):
+    """ Self driven regulation regulates how entities affect on themselves.
+
+    """
+    def __init__(self, model=None):
+        self.model = model
+
+    @abstractmethod
+    def exert(self, entity):
+        """ At here, each successor force should define how entities affect on themselves
+
+        :param entity: The source entity of force
+        :return:
+        """
+        pass
+
+    @property
+    def source_class(self):
+        try:
+            return self._source_class
+        except AttributeError:
+            raise NotImplementedError(
+                "Subclasses of Regulation must set an instance attribute "
+                "self._source_class in it's __init__ method")
+
+    @source_class.setter
+    def source_class(self, source_class):
+        self._source_class = source_class

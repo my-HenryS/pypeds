@@ -14,17 +14,17 @@ class TestEntityPool(TestCase):
         self.entities = EntityPool([self.agent1, self.agent2])
 
     def test_select(self):
-        iter_ = self.entities.select_all(Movable)
+        iter_ = self.entities.select_by_type(Movable)
         self.assertEqual(self.agent1, iter_.__next__())
         self.assertEqual(self.agent2, iter_.__next__())
 
     def test_add(self):
         self.entities.add(self.peds1)
-        iter_ = self.entities.select_all(Pedestrian)
+        iter_ = self.entities.select_by_type(Pedestrian)
         self.assertEqual(self.peds1, iter_.__next__())
 
     def test_remove(self):
         self.entities.remove(self.agent1)
-        iter_ = self.entities.select_all(Movable)
+        iter_ = self.entities.select_by_type(Movable)
         self.assertEqual(self.agent2, iter_.__next__())
 
