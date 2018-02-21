@@ -216,11 +216,11 @@ class DistanceCalculator(object):
                 if dist == 0:
                     return 0, Vector2D(0, 0)
                 return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
-            if isinstance(shape, Circle2D or Ellipse2D):
+            if isinstance(shape, Circle2D) or isinstance(shape, Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt*(-1)
             ## TODO When the shape contains centers of shape and other, dirt calculating maybe is error
-            if isinstance(shape, Box2D or Rectangle2D):
+            if isinstance(shape, Box2D) or isinstance(shape, Rectangle2D):
                 dist1, dirt1 = shape.get_left.distance(other)
                 dist2, dirt2 = shape.get_right.distance(other)
                 dist3, dirt3 = shape.get_down.distance(other)
@@ -245,9 +245,12 @@ class DistanceCalculator(object):
             m_dist -= other.b
             dist = (l_dist, r_dist, m_dist)
             dirt = (l_dirt, r_dirt, m_dirt)
-            if min(dist) < 0:
-                return - min(dist), dirt[dist.index(min(dist))]*(-1)
+            if min(dist) <= 0:
+                return min(dist), dirt[dist.index(min(dist))]*(-1)
             return min(dist), dirt[dist.index(min(dist))]
+        if isinstance(other, Box2D) or isinstance(other, Rectangle2D):
+            dist, dirt = DistanceCalculator.distance(other, shape)
+            return dist, dirt*(-1)
 
 
 class Circle2D(Shape2D):
