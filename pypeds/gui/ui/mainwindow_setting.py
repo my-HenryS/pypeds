@@ -8,18 +8,14 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import *
-import sys
 import qdarkstyle
+import sys
 
 class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
-
-    close_signal = pyqtSignal()
-
     def __init__(self):
         super(Ui_MainWindow_Setting, self).__init__()
         self.setupUi(self)
         self.retranslateUi(self)
-        self.Event(self)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -97,19 +93,6 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_2.addItem("")
         self.comboBox_2.addItem("")
         self.verticalLayout.addWidget(self.comboBox_2)
-        self.label_4 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout.addWidget(self.label_4)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.horizontalSlider = QtWidgets.QSlider(self.verticalLayoutWidget)
-        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        self.horizontalSlider.setObjectName("horizontalSlider")
-        self.horizontalLayout_2.addWidget(self.horizontalSlider)
-        self.lcdNumber = QtWidgets.QLCDNumber(self.verticalLayoutWidget)
-        self.lcdNumber.setObjectName("lcdNumber")
-        self.horizontalLayout_2.addWidget(self.lcdNumber)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(620, 80, 491, 461))
         self.graphicsView.setObjectName("graphicsView")
@@ -198,17 +181,9 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_2.setItemText(1, _translate("MainWindow", "SFC"))
         self.comboBox_2.setItemText(2, _translate("MainWindow", "Real-life"))
         self.comboBox_2.setItemText(3, _translate("MainWindow", "LSTM"))
-        self.label_4.setText(_translate("MainWindow", "Velocity"))
         self.label_5.setText(_translate("MainWindow", "Settting Menu"))
         self.pushButton_7.setText(_translate("MainWindow", "Comfirm"))
         self.pushButton_8.setText(_translate("MainWindow", "Cancel"))
-        # self.horizontalSlider.valueChanged.connect(self.lcdNumber.display)
-        # self.horizontalSlider.valueChanged.connect(self.lcdNumber.display())
-
-    def Event(self,MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.horizontalSlider.valueChanged.connect(self.lcdNumber.display)
 
     def handle_click(self):
         if not self.isVisible():
