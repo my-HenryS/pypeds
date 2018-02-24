@@ -234,7 +234,7 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.label_7.setText(_translate("MainWindow", "Position_y"))
         self.pushButton.setText(_translate("MainWindow", "Setting"))
         self.pushButton_2.setText(_translate("MainWindow", "Run"))
-        self.pushButton_3.setText(_translate("MainWindow", "Termination"))
+        self.pushButton_3.setText(_translate("MainWindow", "Skip"))
         self.pushButton_4.setText(_translate("MainWindow", "Pause"))
         self.label_13.setText(_translate("MainWindow", "Speed"))
         self.horizontalSlider.valueChanged.connect(self.lcdNumber.display)

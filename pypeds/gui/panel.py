@@ -2,20 +2,23 @@ from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from pypeds.gui.ui.mainwindow_main import *
+from pypeds.gui.ui.mainwindow_setting import *
 from pypeds.scene import SceneListener
+import time
 
 
 class Panel(SceneListener):
     """
     Wraps window class with scene listener. panel--window has a 1-to-1 relationship
     """
-    def __init__(self, title="", fps=16):
+
+    def __init__(self, ui, title="", fps=16):
         super().__init__()
 
         self.default_drawer_register = True
         self.drawer_register = None
 
-        self.window = MainWindow(self, title, fps)
+        self.window = MainWindow(self, title, fps, ui)
         self.painter = self.window.painter
 
     def register_drawer(self, drawer_register):
@@ -61,8 +64,10 @@ class MainWindow(Ui_MainWindow_Main):
     """
     Extends UI class with window and drawer methods
     """
-    def __init__(self, panel, title, fps):
+
+    def __init__(self, panel, title, fps, ui):
         super().__init__()
+        self._translate = QtCore.QCoreApplication.translate
         self.setupUi(self)
         self.setWindowTitle(title)
         self.center()
@@ -71,8 +76,16 @@ class MainWindow(Ui_MainWindow_Main):
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.ui = ui
+        self.enable = False
+        self.pause_flag = False
         self.pushButton_2.clicked.connect(self.start)
-        self.pushButton.clicked.connet(self.trans_window)
+        self.pushButton_4.clicked.connect(self.pause)
+        self.pushButton.clicked.connect(self.trans_window_main)
+        self.ui.pushButton_7.clicked.connect(self.trans_window_setting)
+        self.ui.pushButton_8.clicked.connect(self.trans_window_setting)
+        self.pushButton_3.setEnabled(False)
+        self.pushButton_4.setEnabled(False)
 
     def center(self):
         """
@@ -92,17 +105,47 @@ class MainWindow(Ui_MainWindow_Main):
         return self.area.painter
 
     def start(self):
-        self.scene.start()
+        if self.enable == False:
+            self.scene.start()
+            self.pushButton_2.setText(self._translate("MainWindow", "Terminate"))
+            self.pushButton_3.setEnabled(True)
+            self.pushButton_4.setEnabled(True)
+            self.enable = not self.enable
+            return
 
-    # def trans_window(self):
+        if self.enable == True:
+            self.pushButton_2.setText(self._translate("MainWindow", "Run"))
+            self.pushButton_3.setEnabled(False)
+            self.pushButton_4.setText(self._translate("MainWindow", "Pause"))
+            self.pushButton_4.setEnabled(False)
+            self.enable = not self.enable
 
+    def pause(self):
+        if self.pause_flag == False:
+            self.pushButton_4.setText(self._translate("MainWindow", "Resume"))
+            self.pause_flag = not self.pause_flag
+            return
 
+        if self.pause_flag == True:
+            self.pushButton_4.setText(self._translate("MainWindow", "Pause"))
+            self.pause_flag = not self.pause_flag
+
+    def trans_window_main(self):
+        self.ui.handle_click()
+        self.hide()
+        self.close_signal.connect(self.close)
+
+    def trans_window_setting(self):
+        self.handle_click()
+        self.ui.hide()
+        self.ui.close_signal.connect(self.close)
 
 
 class PaintArea(QWidget):
     """
     A paint area that shows the whole scene
     """
+
     def __init__(self, window, fps):
         super().__init__()
         self.window = window
@@ -151,6 +194,3 @@ class PaintArea(QWidget):
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
         self.last_x = -1
         self.last_y = -1
-
-
-

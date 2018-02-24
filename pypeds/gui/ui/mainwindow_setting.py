@@ -12,6 +12,9 @@ import qdarkstyle
 import sys
 
 class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
+
+    close_signal = pyqtSignal()
+
     def __init__(self):
         super(Ui_MainWindow_Setting, self).__init__()
         self.setupUi(self)

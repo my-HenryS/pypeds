@@ -5,6 +5,7 @@ from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.scene import Scene
 from pypeds.shape2d import *
 from pypeds.gui.panel import *
+from PyQt5 import QtWidgets
 import sys
 import qdarkstyle
 
@@ -18,7 +19,8 @@ if __name__ == "__main__":
     for i in range(1,40):
         scene.add_entity(Pedestrian(Circle2D(center=Point2D(4*i, 11.5), radius=0.243)))
     #scene.add_entity(Pedestrian(Circle2D(center=Point2D(11.6, 11.5), radius=1)))
-    panel = Panel("Simulation")
+    s=Ui_MainWindow_Setting()
+    panel = Panel(s,"Simulation")
     scene.add_listener(panel)
     scene.add_listener(PedestrianEscapeListener())
     scene.add_listener(NearestGoalStrategy())
