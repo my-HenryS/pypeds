@@ -72,6 +72,7 @@ class MainWindow(Ui_MainWindow_Main):
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
         self.pushButton_2.clicked.connect(self.start)
+        self.pushButton.clicked.connet(self.trans_window)
 
     def center(self):
         """
@@ -92,6 +93,10 @@ class MainWindow(Ui_MainWindow_Main):
 
     def start(self):
         self.scene.start()
+
+    # def trans_window(self):
+
+
 
 
 class PaintArea(QWidget):
