@@ -108,7 +108,7 @@ class Rotatable(Movable):
         self.angular_acc = model.zero_angular_velocity()
 
 
-class Escapable(Movable):
+class Escapable(Rotatable):
 
     def __init__(self, shape):
         super().__init__(shape)

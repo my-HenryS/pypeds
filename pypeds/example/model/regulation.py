@@ -6,6 +6,8 @@ import math
 
 
 # TODO Resolve view problem
+from pypeds.shape2d import Vector2D, Ellipse2D
+
 
 class PsychologicalForceRegulation(SingleTargetRegulation):
 
@@ -36,6 +38,8 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
         force = dirt * (self.A * math.exp(-dist) / self.B)
         affection = Affection("Force", force)
         target.affected(affection)
+        if isinstance(target, Ellipse2D):
+            return
 
 
 class BodyForceRegulation(SingleTargetRegulation):
@@ -69,6 +73,8 @@ class BodyForceRegulation(SingleTargetRegulation):
         force = body_force + sliding_force
         affection = Affection("Force", force)
         target.affected(affection)     # TODO do not modify target directly (controversial)
+        if isinstance(target, Ellipse2D):
+            return
 
 
 class SelfDrivenForceRegulation(SelfDrivenRegulation):
@@ -84,6 +90,44 @@ class SelfDrivenForceRegulation(SelfDrivenRegulation):
         dirt = entity.next_step()
         force = (dirt * self.exp_v - entity.velocity) * (entity.mass / self.react_t)
         affection = Affection("Force", force)
+        entity.affected(affection)
+
+
+class SelfDrivenTorqueRegulation(SelfDrivenRegulation):
+    def __init__(self, model):
+        super().__init__(model)
+
+        self._source_class = Pedestrian
+        self._target_class = Pedestrian
+
+    def exert(self, entity):
+        if isinstance(entity.shape, Ellipse2D):
+            dirt = entity.next_step()
+            face = Vector2D(- math.sin(entity.angle), math.cos(entity.angle))
+            rotate_angle = math.acos(dirt.x * face.x + dirt.y * face.y)
+            if face.x * dirt.y - dirt.x * face.y < 0:
+                rotate_angle *= -1
+            torque = 40 * rotate_angle
+        else:
+            torque = 0
+        affection = Affection("Torque ", torque)
+        entity.affected(affection)
+
+
+class SelfDampingTorqueRegulation(SelfDrivenRegulation):
+    def __init__(self, model, react_time):
+        super().__init__(model)
+
+        self._source_class = Pedestrian
+        self._target_class = Pedestrian
+        self.react_t = react_time
+
+    def exert(self, entity):
+        if isinstance(entity.shape, Ellipse2D):
+            torque = (-5 * entity.palstance) * (entity.inertia / self.react_t)
+        else:
+            torque = 0
+        affection = Affection("Torque ", torque)
         entity.affected(affection)
 
 
