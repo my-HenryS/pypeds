@@ -38,8 +38,23 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
         force = dirt * (self.A * math.exp(-dist) / self.B)
         affection = Affection("Force", force)
         target.affected(affection)
-        if isinstance(target, Ellipse2D):
-            return
+        if isinstance(target.shape, Ellipse2D):
+            m_dist, m_dirt = source.shape.distance(target.shape.center)
+            l_dist, l_dirt = source.shape.distance(target.shape.c_left)
+            r_dist, r_dirt = source.shape.distance(target.shape.c_right)
+            m_dist -= target.shape.b
+            l_dist -= (target.shape.a - target.shape.b) / 2
+            r_dist -= (target.shape.a - target.shape.b) / 2
+            if dist == m_dist:
+                return
+            elif dist == l_dist:
+                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)
+            else:
+                length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
+            length = length_dirt * length_dist
+            torque = length.x * force.y - force.x * length.y
+            affection = Affection("Torque", torque)
+            target.affected(affection)
 
 
 class BodyForceRegulation(SingleTargetRegulation):
@@ -73,8 +88,23 @@ class BodyForceRegulation(SingleTargetRegulation):
         force = body_force + sliding_force
         affection = Affection("Force", force)
         target.affected(affection)     # TODO do not modify target directly (controversial)
-        if isinstance(target, Ellipse2D):
-            return
+        if isinstance(target.shape, Ellipse2D):
+            m_dist, m_dirt = source.shape.distance(target.shape.center)
+            l_dist, l_dirt = source.shape.distance(target.shape.c_left)
+            r_dist, r_dirt = source.shape.distance(target.shape.c_right)
+            m_dist -= target.shape.b
+            l_dist -= (target.shape.a - target.shape.b) / 2
+            r_dist -= (target.shape.a - target.shape.b) / 2
+            if dist == m_dist:
+                return
+            elif dist == l_dist:
+                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)
+            else:
+                length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
+            length = length_dirt * length_dist
+            torque = length.x * force.y - force.x * length.y
+            affection = Affection("Torque", torque)
+            target.affected(affection)
 
 
 class SelfDrivenForceRegulation(SelfDrivenRegulation):
