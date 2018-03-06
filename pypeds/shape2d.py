@@ -21,7 +21,7 @@ class Vector2D:
     add = __add__
 
     def __sub__(self, other):
-        return create_vector(type(self), self.x-other.x, self.y-other.y)
+        return create_vector(type(self), self.x-other.x, self.y-other.y)   # FIXME consider degrading it to vector
 
     sub = __sub__
 
@@ -49,6 +49,9 @@ class Vector2D:
 
     def __str__(self):
         return "(%.2f,%.2f)" % (self.x, self.y)
+
+    def __repr__(self):
+        return "Vector2D(%.2f,%.2f)" % (self.x, self.y)
 
     def __abs__(self):
         return math.sqrt(self.x**2 + self.y**2)
@@ -88,7 +91,13 @@ class Vector2D:
         new_y = r * math.sin(ori_angle + angle)
         return new_x, new_y
 
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+
 class Point2D(Vector2D):
+    def __repr__(self):
+        return "Point2D(%.2f,%.2f)" % (self.x, self.y)
     pass
 
 

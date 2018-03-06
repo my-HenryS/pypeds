@@ -54,6 +54,8 @@ class Panel(SceneListener):
         pass
 
     def show(self):
+        self.s = Ui_MainWindow_Setting()
+        Event(self.window, self.s)
         self.window.show()
 
 
