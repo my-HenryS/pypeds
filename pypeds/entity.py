@@ -108,7 +108,16 @@ class Rotatable(Movable):
         self.angular_acc = model.zero_angular_velocity()
 
 
-class Escapable(Rotatable):
+class RotateAgent(Rotatable):
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.path = None
+
+    def next_step(self):
+        return self.path.next_step(self.position)
+
+
+class Escapable(Movable):
 
     def __init__(self, shape):
         super().__init__(shape)
