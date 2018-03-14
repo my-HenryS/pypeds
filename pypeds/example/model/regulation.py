@@ -11,7 +11,6 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
 
     def __init__(self, model):
         super().__init__(model)
-
         self._source_class = Blockable
         self._target_class = Pedestrian
 

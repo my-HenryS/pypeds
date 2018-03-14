@@ -2,11 +2,12 @@ from pypeds.pool import EntityPool
 from pypeds.entity import Entity
 from abc import ABC, abstractmethod
 from threading import Thread
+from pypeds.shape2d import *
 
 
 class Scene(Thread):
 
-    def __init__(self, model=None, strategy = None):
+    def __init__(self, model=None, strategy=None, pedestrain_shape=Circle2D):
         """ Define operations to the variable 'entities'.
         We here define a entities pool and restrict modifying it only with functions
         add_entity() and remove_entity(). We use EntityPool.get() to get a proportion of entities of a specific type.
@@ -19,6 +20,7 @@ class Scene(Thread):
         self._listeners = []
         self.drawer = None
         self.strategy = strategy
+        self.pedestrain_shape = pedestrain_shape
 
     @property
     def entities(self):
@@ -95,12 +97,12 @@ class Scene(Thread):
         """ When called run(), scene thread will first call begin() then automatically step_next()
          
         """
-        self.begin()   # pack up
+        self.begin()  # pack up
         while True:
-            self.step_next()   # step next
+             self.step_next()  # step next
 
     def stop(self):
-        self._is_stopped = True   # inherit from class Thread
+        self._is_stopped = True  # inherit from class Thread
 
 
 class SceneListener(ABC):
