@@ -69,6 +69,50 @@ class Movable(Entity):
         self.acc = model.zero_velocity()
 
 
+class Rotatable(Movable):
+
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.palstance = None
+        self.angular_acc = None
+        self.inertia = None
+
+    @property
+    def angle(self):
+        return self.shape.angle     # TODO: shape need to be defined as ellipse2D compulsively
+
+    @angle.setter
+    def angle(self, ang):
+        self.shape.angle = ang
+
+    def affected(self, affection):
+        super().affected(affection)
+        if affection.a_type == "Torque":
+            torque = affection.value
+            self.angular_acc = torque / self.inertia
+            self.palstance += self.angular_acc * self.model.time_per_step
+            self.angle += self.palstance * self.model.time_per_step
+
+    @property
+    def model(self):
+        return self._model
+
+    @model.setter
+    def model(self, model):
+        self._model = model
+        self.palstance = model.zero_angular_velocity()
+        self.angular_acc = model.zero_angular_velocity()
+
+
+class RotateAgent(Rotatable):
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.path = None
+
+    def next_step(self):
+        return self.path.next_step(self.position)
+
+
 class Escapable(Movable):
 
     def __init__(self, shape):
