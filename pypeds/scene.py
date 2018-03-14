@@ -99,7 +99,7 @@ class Scene(Thread):
         """
         self.begin()  # pack up
         while True:
-            self.step_next()  # step next
+             self.step_next()  # step next
 
     def stop(self):
         self._is_stopped = True  # inherit from class Thread

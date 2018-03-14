@@ -239,7 +239,6 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.label_13.setText(_translate("MainWindow", "Speed"))
         self.horizontalSlider.valueChanged.connect(self.lcdNumber.display)
 
-
     def handle_click(self):
         if not self.isVisible():
             self.show()

@@ -1,9 +1,9 @@
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from pypeds.gui.ui.mainwindow_main import *
-from pypeds.gui.ui.mainwindow_setting import *
+from pypeds.gui.ui.mainwindow import *
 from pypeds.scene import SceneListener
+from pypeds.example.generator import *
 import time
 
 
@@ -18,7 +18,7 @@ class Panel(SceneListener):
         self.default_drawer_register = True
         self.drawer_register = None
 
-        self.window = MainWindow(self, title, fps, ui)
+        self.window = MainWindow(self, title, fps)
         self.painter = self.window.painter
 
     def register_drawer(self, drawer_register):
@@ -60,12 +60,12 @@ class Panel(SceneListener):
         self.window.show()
 
 
-class MainWindow(Ui_MainWindow_Main):
+class MainWindow(Ui_MainWindow):
     """
     Extends UI class with window and drawer methods
     """
 
-    def __init__(self, panel, title, fps, ui):
+    def __init__(self, panel, title, fps):
         super().__init__()
         self._translate = QtCore.QCoreApplication.translate
         self.setupUi(self)
@@ -76,16 +76,17 @@ class MainWindow(Ui_MainWindow_Main):
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
-        self.ui = ui
+        self.generator=Generator
         self.enable = False
         self.pause_flag = False
-        self.pushButton_2.clicked.connect(self.start)
-        self.pushButton_4.clicked.connect(self.pause)
-        self.pushButton.clicked.connect(self.trans_window_main)
-        self.ui.pushButton_7.clicked.connect(self.trans_window_setting)
-        self.ui.pushButton_8.clicked.connect(self.trans_window_setting)
-        self.pushButton_3.setEnabled(False)
-        self.pushButton_4.setEnabled(False)
+        self.pushButton_4.clicked.connect(self.start)
+        self.pushButton_6.clicked.connect(self.pause)
+        self.pushButton_6.setEnabled(False)
+        self.pushButton_7.setEnabled(False)
+        self.horizontalSlider.valueChanged.connect(self.velocity_change)
+        self.pushButton_8.clicked.connect(self.grid_generate)
+        self.pushButton_9.clicked.connect(self.random_generate)
+        self.pushButton_10.clicked.connect(self.default_generate)
 
     def center(self):
         """
@@ -107,38 +108,49 @@ class MainWindow(Ui_MainWindow_Main):
     def start(self):
         if self.enable == False:
             self.scene.start()
-            self.pushButton_2.setText(self._translate("MainWindow", "Terminate"))
-            self.pushButton_3.setEnabled(True)
-            self.pushButton_4.setEnabled(True)
+            self.pushButton_4.setText(self._translate("MainWindow", "Terminate"))
+            self.pushButton_6.setEnabled(True)
+            self.pushButton_7.setEnabled(True)
             self.enable = not self.enable
             return
 
         if self.enable == True:
-            self.pushButton_2.setText(self._translate("MainWindow", "Run"))
-            self.pushButton_3.setEnabled(False)
-            self.pushButton_4.setText(self._translate("MainWindow", "Pause"))
-            self.pushButton_4.setEnabled(False)
+            self.pushButton_4.setText(self._translate("MainWindow", "Run"))
+            self.pushButton_6.setEnabled(False)
+            self.pushButton_6.setText(self._translate("MainWindow", "Pause"))
+            self.pushButton_7.setEnabled(False)
             self.enable = not self.enable
 
     def pause(self):
         if self.pause_flag == False:
-            self.pushButton_4.setText(self._translate("MainWindow", "Resume"))
+            self.pushButton_6.setText(self._translate("MainWindow", "Resume"))
             self.pause_flag = not self.pause_flag
             return
 
         if self.pause_flag == True:
-            self.pushButton_4.setText(self._translate("MainWindow", "Pause"))
+            self.pushButton_6.setText(self._translate("MainWindow", "Pause"))
             self.pause_flag = not self.pause_flag
 
-    def trans_window_main(self):
-        self.ui.handle_click()
-        self.hide()
-        self.close_signal.connect(self.close)
+    def velocity_change(self):
+        self.scene.model.time_per_step = self.horizontalSlider.value() * 0.0001919 + 0.001
+        # self.horizontalSlider.value()*0.0001919+0.001)
 
-    def trans_window_setting(self):
-        self.handle_click()
-        self.ui.hide()
-        self.ui.close_signal.connect(self.close)
+    def default_generate(self):
+        pass
+
+    def grid_generate(self):
+        # self.generator(self.scene).grid_generate(Box2D(Point2D(500,200),100,100),33,1,10)
+        # self.generator(self.scene).grid_generate(Box2D(Point2D(200,500),100,50),33,1,10)
+
+        self.generator(self.scene).grid_generate(
+            Box2D(Point2D(int(self.lineEdit_4.text()), int(self.lineEdit_7.text())),int(self.lineEdit_5.text()),
+                  int(self.lineEdit_8.text())), int(self.lineEdit_2.text()), int(self.lineEdit_3.text()),
+            int(self.lineEdit_6.text()))
+
+    def random_generate(self):
+        self.generator(self.scene).random_generate(
+            Box2D(Point2D(int(self.lineEdit_4.text()), int(self.lineEdit_7.text())), int(self.lineEdit_5.text()),
+                  int(self.lineEdit_8.text())), int(self.lineEdit_2.text()), int(self.lineEdit_3.text()))
 
 
 class PaintArea(QWidget):
@@ -174,6 +186,9 @@ class PaintArea(QWidget):
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
+        # drawer_test = Circle2DDrawer(self.painter)
+        # drawer_test.draw(Circle2D(Point2D(50, 50), 2))
+        # self.window.generator.generate_show
         if self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
         self.painter.end()

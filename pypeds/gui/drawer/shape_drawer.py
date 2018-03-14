@@ -27,7 +27,7 @@ class Circle2DDrawer(ShapeDrawer):
         x, y = circle.center.x, circle.center.y
         r = circle.radius
         self.device.setBrush(self.color)
-        self.device.drawEllipse(QPointF(x, y), 2*r, 2*r)    # draw ellipse by defining its bound box
+        self.device.drawEllipse(QPointF(x, y), r, r)  # draw ellipse by defining its bound box
 
 
 class Box2DDrawer(ShapeDrawer):
@@ -40,4 +40,6 @@ class Box2DDrawer(ShapeDrawer):
         l, d, w, h = box.e_left, box.e_down, box.length, box.width
         self.device.setBrush(self.color)
         self.device.drawRect(QRectF(l, d, w, h))
+
+
 

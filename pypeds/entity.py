@@ -33,10 +33,6 @@ class Entity(ABC):
         self.shape.center = pos
 
 
-class Blockable(Entity):
-    pass
-
-
 class Goal(Entity):
     def __init__(self, shape):
         super().__init__(shape)
@@ -47,7 +43,7 @@ class Goal(Entity):
             self.recorder.append(affection.value)
 
 
-class Movable(Blockable):
+class Movable(Entity):
 
     def __init__(self, shape,):
         super(Movable, self).__init__(shape)
