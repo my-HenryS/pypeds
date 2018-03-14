@@ -55,3 +55,9 @@ class EntityPool(object):
 
     def __iter__(self):
         return self.__entities.__iter__()
+
+    def __len__(self):
+        len = 0
+        for entity in self.__entities:
+            len += 1
+        return len
