@@ -36,6 +36,12 @@ class Generator():
                     self.scene.pedestrain_shape(Point2D(region_shape.e_left + n * interval + radius,
                                                         region_shape.e_down + m * interval + radius),
                                                 radius)))
+<<<<<<< HEAD
+=======
+                # Circle2DDrawer.draw(self.scene.pedestrain_shape(Point2D(region_shape.e_left + n * interval + radius,
+                #                                                         region_shape.e_down + m * interval + radius),
+                #                                                 radius))
+>>>>>>> origin/master
                 count_number += 1
                 if count_number == number:
                     return
@@ -63,3 +69,11 @@ class Generator():
 
     def item_generate(self, entity, region_shape):
         self.scene.add_entity(entity(region_shape))
+<<<<<<< HEAD
+=======
+
+    # def generate_show(self):
+    #     for entity in iter(self.scene._entities):
+    #         entity.drawer.draw
+
+>>>>>>> origin/master
