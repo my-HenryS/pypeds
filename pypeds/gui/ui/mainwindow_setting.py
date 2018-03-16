@@ -7,14 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import *
-import qdarkstyle
-import sys
 
 class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
-
-    close_signal = pyqtSignal()
-
     def __init__(self):
         super(Ui_MainWindow_Setting, self).__init__()
         self.setupUi(self)
@@ -22,135 +16,322 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1184, 764)
+        MainWindow.resize(1315, 732)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.verticalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(40, 80, 481, 561))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label.setObjectName("label")
-        self.verticalLayout.addWidget(self.label)
-        self.comboBox = QtWidgets.QComboBox(self.verticalLayoutWidget)
-        self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.verticalLayout.addWidget(self.comboBox)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.verticalLayout.addItem(spacerItem)
-        self.radioButton = QtWidgets.QRadioButton(self.verticalLayoutWidget)
-        self.radioButton.setObjectName("radioButton")
-        self.verticalLayout.addWidget(self.radioButton)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.verticalLayout.addItem(spacerItem1)
-        self.radioButton_2 = QtWidgets.QRadioButton(self.verticalLayoutWidget)
-        self.radioButton_2.setObjectName("radioButton_2")
-        self.verticalLayout.addWidget(self.radioButton_2)
-        self.label_2 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_2.setObjectName("label_2")
-        self.verticalLayout.addWidget(self.label_2)
-        self.spinBox = QtWidgets.QSpinBox(self.verticalLayoutWidget)
-        self.spinBox.setObjectName("spinBox")
-        self.verticalLayout.addWidget(self.spinBox)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
-        self.pushButton_2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.scrollArea.setGeometry(QtCore.QRect(20, 20, 781, 651))
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 779, 649))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setGeometry(QtCore.QRect(910, 520, 81, 30))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.horizontalLayout.addWidget(self.pushButton_2)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.verticalLayout.addItem(spacerItem2)
-        self.radioButton_3 = QtWidgets.QRadioButton(self.verticalLayoutWidget)
-        self.radioButton_3.setObjectName("radioButton_3")
-        self.verticalLayout.addWidget(self.radioButton_3)
-        self.gridLayout = QtWidgets.QGridLayout()
-        self.gridLayout.setObjectName("gridLayout")
-        self.pushButton_4 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.gridLayout.addWidget(self.pushButton_4, 1, 0, 1, 1)
-        self.pushButton_6 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.gridLayout.addWidget(self.pushButton_6, 1, 1, 1, 1)
-        self.pushButton_5 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_5.setObjectName("pushButton_5")
-        self.gridLayout.addWidget(self.pushButton_5, 0, 1, 1, 1)
-        self.pushButton_3 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.gridLayout.addWidget(self.pushButton_3, 0, 0, 1, 1)
-        self.verticalLayout.addLayout(self.gridLayout)
-        self.label_3 = QtWidgets.QLabel(self.verticalLayoutWidget)
-        self.label_3.setObjectName("label_3")
-        self.verticalLayout.addWidget(self.label_3)
-        self.comboBox_2 = QtWidgets.QComboBox(self.verticalLayoutWidget)
+        self.label_13 = QtWidgets.QLabel(self.centralwidget)
+        self.label_13.setGeometry(QtCore.QRect(820, 560, 91, 30))
+        self.label_13.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_13.setObjectName("label_13")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setGeometry(QtCore.QRect(820, 520, 81, 30))
+        self.pushButton.setObjectName("pushButton")
+        self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox_2.setGeometry(QtCore.QRect(820, 600, 471, 30))
         self.comboBox_2.setObjectName("comboBox_2")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.comboBox_2.addItem("")
-        self.verticalLayout.addWidget(self.comboBox_2)
-        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
-        self.graphicsView.setGeometry(QtCore.QRect(620, 80, 491, 461))
-        self.graphicsView.setObjectName("graphicsView")
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setGeometry(QtCore.QRect(820, 100, 131, 30))
+        self.label_4.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_4.setObjectName("label_4")
+        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox.setGeometry(QtCore.QRect(820, 60, 471, 30))
+        self.comboBox.setObjectName("comboBox")
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setGeometry(QtCore.QRect(820, 20, 91, 30))
+        self.label_3.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_3.setObjectName("label_3")
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_3.setGeometry(QtCore.QRect(1000, 520, 141, 30))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_10 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_10.setGeometry(QtCore.QRect(820, 140, 221, 30))
+        self.pushButton_10.setObjectName("pushButton_10")
+        self.label_16 = QtWidgets.QLabel(self.centralwidget)
+        self.label_16.setGeometry(QtCore.QRect(820, 480, 131, 30))
+        self.label_16.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_16.setObjectName("label_16")
+        self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_5.setGeometry(QtCore.QRect(1150, 520, 141, 30))
+        self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_11 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_11.setGeometry(QtCore.QRect(820, 640, 221, 30))
+        self.pushButton_11.setObjectName("pushButton_11")
+        self.pushButton_12 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_12.setGeometry(QtCore.QRect(1060, 640, 231, 30))
+        self.pushButton_12.setObjectName("pushButton_12")
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(820, 220, 471, 251))
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab_3 = QtWidgets.QWidget()
+        self.tab_3.setObjectName("tab_3")
+        self.label_28 = QtWidgets.QLabel(self.tab_3)
+        self.label_28.setGeometry(QtCore.QRect(10, 50, 91, 30))
+        self.label_28.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_28.setObjectName("label_28")
+        self.label_29 = QtWidgets.QLabel(self.tab_3)
+        self.label_29.setGeometry(QtCore.QRect(10, 130, 91, 30))
+        self.label_29.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_29.setObjectName("label_29")
+        self.pushButton_16 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_16.setGeometry(QtCore.QRect(240, 170, 211, 30))
+        self.pushButton_16.setObjectName("pushButton_16")
+        self.lineEdit_21 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_21.setGeometry(QtCore.QRect(120, 130, 104, 31))
+        self.lineEdit_21.setObjectName("lineEdit_21")
+        self.label_7 = QtWidgets.QLabel(self.tab_3)
+        self.label_7.setGeometry(QtCore.QRect(10, 10, 91, 30))
+        self.label_7.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_7.setObjectName("label_7")
+        self.lineEdit_22 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_22.setGeometry(QtCore.QRect(120, 10, 104, 31))
+        self.lineEdit_22.setObjectName("lineEdit_22")
+        self.lineEdit_23 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_23.setGeometry(QtCore.QRect(350, 90, 104, 31))
+        self.lineEdit_23.setObjectName("lineEdit_23")
+        self.label_30 = QtWidgets.QLabel(self.tab_3)
+        self.label_30.setGeometry(QtCore.QRect(240, 50, 91, 30))
+        self.label_30.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_30.setObjectName("label_30")
+        self.label_31 = QtWidgets.QLabel(self.tab_3)
+        self.label_31.setGeometry(QtCore.QRect(240, 90, 91, 30))
+        self.label_31.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_31.setObjectName("label_31")
+        self.lineEdit_24 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_24.setGeometry(QtCore.QRect(120, 50, 104, 31))
+        self.lineEdit_24.setObjectName("lineEdit_24")
+        self.label_32 = QtWidgets.QLabel(self.tab_3)
+        self.label_32.setGeometry(QtCore.QRect(10, 90, 91, 30))
+        self.label_32.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_32.setObjectName("label_32")
+        self.pushButton_17 = QtWidgets.QPushButton(self.tab_3)
+        self.pushButton_17.setGeometry(QtCore.QRect(10, 170, 211, 30))
+        self.pushButton_17.setObjectName("pushButton_17")
+        self.label_33 = QtWidgets.QLabel(self.tab_3)
+        self.label_33.setGeometry(QtCore.QRect(240, 130, 91, 30))
+        self.label_33.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_33.setObjectName("label_33")
+        self.lineEdit_25 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_25.setGeometry(QtCore.QRect(120, 90, 104, 31))
+        self.lineEdit_25.setObjectName("lineEdit_25")
+        self.lineEdit_26 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_26.setGeometry(QtCore.QRect(350, 130, 104, 31))
+        self.lineEdit_26.setObjectName("lineEdit_26")
+        self.lineEdit_27 = QtWidgets.QLineEdit(self.tab_3)
+        self.lineEdit_27.setGeometry(QtCore.QRect(350, 50, 104, 31))
+        self.lineEdit_27.setObjectName("lineEdit_27")
+        self.radioButton_5 = QtWidgets.QRadioButton(self.tab_3)
+        self.radioButton_5.setGeometry(QtCore.QRect(240, 15, 112, 23))
+        self.radioButton_5.setObjectName("radioButton_5")
+        self.radioButton_6 = QtWidgets.QRadioButton(self.tab_3)
+        self.radioButton_6.setGeometry(QtCore.QRect(350, 15, 112, 23))
+        self.radioButton_6.setObjectName("radioButton_6")
+        self.tabWidget.addTab(self.tab_3, "")
+        self.tab_4 = QtWidgets.QWidget()
+        self.tab_4.setObjectName("tab_4")
+        self.lineEdit_28 = QtWidgets.QLineEdit(self.tab_4)
+        self.lineEdit_28.setGeometry(QtCore.QRect(350, 50, 104, 31))
+        self.lineEdit_28.setObjectName("lineEdit_28")
+        self.label_34 = QtWidgets.QLabel(self.tab_4)
+        self.label_34.setGeometry(QtCore.QRect(240, 50, 91, 30))
+        self.label_34.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_34.setObjectName("label_34")
+        self.lineEdit_29 = QtWidgets.QLineEdit(self.tab_4)
+        self.lineEdit_29.setGeometry(QtCore.QRect(120, 10, 104, 31))
+        self.lineEdit_29.setObjectName("lineEdit_29")
+        self.lineEdit_30 = QtWidgets.QLineEdit(self.tab_4)
+        self.lineEdit_30.setGeometry(QtCore.QRect(350, 90, 104, 31))
+        self.lineEdit_30.setObjectName("lineEdit_30")
+        self.pushButton_18 = QtWidgets.QPushButton(self.tab_4)
+        self.pushButton_18.setGeometry(QtCore.QRect(125, 170, 211, 30))
+        self.pushButton_18.setObjectName("pushButton_18")
+        self.label_35 = QtWidgets.QLabel(self.tab_4)
+        self.label_35.setGeometry(QtCore.QRect(10, 50, 91, 30))
+        self.label_35.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_35.setObjectName("label_35")
+        self.label_36 = QtWidgets.QLabel(self.tab_4)
+        self.label_36.setGeometry(QtCore.QRect(240, 90, 91, 30))
+        self.label_36.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_36.setObjectName("label_36")
+        self.label_37 = QtWidgets.QLabel(self.tab_4)
+        self.label_37.setGeometry(QtCore.QRect(10, 10, 91, 30))
+        self.label_37.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_37.setObjectName("label_37")
+        self.lineEdit_31 = QtWidgets.QLineEdit(self.tab_4)
+        self.lineEdit_31.setGeometry(QtCore.QRect(120, 50, 104, 31))
+        self.lineEdit_31.setObjectName("lineEdit_31")
+        self.lineEdit_32 = QtWidgets.QLineEdit(self.tab_4)
+        self.lineEdit_32.setGeometry(QtCore.QRect(120, 90, 104, 31))
+        self.lineEdit_32.setObjectName("lineEdit_32")
+        self.label_38 = QtWidgets.QLabel(self.tab_4)
+        self.label_38.setGeometry(QtCore.QRect(10, 90, 91, 30))
+        self.label_38.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_38.setObjectName("label_38")
+        self.radioButton_7 = QtWidgets.QRadioButton(self.tab_4)
+        self.radioButton_7.setGeometry(QtCore.QRect(240, 15, 112, 23))
+        self.radioButton_7.setObjectName("radioButton_7")
+        self.radioButton_8 = QtWidgets.QRadioButton(self.tab_4)
+        self.radioButton_8.setGeometry(QtCore.QRect(350, 15, 112, 23))
+        self.radioButton_8.setObjectName("radioButton_8")
+        self.comboBox_4 = QtWidgets.QComboBox(self.tab_4)
+        self.comboBox_4.setGeometry(QtCore.QRect(10, 130, 441, 30))
+        self.comboBox_4.setObjectName("comboBox_4")
+        self.comboBox_4.addItem("")
+        self.comboBox_4.addItem("")
+        self.tabWidget.addTab(self.tab_4, "")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(530, 0, 111, 31))
+        self.label_5.setGeometry(QtCore.QRect(820, 180, 131, 30))
+        self.label_5.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
         self.label_5.setObjectName("label_5")
-        self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_7.setGeometry(QtCore.QRect(690, 600, 121, 41))
-        self.pushButton_7.setObjectName("pushButton_7")
-        self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_8.setGeometry(QtCore.QRect(930, 600, 121, 41))
-        self.pushButton_8.setObjectName("pushButton_8")
-        self.line = QtWidgets.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(20, 650, 521, 20))
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.line_2 = QtWidgets.QFrame(self.centralwidget)
-        self.line_2.setGeometry(QtCore.QRect(20, 50, 521, 20))
-        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_2.setObjectName("line_2")
-        self.line_3 = QtWidgets.QFrame(self.centralwidget)
-        self.line_3.setGeometry(QtCore.QRect(10, 60, 20, 601))
-        self.line_3.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_3.setObjectName("line_3")
-        self.line_4 = QtWidgets.QFrame(self.centralwidget)
-        self.line_4.setGeometry(QtCore.QRect(530, 60, 20, 601))
-        self.line_4.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_4.setObjectName("line_4")
-        self.line_5 = QtWidgets.QFrame(self.centralwidget)
-        self.line_5.setGeometry(QtCore.QRect(600, 50, 531, 20))
-        self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_5.setObjectName("line_5")
-        self.line_6 = QtWidgets.QFrame(self.centralwidget)
-        self.line_6.setGeometry(QtCore.QRect(600, 550, 531, 20))
-        self.line_6.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_6.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_6.setObjectName("line_6")
-        self.line_7 = QtWidgets.QFrame(self.centralwidget)
-        self.line_7.setGeometry(QtCore.QRect(590, 60, 20, 501))
-        self.line_7.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_7.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_7.setObjectName("line_7")
-        self.line_8 = QtWidgets.QFrame(self.centralwidget)
-        self.line_8.setGeometry(QtCore.QRect(1120, 60, 20, 501))
-        self.line_8.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_8.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_8.setObjectName("line_8")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1184, 28))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1315, 28))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -158,39 +339,52 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Scene"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "scene1"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "scene2"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "scene3"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "scene4"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "scene5"))
-        self.radioButton.setText(_translate("MainWindow", "Default Generator"))
-        self.radioButton_2.setText(_translate("MainWindow", "Semi-automatic Generator"))
-        self.label_2.setText(_translate("MainWindow", "Agent Number"))
-        self.pushButton.setText(_translate("MainWindow", "Random Generator"))
-        self.pushButton_2.setText(_translate("MainWindow", "Equal Distance Generator"))
-        self.radioButton_3.setText(_translate("MainWindow", "manual Generator"))
-        self.pushButton_4.setText(_translate("MainWindow", "Generator Region"))
-        self.pushButton_6.setText(_translate("MainWindow", "Safe Region"))
-        self.pushButton_5.setText(_translate("MainWindow", "Wall"))
-        self.pushButton_3.setText(_translate("MainWindow", "Agent"))
-        self.label_3.setText(_translate("MainWindow", "Model"))
-        self.comboBox_2.setItemText(0, _translate("MainWindow", "ANN"))
-        self.comboBox_2.setItemText(1, _translate("MainWindow", "SFC"))
-        self.comboBox_2.setItemText(2, _translate("MainWindow", "Real-life"))
-        self.comboBox_2.setItemText(3, _translate("MainWindow", "LSTM"))
-        self.label_5.setText(_translate("MainWindow", "Settting Menu"))
-        self.pushButton_7.setText(_translate("MainWindow", "Comfirm"))
-        self.pushButton_8.setText(_translate("MainWindow", "Cancel"))
+        self.pushButton_2.setText(_translate("MainWindow", "Wall"))
+        self.label_13.setText(_translate("MainWindow", "Model"))
+        self.pushButton.setText(_translate("MainWindow", "Agent"))
+        self.label_4.setText(_translate("MainWindow", "Default Generate"))
+        self.label_3.setText(_translate("MainWindow", "Scene"))
+        self.pushButton_3.setText(_translate("MainWindow", "Generate Region"))
+        self.pushButton_10.setText(_translate("MainWindow", "Default Generate"))
+        self.label_16.setText(_translate("MainWindow", "Manual Generate"))
+        self.pushButton_5.setText(_translate("MainWindow", "Safe Region"))
+        self.pushButton_11.setText(_translate("MainWindow", "Confirm"))
+        self.pushButton_12.setText(_translate("MainWindow", "Cancel"))
+        self.label_28.setText(_translate("MainWindow", "Radius"))
+        self.label_29.setText(_translate("MainWindow", "Length"))
+        self.pushButton_16.setText(_translate("MainWindow", "Random Generate"))
+        self.lineEdit_21.setText(_translate("MainWindow", "100"))
+        self.label_7.setText(_translate("MainWindow", "Number"))
+        self.lineEdit_22.setText(_translate("MainWindow", "10"))
+        self.lineEdit_23.setText(_translate("MainWindow", "200"))
+        self.label_30.setText(_translate("MainWindow", "Interval"))
+        self.label_31.setText(_translate("MainWindow", "Y"))
+        self.lineEdit_24.setText(_translate("MainWindow", "2"))
+        self.label_32.setText(_translate("MainWindow", "X"))
+        self.pushButton_17.setText(_translate("MainWindow", "Grid Generate"))
+        self.label_33.setText(_translate("MainWindow", "Width"))
+        self.lineEdit_25.setText(_translate("MainWindow", "500"))
+        self.lineEdit_26.setText(_translate("MainWindow", "50"))
+        self.lineEdit_27.setText(_translate("MainWindow", "10"))
+        self.radioButton_5.setText(_translate("MainWindow", "Circle"))
+        self.radioButton_6.setText(_translate("MainWindow", "Eilppse"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Pesdes"))
+        self.label_34.setText(_translate("MainWindow", "Y"))
+        self.pushButton_18.setText(_translate("MainWindow", "Random Generate"))
+        self.label_35.setText(_translate("MainWindow", "X"))
+        self.label_36.setText(_translate("MainWindow", "Width"))
+        self.label_37.setText(_translate("MainWindow", "Radius"))
+        self.label_38.setText(_translate("MainWindow", "Length"))
+        self.radioButton_7.setText(_translate("MainWindow", "Wall"))
+        self.radioButton_8.setText(_translate("MainWindow", "Safe Region"))
+        self.comboBox_4.setItemText(0, _translate("MainWindow", "Circle"))
+        self.comboBox_4.setItemText(1, _translate("MainWindow", "Box"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Item"))
+        self.label_5.setText(_translate("MainWindow", "Semi-Generate"))
 
-    def handle_click(self):
-        if not self.isVisible():
-            self.show()
-
-    def handle_close(self):
-        self.close()

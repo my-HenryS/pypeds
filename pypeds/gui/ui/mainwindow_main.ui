@@ -6,141 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1158</width>
-    <height>874</height>
+    <width>1293</width>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>580</y>
-      <width>71</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Position_x</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line_12">
-    <property name="geometry">
-     <rect>
-      <x>710</x>
-      <y>500</y>
-      <width>20</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_9">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>620</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Velocity_y</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line_9">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>800</y>
-      <width>691</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_15">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>660</y>
-      <width>116</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Average Speed    </string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_14">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>660</y>
-      <width>108</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Time of running</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line_10">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>490</y>
-      <width>691</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>710</y>
-      <width>651</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_3">
-     <item row="1" column="0">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QToolButton" name="toolButton">
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>TraceCSVSaving</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>50</y>
-      <width>1061</width>
-      <height>401</height>
+      <x>20</x>
+      <y>20</y>
+      <width>781</width>
+      <height>651</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -151,386 +31,177 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1059</width>
-       <height>399</height>
+       <width>779</width>
+       <height>649</height>
       </rect>
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QPushButton" name="pushButton_11">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>620</y>
-      <width>68</width>
-      <height>29</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>velocity_x</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_3">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>520</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Agent</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_3">
-       <item>
-        <property name="text">
-         <string>1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>3</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>6</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>7</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>8</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>9</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>10</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="Line" name="line_11">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>500</y>
-      <width>20</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>580</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Position_y</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line_13">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>460</y>
-      <width>1101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_14">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>1101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>20</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_2">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>30</y>
-      <width>20</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>550</y>
-      <width>141</width>
-      <height>61</height>
+      <x>940</x>
+      <y>560</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
      <string>Setting</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="pushButton_12">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>620</y>
-      <width>141</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Run</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_3">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>690</y>
-      <width>141</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Termination</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_4">
-    <property name="geometry">
-     <rect>
-      <x>960</x>
-      <y>620</y>
-      <width>141</width>
-      <height>61</height>
+      <x>1060</x>
+      <y>600</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
      <string>Pause</string>
     </property>
    </widget>
-   <widget class="Line" name="line_3">
+   <widget class="QPushButton" name="pushButton_13">
     <property name="geometry">
      <rect>
-      <x>733</x>
-      <y>500</y>
-      <width>20</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_4">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>490</y>
-      <width>391</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_5">
-    <property name="geometry">
-     <rect>
-      <x>740</x>
-      <y>800</y>
-      <width>391</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="Line" name="line_6">
-    <property name="geometry">
-     <rect>
-      <x>1120</x>
-      <y>500</y>
-      <width>20</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>580</y>
-      <width>131</width>
-      <height>31</height>
+      <x>820</x>
+      <y>600</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Run</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QPushButton" name="pushButton_14">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>620</y>
-      <width>131</width>
-      <height>31</height>
+      <x>940</x>
+      <y>640</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Skip</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>660</y>
-      <width>131</width>
-      <height>31</height>
+      <x>820</x>
+      <y>20</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
     <property name="text">
-     <string/>
+     <string>Average Velocity</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>660</y>
-      <width>131</width>
-      <height>31</height>
+      <x>1060</x>
+      <y>20</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Running Time</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_11">
+   <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>620</y>
-      <width>131</width>
-      <height>31</height>
+      <x>820</x>
+      <y>60</y>
+      <width>211</width>
+      <height>30</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>60</y>
+      <width>211</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>100</y>
+      <width>211</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
     </property>
     <property name="text">
-     <string/>
+     <string>Velocity Control</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_12">
+   <widget class="QSlider" name="horizontalSlider">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>580</y>
-      <width>131</width>
-      <height>31</height>
+      <x>820</x>
+      <y>140</y>
+      <width>451</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>520</y>
-      <width>361</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label_13">
-       <property name="text">
-        <string>Speed</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSlider" name="horizontalSlider">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLCDNumber" name="lcdNumber"/>
-     </item>
-    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -538,7 +209,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1158</width>
+     <width>1293</width>
      <height>28</height>
     </rect>
    </property>

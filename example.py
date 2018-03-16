@@ -5,6 +5,7 @@ from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.scene import Scene
 from pypeds.shape2d import *
 from pypeds.gui.panel import *
+from pypeds.gui.ui.mainwindow_main import *
 from pypeds.example.generator import *
 from pypeds.gui.ui.mainwindow import *
 from PyQt5 import QtWidgets
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     scene = Scene()
     model = SFModel(0.0001)
     scene.model = model
-    s = Ui_MainWindow()
+    s = Ui_MainWindow_Main()
     panel = Panel(s, "Simulation")
     scene.add_listener(panel)
     scene.add_listener(PedestrianEscapeListener())
