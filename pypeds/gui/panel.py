@@ -101,6 +101,16 @@ class MainWindow(Ui_MainWindow_Main):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+    def Average_velocity(self):
+        if self.scene == None:
+            return "0.00"
+        else:
+            print(2)
+            for member in self.scene._entities.select_by_type(Agent):
+                print(1)
+                sum_velocity = sum_velocity + math.sqrt(member.velocity[0] ** 2 + member.velocity[1] ** 2)
+            return sum_velocity / len(self.scene._entities.select_by_type(Agent))
+
     @property
     def scene(self):
         return self.panel.scene
@@ -202,9 +212,9 @@ class SettingWindow(Ui_MainWindow_Setting):
                     Point2D(int(self.lineEdit_31.text()), int(self.lineEdit_28.text())), int(self.lineEdit_32.text()),
                     int(self.lineEdit_30.text())))
         if self.radioButton_8.isChecked():
-            if self.comboBox_4.currentText()=="Circle":
+            if self.comboBox_4.currentText() == "Circle":
                 print("the project has not complete!")
-            if self.comboBox_4.currentText()=="Box":
+            if self.comboBox_4.currentText() == "Box":
                 print("the project has not complete!")
 
 
@@ -241,6 +251,7 @@ class PaintArea(QWidget):
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
+
         if isinstance(self.window, SettingWindow):
             for entity in self.window.mainwindow.scene._entities:
                 if isinstance(entity.shape, Circle2D):
@@ -249,6 +260,8 @@ class PaintArea(QWidget):
                     Box2DDrawer(self.painter).draw(entity.shape)
         if isinstance(self.window, MainWindow) and self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
+            # for Agent in self.scene._entities.select_by_type(Movable):
+            #     print(Agent.velocity)
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):

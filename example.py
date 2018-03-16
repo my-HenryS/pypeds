@@ -1,13 +1,9 @@
 from pypeds.example.model.sfmodel import SFModel
-from pypeds.example.entity import *
-from pypeds.example.listener import PedestrianEscapeListener
+from pypeds.example.listener import *
 from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.scene import Scene
-from pypeds.shape2d import *
 from pypeds.gui.panel import *
 from pypeds.gui.ui.mainwindow_main import *
-from pypeds.example.generator import *
-from pypeds.gui.ui.mainwindow import *
 from PyQt5 import QtWidgets
 import sys
 import qdarkstyle
@@ -22,7 +18,9 @@ if __name__ == "__main__":
     panel = Panel(s, "Simulation")
     scene.add_listener(panel)
     scene.add_listener(PedestrianEscapeListener())
-    scene.add_listener(NearestGoalStrategy())
+    scene.add_listener(NearestGoalStrategy(panel.window.settingwindow))
+    scene.add_listener(Average_velocity(panel.window))
+    scene.add_listener(timer(panel.window))
     panel.show()
     app.exec_()
     scene.stop()

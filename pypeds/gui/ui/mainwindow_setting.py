@@ -324,6 +324,48 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "\n"
 "}")
         self.label_5.setObjectName("label_5")
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(1060, 100, 131, 30))
+        self.label_6.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_6.setObjectName("label_6")
+        self.label_39 = QtWidgets.QLabel(self.centralwidget)
+        self.label_39.setGeometry(QtCore.QRect(1060, 140, 91, 30))
+        self.label_39.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_39.setObjectName("label_39")
+        self.label_40 = QtWidgets.QLabel(self.centralwidget)
+        self.label_40.setGeometry(QtCore.QRect(1060, 180, 91, 30))
+        self.label_40.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_40.setObjectName("label_40")
+        self.lineEdit_33 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_33.setGeometry(QtCore.QRect(1170, 140, 104, 31))
+        self.lineEdit_33.setObjectName("lineEdit_33")
+        self.lineEdit_34 = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_34.setGeometry(QtCore.QRect(1170, 180, 104, 31))
+        self.lineEdit_34.setObjectName("lineEdit_34")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1315, 28))
@@ -334,7 +376,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -387,4 +429,9 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_4.setItemText(1, _translate("MainWindow", "Box"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "Item"))
         self.label_5.setText(_translate("MainWindow", "Semi-Generate"))
+        self.label_6.setText(_translate("MainWindow", "Setting Goal"))
+        self.label_39.setText(_translate("MainWindow", "X"))
+        self.label_40.setText(_translate("MainWindow", "Y"))
+        self.lineEdit_33.setText(_translate("MainWindow", "200"))
+        self.lineEdit_34.setText(_translate("MainWindow", "200"))
 
