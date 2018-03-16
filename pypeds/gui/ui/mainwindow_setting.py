@@ -9,11 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(Ui_MainWindow_Setting, self).__init__()
-        self.setupUi(self)
-        self.retranslateUi(self)
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1315, 732)
@@ -339,7 +334,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -375,11 +370,16 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.radioButton_5.setText(_translate("MainWindow", "Circle"))
         self.radioButton_6.setText(_translate("MainWindow", "Eilppse"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Pesdes"))
+        self.lineEdit_28.setText(_translate("MainWindow", "200"))
         self.label_34.setText(_translate("MainWindow", "Y"))
-        self.pushButton_18.setText(_translate("MainWindow", "Random Generate"))
+        self.lineEdit_29.setText(_translate("MainWindow", "10"))
+        self.lineEdit_30.setText(_translate("MainWindow", "50"))
+        self.pushButton_18.setText(_translate("MainWindow", "Item Generate"))
         self.label_35.setText(_translate("MainWindow", "X"))
         self.label_36.setText(_translate("MainWindow", "Width"))
         self.label_37.setText(_translate("MainWindow", "Radius"))
+        self.lineEdit_31.setText(_translate("MainWindow", "200"))
+        self.lineEdit_32.setText(_translate("MainWindow", "50"))
         self.label_38.setText(_translate("MainWindow", "Length"))
         self.radioButton_7.setText(_translate("MainWindow", "Wall"))
         self.radioButton_8.setText(_translate("MainWindow", "Safe Region"))

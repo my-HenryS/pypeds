@@ -166,6 +166,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.pushButton_12.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_16.clicked.connect(self.random_generate)
         self.pushButton_17.clicked.connect(self.grid_generate)
+        self.pushButton_18.clicked.connect(self.item_generate)
 
     def center(self):
         """
@@ -193,8 +194,20 @@ class SettingWindow(Ui_MainWindow_Setting):
 
     def item_generate(self):
         if self.radioButton_7.isChecked():
-            self.generator(self.mainwindow.scene).item_generate(Wall,)
-        # pass
+            if self.comboBox_4.currentText() == "Circle":
+                self.generator(self.mainwindow.scene).item_generate(Wall, Circle2D(
+                    Point2D(int(self.lineEdit_31.text()), int(self.lineEdit_28.text())), int(self.lineEdit_29.text())))
+            if self.comboBox_4.currentText() == "Box":
+                self.generator(self.mainwindow.scene).item_generate(Wall, Box2D(
+                    Point2D(int(self.lineEdit_31.text()), int(self.lineEdit_28.text())), int(self.lineEdit_32.text()),
+                    int(self.lineEdit_30.text())))
+        if self.radioButton_8.isChecked():
+            if self.comboBox_4.currentText()=="Circle":
+                print("the project has not complete!")
+            if self.comboBox_4.currentText()=="Box":
+                print("the project has not complete!")
+
+
 class PaintArea(QWidget):
     """
     A paint area that shows the whole scene
@@ -234,10 +247,6 @@ class PaintArea(QWidget):
                     Circle2DDrawer(self.painter).draw(entity.shape)
                 if isinstance(entity.shape, Box2D):
                     Box2DDrawer(self.painter).draw(entity.shape)
-                # Circle2DDrawer()
-        # drawer_test = Circle2DDrawer(self.painter)
-        # drawer_test.draw(Circle2D(Point2D(50, 50), 2))
-        # self.window.generator.generate_show
         if isinstance(self.window, MainWindow) and self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
         self.painter.end()

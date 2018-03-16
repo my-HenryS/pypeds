@@ -618,6 +618,9 @@
         <height>31</height>
        </rect>
       </property>
+      <property name="text">
+       <string>200</string>
+      </property>
      </widget>
      <widget class="QLabel" name="label_34">
       <property name="geometry">
@@ -655,6 +658,9 @@
         <height>31</height>
        </rect>
       </property>
+      <property name="text">
+       <string>10</string>
+      </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_30">
       <property name="geometry">
@@ -664,6 +670,9 @@
         <width>104</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>50</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButton_18">
@@ -676,7 +685,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Random Generate</string>
+       <string>Item Generate</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_35">
@@ -769,6 +778,9 @@
         <height>31</height>
        </rect>
       </property>
+      <property name="text">
+       <string>200</string>
+      </property>
      </widget>
      <widget class="QLineEdit" name="lineEdit_32">
       <property name="geometry">
@@ -778,6 +790,9 @@
         <width>104</width>
         <height>31</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>50</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_38">
