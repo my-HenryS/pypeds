@@ -1,12 +1,11 @@
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
-from PyQt5.QtGui import *
 from pypeds.gui.ui.mainwindow_setting import *
 from pypeds.gui.ui.mainwindow_main import *
 from PyQt5.QtWidgets import *
 from pypeds.gui.ui.mainwindow import *
 from pypeds.scene import SceneListener
 from pypeds.example.generator import *
-import time
+from pypeds.pool import *
 
 
 class Panel(SceneListener):
@@ -14,7 +13,7 @@ class Panel(SceneListener):
     Wraps window class with scene listener. panel--window has a 1-to-1 relationship
     """
 
-    def __init__(self, ui, title="", fps=16):
+    def __init__(self, title="", fps=16):
         super().__init__()
 
         self.default_drawer_register = True
@@ -26,7 +25,7 @@ class Panel(SceneListener):
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.
         And call add_drawer_support() to register entities and shapes with drawer in self.scene.
-        Shall be called after assigned a listening scene.
+        Shall be called after assigned a listening scene.1
         Set drawer_register's device to self.painter
         :param drawer_register: a scene_drawer_register
         """
@@ -67,7 +66,7 @@ class MainWindow(Ui_MainWindow_Main):
     Extends UI class with window and drawer methods
     """
 
-    def __init__(self, panel, title, fps):
+    def __init__(self, panel, title, fps=16):
         super().__init__()
         self._translate = QtCore.QCoreApplication.translate
         self.setupUi(self)
@@ -88,9 +87,6 @@ class MainWindow(Ui_MainWindow_Main):
         self.pushButton_12.setEnabled(False)
         self.pushButton_14.setEnabled(False)
         self.horizontalSlider.valueChanged.connect(self.velocity_change)
-        # self.pushButton_8.clicked.connect(self.grid_generate)
-        # self.pushButton_9.clicked.connect(self.random_generate)
-        # self.pushButton_10.clicked.connect(self.default_generate)
 
     def center(self):
         """
@@ -100,16 +96,6 @@ class MainWindow(Ui_MainWindow_Main):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-    def Average_velocity(self):
-        if self.scene == None:
-            return "0.00"
-        else:
-            print(2)
-            for member in self.scene._entities.select_by_type(Agent):
-                print(1)
-                sum_velocity = sum_velocity + math.sqrt(member.velocity[0] ** 2 + member.velocity[1] ** 2)
-            return sum_velocity / len(self.scene._entities.select_by_type(Agent))
 
     @property
     def scene(self):
@@ -177,6 +163,15 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.pushButton_16.clicked.connect(self.random_generate)
         self.pushButton_17.clicked.connect(self.grid_generate)
         self.pushButton_18.clicked.connect(self.item_generate)
+        self.pushButton_19.clicked.connect(self.remove_all_entity)
+
+    @property
+    def scene(self):
+        return self.mainwindow.scene
+
+    @property
+    def painter(self):
+        return self.area.painter
 
     def center(self):
         """
@@ -192,17 +187,29 @@ class SettingWindow(Ui_MainWindow_Setting):
             self.show()
 
     def grid_generate(self):
+        """
+        use the setting window to generate the pedes in grid way
+        :return: pedes generated in grid way
+        """
         self.generator(self.mainwindow.scene).grid_generate(
             Box2D(Point2D(int(self.lineEdit_25.text()), int(self.lineEdit_23.text())), int(self.lineEdit_21.text()),
                   int(self.lineEdit_26.text())), int(self.lineEdit_22.text()), int(self.lineEdit_24.text()),
             int(self.lineEdit_27.text()))
 
     def random_generate(self):
+        """
+        use the setting window to generate the pedes in random way
+        :return: pedes generated in random way
+        """
         self.generator(self.mainwindow.scene).random_generate(
             Box2D(Point2D(int(self.lineEdit_25.text()), int(self.lineEdit_23.text())), int(self.lineEdit_21.text()),
                   int(self.lineEdit_26.text())), int(self.lineEdit_22.text()), int(self.lineEdit_24.text()))
 
     def item_generate(self):
+        """
+        use the setting window to generate the item
+        :return:
+        """
         if self.radioButton_7.isChecked():
             if self.comboBox_4.currentText() == "Circle":
                 self.generator(self.mainwindow.scene).item_generate(Wall, Circle2D(
@@ -216,6 +223,13 @@ class SettingWindow(Ui_MainWindow_Setting):
                 print("the project has not complete!")
             if self.comboBox_4.currentText() == "Box":
                 print("the project has not complete!")
+
+    def remove_all_entity(self):
+        """
+        use the setting window to remove the entities in the entityPool
+        :return:
+        """
+        self.mainwindow.scene._entities = EntityPool()
 
 
 class PaintArea(QWidget):
@@ -251,7 +265,10 @@ class PaintArea(QWidget):
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
-
+        # for x in self.scene._listeners:
+        #     if isinstance(x,Panel):
+        #         print(x.__class__)
+        print(self.window)
         if isinstance(self.window, SettingWindow):
             for entity in self.window.mainwindow.scene._entities:
                 if isinstance(entity.shape, Circle2D):
@@ -260,8 +277,6 @@ class PaintArea(QWidget):
                     Box2DDrawer(self.painter).draw(entity.shape)
         if isinstance(self.window, MainWindow) and self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
-            # for Agent in self.scene._entities.select_by_type(Movable):
-            #     print(Agent.velocity)
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):

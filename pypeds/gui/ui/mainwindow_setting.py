@@ -366,6 +366,9 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_34 = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_34.setGeometry(QtCore.QRect(1170, 180, 104, 31))
         self.lineEdit_34.setObjectName("lineEdit_34")
+        self.pushButton_19 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_19.setGeometry(QtCore.QRect(1080, 20, 211, 30))
+        self.pushButton_19.setObjectName("pushButton_19")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1315, 28))
@@ -376,7 +379,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -432,6 +435,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.label_6.setText(_translate("MainWindow", "Setting Goal"))
         self.label_39.setText(_translate("MainWindow", "X"))
         self.label_40.setText(_translate("MainWindow", "Y"))
-        self.lineEdit_33.setText(_translate("MainWindow", "200"))
-        self.lineEdit_34.setText(_translate("MainWindow", "200"))
+        self.lineEdit_33.setText(_translate("MainWindow", "10"))
+        self.lineEdit_34.setText(_translate("MainWindow", "10"))
+        self.pushButton_19.setText(_translate("MainWindow", "Remove all entity"))
 
