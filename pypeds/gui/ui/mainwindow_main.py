@@ -9,11 +9,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow_Main(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(Ui_MainWindow_Main, self).__init__()
-        self.setupUi(self)
-        self.retranslateUi(self)
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1293, 732)
@@ -40,7 +35,7 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.pushButton_14.setGeometry(QtCore.QRect(940, 640, 211, 30))
         self.pushButton_14.setObjectName("pushButton_14")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(820, 20, 211, 30))
+        self.label_3.setGeometry(QtCore.QRect(820, 110, 211, 30))
         self.label_3.setStyleSheet("QLabel{\n"
 "\n"
 "     border-width: 1px;\n"
@@ -52,7 +47,7 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
 "}")
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(1060, 20, 211, 30))
+        self.label_4.setGeometry(QtCore.QRect(1060, 110, 211, 30))
         self.label_4.setStyleSheet("QLabel{\n"
 "\n"
 "     border-width: 1px;\n"
@@ -64,13 +59,13 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
 "}")
         self.label_4.setObjectName("label_4")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(820, 60, 211, 30))
+        self.lineEdit.setGeometry(QtCore.QRect(820, 150, 211, 30))
         self.lineEdit.setObjectName("lineEdit")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(1060, 60, 211, 30))
+        self.lineEdit_2.setGeometry(QtCore.QRect(1060, 150, 211, 30))
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(820, 100, 211, 30))
+        self.label_5.setGeometry(QtCore.QRect(820, 190, 211, 30))
         self.label_5.setStyleSheet("QLabel{\n"
 "\n"
 "     border-width: 1px;\n"
@@ -82,9 +77,24 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
 "}")
         self.label_5.setObjectName("label_5")
         self.horizontalSlider = QtWidgets.QSlider(self.centralwidget)
-        self.horizontalSlider.setGeometry(QtCore.QRect(820, 140, 451, 16))
+        self.horizontalSlider.setGeometry(QtCore.QRect(820, 230, 451, 16))
         self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider.setObjectName("horizontalSlider")
+        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox.setGeometry(QtCore.QRect(820, 70, 451, 30))
+        self.comboBox.setObjectName("comboBox")
+        self.label_6 = QtWidgets.QLabel(self.centralwidget)
+        self.label_6.setGeometry(QtCore.QRect(820, 30, 91, 30))
+        self.label_6.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_6.setObjectName("label_6")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1293, 28))
@@ -107,4 +117,5 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.label_3.setText(_translate("MainWindow", "Average Velocity"))
         self.label_4.setText(_translate("MainWindow", "Running Time"))
         self.label_5.setText(_translate("MainWindow", "Velocity Control"))
+        self.label_6.setText(_translate("MainWindow", "Scene"))
 

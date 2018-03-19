@@ -1,11 +1,15 @@
+from pypeds.scene import *
+from pypeds.gui.ui.mainwindow_main import Ui_MainWindow_Main
+from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
-from pypeds.gui.ui.mainwindow_setting import *
-from pypeds.gui.ui.mainwindow_main import *
-from PyQt5.QtWidgets import *
-from pypeds.gui.ui.mainwindow import *
-from pypeds.scene import SceneListener
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QDesktopWidget
 from pypeds.example.generator import *
-from pypeds.pool import *
+from pypeds.example.model.sfmodel import SFModel
+from PyQt5.QtWidgets import QWidget
+from PyQt5 import QtGui
+from pypeds.example.strategy import NearestGoalStrategy
+from pypeds.example.listener import PedestrianEscapeListener, Average_velocity, timer
 
 
 class Panel(SceneListener):
@@ -13,13 +17,13 @@ class Panel(SceneListener):
     Wraps window class with scene listener. panel--window has a 1-to-1 relationship
     """
 
-    def __init__(self, title="", fps=16):
+    def __init__(self, window, title="", fps=16):
         super().__init__()
 
         self.default_drawer_register = True
         self.drawer_register = None
 
-        self.window = MainWindow(self, title, fps)
+        self.window = window
         self.painter = self.window.painter
 
     def register_drawer(self, drawer_register):
@@ -57,8 +61,8 @@ class Panel(SceneListener):
     def on_removed(self):
         pass
 
-    def show(self):
-        self.window.show()
+    # def show(self):
+    #     self.window.show()
 
 
 class MainWindow(Ui_MainWindow_Main):
@@ -66,18 +70,19 @@ class MainWindow(Ui_MainWindow_Main):
     Extends UI class with window and drawer methods
     """
 
-    def __init__(self, panel, title, fps=16):
+    def __init__(self, title, fps=16):
         super().__init__()
         self._translate = QtCore.QCoreApplication.translate
         self.setupUi(self)
         self.setWindowTitle(title)
         self.center()
-        self.panel = panel
         self.retranslateUi(self)
-        self.settingwindow = SettingWindow("Setting", 16, self)
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.panel = Panel(self)
+        self.settingwindow = SettingWindow("Setting", 16, self)
+        self.scenePool=self.settingwindow.scenePool
         self.enable = False
         self.pause_flag = False
         self.pushButton_11.clicked.connect(self.hide)
@@ -115,6 +120,7 @@ class MainWindow(Ui_MainWindow_Main):
             return
 
         if self.enable == True:
+            self.scene.stop()
             self.pushButton_13.setText(self._translate("MainWindow", "Run"))
             self.pushButton_12.setEnabled(False)
             self.pushButton_12.setText(self._translate("MainWindow", "Pause"))
@@ -153,9 +159,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.retranslateUi(self)
         self.generator = Generator
         self.mainwindow = mainwindow
+        self.scenePool = []
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.panel=self.mainwindow.panel
         self.pushButton_11.clicked.connect(self.hide)
         self.pushButton_11.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_12.clicked.connect(self.hide)
@@ -164,6 +172,8 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.pushButton_17.clicked.connect(self.grid_generate)
         self.pushButton_18.clicked.connect(self.item_generate)
         self.pushButton_19.clicked.connect(self.remove_all_entity)
+        self.pushButton_20.clicked.connect(self.create_scene)
+        # self.comboBox.connect(self.scene_select)
 
     @property
     def scene(self):
@@ -172,6 +182,16 @@ class SettingWindow(Ui_MainWindow_Setting):
     @property
     def painter(self):
         return self.area.painter
+
+    def create_scene(self):
+        scene = Scene()
+        scene.model = SFModel(0.0001)
+        scene.add_listener(PedestrianEscapeListener())
+        scene.add_listener(Average_velocity())
+        scene.add_listener(timer())
+        scene.add_listener(NearestGoalStrategy())
+        self.scenePool.append(scene)
+        self.comboBox.addItem(scene.getName())
 
     def center(self):
         """
@@ -191,7 +211,8 @@ class SettingWindow(Ui_MainWindow_Setting):
         use the setting window to generate the pedes in grid way
         :return: pedes generated in grid way
         """
-        self.generator(self.mainwindow.scene).grid_generate(
+        # print(type(self.scene_selected[0]))
+        self.generator([x for x in self.scenePool if x.getName()==self.comboBox.currentText()][0]).grid_generate(
             Box2D(Point2D(int(self.lineEdit_25.text()), int(self.lineEdit_23.text())), int(self.lineEdit_21.text()),
                   int(self.lineEdit_26.text())), int(self.lineEdit_22.text()), int(self.lineEdit_24.text()),
             int(self.lineEdit_27.text()))
@@ -265,17 +286,16 @@ class PaintArea(QWidget):
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
-        # for x in self.scene._listeners:
-        #     if isinstance(x,Panel):
-        #         print(x.__class__)
-        print(self.window)
-        if isinstance(self.window, SettingWindow):
+        if [x for x in self.window.scenePool if x.getName()==self.window.comboBox.currentText()]!=[]:
+            [x for x in self.window.scenePool if x.getName() == self.window.comboBox.currentText()][0].add_listener(self.window.panel)
+        if isinstance(self.window, SettingWindow) and self.scene is not None:
+            # print("1")
             for entity in self.window.mainwindow.scene._entities:
                 if isinstance(entity.shape, Circle2D):
                     Circle2DDrawer(self.painter).draw(entity.shape)
                 if isinstance(entity.shape, Box2D):
                     Box2DDrawer(self.painter).draw(entity.shape)
-        if isinstance(self.window, MainWindow) and self.scene.drawer is not None:
+        if isinstance(self.window, MainWindow) and self.scene is not None and self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
         self.painter.end()
 

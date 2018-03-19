@@ -1,6 +1,5 @@
 from pypeds.shape2d import Point2D
 from pypeds.strategy import Strategy, Path
-from pypeds.gui.panel import *
 
 
 class NearestGoalStrategy(Strategy):
@@ -9,6 +8,7 @@ class NearestGoalStrategy(Strategy):
         """
         Set agents' paths on scene begin
         """
+        from pypeds.gui.panel import Panel
         for agent in self.agents:
             agent.path = StraightPath(Point2D(int(
                 [x for x in self.scene._listeners if isinstance(x, Panel)][0].window.settingwindow.lineEdit_33.text()),

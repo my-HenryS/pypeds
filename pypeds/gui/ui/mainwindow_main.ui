@@ -93,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>20</y>
+      <y>110</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -120,7 +120,7 @@
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>20</y>
+      <y>110</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -147,7 +147,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>60</y>
+      <y>150</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -157,7 +157,7 @@
     <property name="geometry">
      <rect>
       <x>1060</x>
-      <y>60</y>
+      <y>150</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -167,7 +167,7 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>100</y>
+      <y>190</y>
       <width>211</width>
       <height>30</height>
      </rect>
@@ -194,13 +194,50 @@
     <property name="geometry">
      <rect>
       <x>820</x>
-      <y>140</y>
+      <y>230</y>
       <width>451</width>
       <height>16</height>
      </rect>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>70</y>
+      <width>451</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>30</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Scene</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
   </widget>

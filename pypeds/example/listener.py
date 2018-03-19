@@ -1,9 +1,6 @@
-from pypeds.entity import Agent
 from pypeds.scene import SceneListener
-from pypeds.gui.panel import *
+from pypeds.entity import Agent
 import math
-import time
-
 
 class PedestrianEscapeListener(SceneListener):
     def on_added(self):
@@ -33,6 +30,7 @@ class Average_velocity(SceneListener):
         pass
 
     def on_stepped(self):
+        from pypeds.gui.panel import Panel
         if self.scene.time_step % 50 == 0:
             sum_average = 0
             number = 0
@@ -41,7 +39,6 @@ class Average_velocity(SceneListener):
                 number += 1
             if number != 0:
                 [x for x in self.scene._listeners if isinstance(x,Panel)][0].window.lineEdit.setText(str(sum_average/number))
-                # self.scene._listeners.lineEdit.setText(str(sum_average / number))
 
     def on_removed(self):
         pass
@@ -59,6 +56,7 @@ class timer(SceneListener):
         pass
 
     def on_stepped(self):
+        from pypeds.gui.panel import Panel
         if self.scene.time_step % 100 == 0:
             [x for x in self.scene._listeners if isinstance(x,Panel)][0].window.lineEdit_2.setText(str(self.scene.time_step/100))
 

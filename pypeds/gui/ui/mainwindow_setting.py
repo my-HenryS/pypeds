@@ -369,6 +369,9 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.pushButton_19 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_19.setGeometry(QtCore.QRect(1080, 20, 211, 30))
         self.pushButton_19.setObjectName("pushButton_19")
+        self.pushButton_20 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_20.setGeometry(QtCore.QRect(920, 20, 111, 30))
+        self.pushButton_20.setObjectName("pushButton_20")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1315, 28))
@@ -438,4 +441,5 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_33.setText(_translate("MainWindow", "10"))
         self.lineEdit_34.setText(_translate("MainWindow", "10"))
         self.pushButton_19.setText(_translate("MainWindow", "Remove all entity"))
+        self.pushButton_20.setText(_translate("MainWindow", "Create Scene"))
 
