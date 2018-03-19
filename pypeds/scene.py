@@ -98,7 +98,7 @@ class Scene(Thread):
          
         """
         self.begin()  # pack up
-        while True:
+        while not self._is_stopped:
              self.step_next()  # step next
 
     def stop(self):
