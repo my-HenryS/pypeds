@@ -74,7 +74,7 @@ class Scene(Thread):
 
     def remove_listener(self, listener):
         self._listeners.remove(listener)
-        listener.on_removed(self)
+        listener.on_removed()
 
     def begin(self):
         """
