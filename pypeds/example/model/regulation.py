@@ -1,5 +1,5 @@
 from pypeds.example.entity import *
-from pypeds.entity import Blockable
+from pypeds.entity import *
 from pypeds.model.affection import Affection
 from pypeds.model.regulation import SingleTargetRegulation, Regulation, SelfDrivenRegulation
 import math
@@ -13,7 +13,7 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
 
     def __init__(self, model, is_rotate):
         super().__init__(model)
-        self._source_class = Blockable
+        self._source_class = Movable
         self._target_class = Pedestrian
         self.is_rotate = is_rotate
 
@@ -62,7 +62,7 @@ class BodyForceRegulation(SingleTargetRegulation):
     def __init__(self, model, is_rotate):
         super().__init__(model)
 
-        self._source_class = Blockable
+        self._source_class = Movable
         self._target_class = Pedestrian
         self.is_rotate = is_rotate
 
