@@ -70,7 +70,7 @@ class Generator():
 
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
-        if not scene.getName() in self.ped_initial_pos:
+        if not scene.getName() in self.item_initial_pos:
             self.item_initial_pos[scene.getName()] = []
         scene.add_entity(entity(region_shape))
         self.item_initial_pos[scene.getName()].append(region_shape)
