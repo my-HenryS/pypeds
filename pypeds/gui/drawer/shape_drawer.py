@@ -40,7 +40,9 @@ class Ellipse2DDrawer(ShapeDrawer):
         x, y = ellipse.center.x, ellipse.center.y
         a, b = ellipse.a, ellipse.b
         self.device.setBrush(self.color)
+        self.device.rotate(ellipse.angle)
         self.device.drawEllipse(QPointF(x, y), a, b)  # draw ellipse by defining its bound box
+        self.device.rotate(-ellipse.angle)
 
 
 class Box2DDrawer(ShapeDrawer):
