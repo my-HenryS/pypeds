@@ -1,6 +1,6 @@
-from pypeds.entity import Agent
 from pypeds.scene import SceneListener
-
+from pypeds.entity import Agent
+import math
 
 class PedestrianEscapeListener(SceneListener):
     def on_added(self):

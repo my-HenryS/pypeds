@@ -53,11 +53,11 @@ class ShapeDrawerRegister(DrawerRegister):
 class EntityDrawerRegister(DrawerRegister):
     # there are inheritance between entities
     def __init__(self, device, mode="default"):
-        super().__init__(device, mode)
         self.shape_drawer_register = ShapeDrawerRegister(device, mode)
+        super().__init__(device, mode)
 
     def default_register(self):
-        self.register(Entity, EntityDrawer(self.device))    # FIXME remove hard code
+        self.register(Entity, EntityDrawer(self.device, self.shape_drawer_register))    # FIXME remove hard code
 
     def add_drawer_support(self, entity) -> bool:
         """ Find the first-matched entity drawer by matching either the entity class itself or any of its super classes
@@ -81,11 +81,11 @@ class EntityDrawerRegister(DrawerRegister):
 class SceneDrawerRegister(DrawerRegister):
 
     def __init__(self, device, mode="default"):
-        super().__init__(device, mode)
         self.entity_drawer_register = EntityDrawerRegister(device, mode)
+        super().__init__(device, mode)
 
     def default_register(self):
-        self.register(Scene, SceneDrawer(self.device))  # FIXME remove hard code
+        self.register(Scene, SceneDrawer(self.device, self.entity_drawer_register))  # FIXME remove hard code
 
     def add_drawer_support(self, scene) -> bool:
         """ Find the scene drawer and register all drawers for its entities

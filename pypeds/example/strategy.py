@@ -1,18 +1,20 @@
+from pypeds.entity import Goal
 from pypeds.shape2d import Point2D
 from pypeds.strategy import Strategy, Path
 
 
 class NearestGoalStrategy(Strategy):
+
     def on_begin(self):
         """
         Set agents' paths on scene begin
         """
         for agent in self.agents:
-            agent.path = StraightPath(Point2D(200, 200))   # TODO remove hard code
+            dsr_goal, dsr_dist = min((goal.distance(agent.position), goal) for goal in self.scene.entities_of_type(Goal))
+            agent.path = StraightPath(dsr_goal)
 
     def on_stepped(self):
         pass
-
 
 class StraightPath(Path):
     def __init__(self, goal):

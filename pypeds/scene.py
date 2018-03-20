@@ -20,7 +20,6 @@ class Scene(Thread):
         self._listeners = []
         self.drawer = None
         self.strategy = strategy
-        self.pedestrain_shape = pedestrain_shape
 
     @property
     def entities(self):
@@ -74,7 +73,7 @@ class Scene(Thread):
 
     def remove_listener(self, listener):
         self._listeners.remove(listener)
-        listener.on_removed(self)
+        listener.on_removed()
 
     def begin(self):
         """
@@ -98,7 +97,7 @@ class Scene(Thread):
          
         """
         self.begin()  # pack up
-        while True:
+        while not self._is_stopped:
              self.step_next()  # step next
 
     def stop(self):

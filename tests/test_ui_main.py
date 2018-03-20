@@ -1,6 +1,5 @@
 from unittest import TestCase
 from pypeds.gui.ui.mainwindow_main import Ui_MainWindow_Main
-# from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
 from PyQt5 import QtWidgets
 import sys
 import qdarkstyle
