@@ -220,7 +220,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         use the setting window to generate the pedes in grid way
         :return: pedes generated in grid way
         """
-        pass
+        self.generator.grid_generate(self.scene,
+                                     Box2D(Point2D(int(self.lineEdit_54.text()), int(self.lineEdit_55.text())),
+                                           int(self.lineEdit_36.text()), int(self.lineEdit_37.text())),
+                                     self.comboBox_5.currentText(), self.comboBox_3.currentText(),
+                                     int(self.lineEdit_56.text()), int(self.lineEdit_52.text()))
 
     def random_generate(self):
         """

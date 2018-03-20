@@ -33,25 +33,33 @@ class Generator(object):
         if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
             print("generator deny")
 
-        count_number = 0
-        number_x = int(region_shape.length / (interval + length * 2))
-        number_y = int(region_shape.width / (interval + width * 2))
-        for m in range(0, number_y):
-            for n in range(0, number_x):
-                if shape == "Box":
+        if shape == "Box":
+            count_number = 0
+            number_x = int(region_shape.length / (interval + length / 2))
+            number_y = int(region_shape.width / (interval + width * 2))
+            for m in range(0, number_y):
+                for n in range(0, number_x):
                     scene.add_entity(entity(
                         Box2D(center=Point2D(region_shape.e_left + n * (interval + length / 2) + length / 2,
                                          region_shape.e_down + m * (interval + width / 2) + width / 2),
                           length=length, width=width)))
-                elif shape == 'Circle':
+                    count_number += 1
+                    if count_number == number:
+                        return
+
+        if shape == 'Circle':
+            count_number = 0
+            number_x = int(region_shape.length / (interval + radius / 2))
+            number_y = int(region_shape.width / (interval + radius * 2))
+            for m in range(0, number_y):
+                for n in range(0, number_x):
                     scene.add_entity(entity(
                         Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius) + radius,
                                                 region_shape.e_down + m * (interval + radius) + radius),
                                  radius=radius)))
-
-                count_number += 1
-                if count_number == number:
-                    return
+                    count_number += 1
+                    if count_number == number:
+                        return
 
     def random_generate(self, scene, region_shape, entity, shape, number=0, radius=0.243, interval=10):
         """
@@ -108,20 +116,19 @@ class Generator(object):
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
 
-        if not scene.getName() in self.initial_pos:
-            self.initial_pos[scene.getName()] = []
 
         center_x = float(self.window.lineEdit_57.text())
         center_y = float(self.window.lineEdit_58.text())
         radius = float(self.window.lineEdit_49.text())
         length = float(self.window.lineEdit_50.text())
-        width = float(self.window.lineEdit_51.text)
+        width = float(self.window.lineEdit_51.text())
 
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
         if shape == "Circle":
+            print(1)
             scene.add_entity(entity(Circle2D(Point2D(center_x, center_y), radius)))
 
         if shape == "Box":
