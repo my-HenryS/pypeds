@@ -157,7 +157,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.setWindowTitle(title)
         self.center()
         self.retranslateUi(self)
-        self.generator = Generator()
+        self.generator = Generator(self)
         self.mainwindow = mainwindow
         self.scenePool = []
         # init paint area and assigned to scroll area
@@ -168,12 +168,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.pushButton_11.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_12.clicked.connect(self.hide)
         self.pushButton_12.clicked.connect(self.mainwindow.handle_click)
-        self.pushButton_16.clicked.connect(self.random_generate)
-        self.pushButton_17.clicked.connect(self.grid_generate)
-        self.pushButton_18.clicked.connect(self.item_generate)
+        self.pushButton_25.clicked.connect(self.random_generate)
+        self.pushButton_24.clicked.connect(self.grid_generate)
         self.pushButton_19.clicked.connect(self.remove_all_entity)
         self.pushButton_20.clicked.connect(self.create_scene)
-        # self.comboBox.connect(self.scene_select)
+        self.comboBox.currentIndexChanged.connect(self.scene_select)
 
     @property
     def scene(self):
@@ -198,6 +197,12 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.comboBox.addItem(scene.getName())
         self.mainwindow.comboBox.addItem(scene.getName())
 
+    def scene_select(self):
+        for index in self.scenePool:
+            if index.getName() == self.comboBox.currentText():
+                index.add_listener(self.mainwindow.panel)
+                print(index._listeners)
+
     def center(self):
         """
         move window to screen center
@@ -219,43 +224,21 @@ class SettingWindow(Ui_MainWindow_Setting):
         use the setting window to generate the pedes in grid way
         :return: pedes generated in grid way
         """
-        # print(type(self.scene_selected[0]))
-        self.generator.grid_generate([x for x in self.scenePool if x.getName() == self.comboBox.currentText()][0],
-                                     Box2D(Point2D(int(self.lineEdit_25.text()), int(self.lineEdit_23.text())),
-                                           int(self.lineEdit_21.text()),
-                                           int(self.lineEdit_26.text())), int(self.lineEdit_22.text()),
-                                     int(self.lineEdit_24.text()),
-                                     int(self.lineEdit_27.text()))
+        pass
 
     def random_generate(self):
         """
         use the setting window to generate the pedes in random way
         :return: pedes generated in random way
         """
-        self.generator.random_generate(self.mainwindow.scene,
-                                       Box2D(Point2D(int(self.lineEdit_25.text()), int(self.lineEdit_23.text())),
-                                             int(self.lineEdit_21.text()),
-                                             int(self.lineEdit_26.text())), int(self.lineEdit_22.text()),
-                                       int(self.lineEdit_24.text()))
+        pass
 
     def item_generate(self):
         """
         use the setting window to generate the item
         :return:
         """
-        if self.radioButton_7.isChecked():
-            if self.comboBox_4.currentText() == "Circle":
-                self.generator.item_generate(self.mainwindow.scene, Wall, Circle2D(
-                    Point2D(int(self.lineEdit_31.text()), int(self.lineEdit_28.text())), int(self.lineEdit_29.text())))
-            if self.comboBox_4.currentText() == "Box":
-                self.generator.item_generate(self.mainwindow.scene, Wall, Box2D(
-                    Point2D(int(self.lineEdit_31.text()), int(self.lineEdit_28.text())), int(self.lineEdit_32.text()),
-                    int(self.lineEdit_30.text())))
-        if self.radioButton_8.isChecked():          ##TODO finish it
-            if self.comboBox_4.currentText() == "Circle":
-                print("the project has not complete!")
-            if self.comboBox_4.currentText() == "Box":
-                print("the project has not complete!")
+        pass
 
     def remove_all_entity(self):
         """
@@ -302,24 +285,26 @@ class PaintArea(QWidget):
         when PaintAre's window is settingwindow, do the job below to paint the shapes in the screen
         :return:
         """
-        if isinstance(self.window,SettingWindow) and self.scene is not None:
-            if self.window.comboBox.currentText() in self.window.generator.ped_initial_pos:
-                for index in self.window.generator.ped_initial_pos[self.window.comboBox.currentText()]:
-                    Circle2DDrawer(self.painter).draw(Circle2D(Point2D(index[0], index[1]), index[2]))
-            if self.window.comboBox.currentText() in self.window.generator.item_initial_pos:
-                for index in self.window.generator.item_initial_pos[self.window.comboBox.currentText()]:
-                    if isinstance(index, Circle2D):
-                        Circle2DDrawer(self.painter).draw(index)
-                    if isinstance(index, Box2D):
-                        Box2DDrawer(self.painter).draw(index)
+        pass
+        # if isinstance(self.window, SettingWindow) and self.scene is not None:
+        #     if self.window.comboBox.currentText() in self.window.generator.ped_initial_pos:
+        #         for index in self.window.generator.initial_pos[self.window.comboBox.currentText()]:
+        #             Circle2DDrawer(self.painter).draw(Circle2D(Point2D(index[0], index[1]), index[2]))
+        #     if self.window.comboBox.currentText() in self.window.generator.item_initial_pos:
+        #         for index in self.window.generator.initial_pos[self.window.comboBox.currentText()]:
+        #             if isinstance(index, Circle2D):
+        #                 Circle2DDrawer(self.painter).draw(index)
+        #             if isinstance(index, Box2D):
+        #                 Box2DDrawer(self.painter).draw(index)
 
     def mainwindow_job(self):
         """
         when PaintAre's window is mainwindow, do the job below to paint the shapes in the screen
         :return:
         """
-        if isinstance(self.window, MainWindow) and self.scene is not None and self.scene.drawer is not None:
-            self.scene.drawer.draw(self.scene)
+        pass
+        # if isinstance(self.window, MainWindow) and self.scene is not None and self.scene.drawer is not None:
+        #     self.scene.drawer.draw(self.scene)
 
     def paintEvent(self, e):
         """ Define that window will call scene's drawer to draw themselves (and it then will call entities
