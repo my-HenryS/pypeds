@@ -9,7 +9,7 @@ from pypeds.example.model.sfmodel import SFModel
 from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtGui
 from pypeds.example.strategy import NearestGoalStrategy
-from pypeds.example.listener import PedestrianEscapeListener, Average_velocity, timer
+from pypeds.example.listener import PedestrianEscapeListener
 
 
 class Panel(SceneListener):
@@ -43,15 +43,15 @@ class Panel(SceneListener):
 
         :return:
         """
-        pass
+        if self.default_drawer_register:
+            self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))
 
     def on_begin(self):
         """ When added to scene, Panel call drawer_register to register its entities and shapes with drawers.
         If default_drawer_register is set to True, the drawer_register uses 'default' mode.
         :param scene: the listening scene
         """
-        if self.default_drawer_register:
-            self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))
+        pass
 
     def on_stepped(self):
         """ At each step, we call scene drawer to draw.
@@ -190,18 +190,14 @@ class SettingWindow(Ui_MainWindow_Setting):
         scene = Scene()
         scene.model = SFModel(0.0001)
         scene.add_listener(PedestrianEscapeListener())
-        scene.add_listener(Average_velocity())
-        scene.add_listener(timer())
         scene.add_listener(NearestGoalStrategy())
         self.scenePool.append(scene)
         self.comboBox.addItem(scene.getName())
         self.mainwindow.comboBox.addItem(scene.getName())
 
     def scene_select(self):
-        for index in self.scenePool:
-            if index.getName() == self.comboBox.currentText():
-                index.add_listener(self.mainwindow.panel)
-                print(index._listeners)
+        scene = self.scenePool[self.comboBox.currentIndex()]
+        scene.add_listener(self.mainwindow.panel)
 
     def center(self):
         """
@@ -280,32 +276,6 @@ class PaintArea(QWidget):
         if scene_selected != [] and not self.window.panel in scene_selected[0]._listeners:
             scene_selected[0].add_listener(self.window.panel)
 
-    def settingwindow_job(self):
-        """
-        when PaintAre's window is settingwindow, do the job below to paint the shapes in the screen
-        :return:
-        """
-        pass
-        # if isinstance(self.window, SettingWindow) and self.scene is not None:
-        #     if self.window.comboBox.currentText() in self.window.generator.ped_initial_pos:
-        #         for index in self.window.generator.initial_pos[self.window.comboBox.currentText()]:
-        #             Circle2DDrawer(self.painter).draw(Circle2D(Point2D(index[0], index[1]), index[2]))
-        #     if self.window.comboBox.currentText() in self.window.generator.item_initial_pos:
-        #         for index in self.window.generator.initial_pos[self.window.comboBox.currentText()]:
-        #             if isinstance(index, Circle2D):
-        #                 Circle2DDrawer(self.painter).draw(index)
-        #             if isinstance(index, Box2D):
-        #                 Box2DDrawer(self.painter).draw(index)
-
-    def mainwindow_job(self):
-        """
-        when PaintAre's window is mainwindow, do the job below to paint the shapes in the screen
-        :return:
-        """
-        pass
-        # if isinstance(self.window, MainWindow) and self.scene is not None and self.scene.drawer is not None:
-        #     self.scene.drawer.draw(self.scene)
-
     def paintEvent(self, e):
         """ Define that window will call scene's drawer to draw themselves (and it then will call entities
          & then shapes to draw)
@@ -317,8 +287,8 @@ class PaintArea(QWidget):
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
         self.add_panel()
-        self.settingwindow_job()
-        self.mainwindow_job()
+        if self.scene is not None and self.scene.drawer is not None:
+            self.scene.drawer.draw(self.scene)
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):

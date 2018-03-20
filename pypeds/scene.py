@@ -20,7 +20,6 @@ class Scene(Thread):
         self._listeners = []
         self.drawer = None
         self.strategy = strategy
-        self.pedestrain_shape = pedestrain_shape
 
     @property
     def entities(self):

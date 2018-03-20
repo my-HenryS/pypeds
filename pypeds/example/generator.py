@@ -6,7 +6,7 @@ import random
 
 ##TODO the generator of the enetiy shaped like rectangle has not been finished
 
-class Generator():
+class Generator(object):
     """
     Generator(.....).gird_generate()
     Generator(.....).random_generator()
@@ -14,7 +14,6 @@ class Generator():
     """
 
     def __init__(self, window):
-        self.initial_pos = {}
         self.window = window
 
     def grid_generate(self, scene, region_shape, entity, shape, number=0, interval=10):
@@ -22,8 +21,6 @@ class Generator():
 
         :return: the ped enetities generated in the grid way and the ped_initial_pos with the entities' generated position
         """
-        if not scene.getName() in self.initial_pos:
-            self.initial_pos[scene.getName()] = []
 
         radius = float(self.window.lineEdit_43.text())
         length = float(self.window.lineEdit_44.text())
@@ -36,54 +33,31 @@ class Generator():
         if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
             print("generator deny")
 
-        if shape == "Circle":
-            count_number = 0
-            number_x = int(region_shape.length / (interval + radius * 2))
-            number_y = int(region_shape.width / (interval + radius * 2))
-            for m in range(0, number_y):
-                for n in range(0, number_x):
+        count_number = 0
+        number_x = int(region_shape.length / (interval + length * 2))
+        number_y = int(region_shape.width / (interval + width * 2))
+        for m in range(0, number_y):
+            for n in range(0, number_x):
+                if shape == "Box":
+                    scene.add_entity(entity(
+                        Box2D(center=Point2D(region_shape.e_left + n * (interval + length / 2) + length / 2,
+                                         region_shape.e_down + m * (interval + width / 2) + width / 2),
+                          length=length, width=width)))
+                elif shape == 'Circle':
                     scene.add_entity(entity(
                         Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius) + radius,
                                                 region_shape.e_down + m * (interval + radius) + radius),
                                  radius=radius)))
-                    self.initial_pos[scene.getName()].append(
-                        ("Circle",
-                         region_shape.e_left + n * (interval + radius) + radius,
-                         region_shape.e_down + m * (interval + radius) + radius,
-                         radius))
 
-                    count_number += 1
-                    if count_number == number:
-                        return
-
-        if shape == "Box":
-            count_number = 0
-            number_x = int(region_shape.length / (interval + length * 2))
-            number_y = int(region_shape.width / (interval + width * 2))
-            for m in range(0, number_y):
-                for n in range(0, number_x):
-                    scene.add_entity(entity(
-                        Box2D(center=Point2D(region_shape.e_left + n * (interval + length / 2) + length / 2,
-                                             region_shape.e_down + m * (interval + width / 2) + width / 2),
-                              length=length, width=width)))
-                    self.initial_pos[scene.getName()].append((
-                        "Box", region_shape.e_left + n * (interval + length / 2) + length / 2,
-                        region_shape.e_down + m * (
-                                interval + width / 2) + width / 2,
-                        length, width))
-
-            count_number += 1
-            if count_number == number:
-                return
+                count_number += 1
+                if count_number == number:
+                    return
 
     def random_generate(self, scene, region_shape, entity, shape, number=0, radius=0.243, interval=10):
         """
 
         :return:the ped entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
-        if not scene.getName() in self.initial_pos:
-            self.initial_pos[scene.getName()] = []
-
         randomPool = []
 
         radius = float(self.window.lineEdit_46.text())
@@ -115,7 +89,6 @@ class Generator():
                         randomPool.remove(member)
             for i in randomPool:
                 scene.add_entity(i)
-                self.initial_pos[scene.getName()].append(("Circle", i.shape.center.x, i.shape.center.y, i.shape.radius))
 
         if shape == "Box":
             for n in range(0, number):
@@ -128,8 +101,6 @@ class Generator():
                         randomPool.remove(entity)
             for i in randomPool:
                 scene.add_entity(i)
-                self.initial_pos[scene.getName()].append(
-                    ("Box", i.shape.center.x, i.shape.center.y, i.shape.length, i.shape.width))
 
     def common_generate(self, scene, entity, shape):
         """
@@ -152,8 +123,6 @@ class Generator():
 
         if shape == "Circle":
             scene.add_entity(entity(Circle2D(Point2D(center_x, center_y), radius)))
-            self.initial_pos[scene.getName()].append(("Circle", center_x, center_y, radius))
 
         if shape == "Box":
             scene.add_entity(entity(Box2D(Point2D(center_x, center_y), length, width)))
-            self.initial_pos[scene.getName()].append(("Box", center_x, center_y, length, width))
