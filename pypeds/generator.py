@@ -4,7 +4,7 @@ from pypeds.gui.drawer.shape_drawer import *
 import random
 
 
-##TODO the generator of the enetiy shaped like rectangle has not been finished
+##TODO the generator of the entity shaped like rectangle has not been finished
 
 class Generator(object):
     """
@@ -108,14 +108,11 @@ class Generator(object):
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
 
-        if not scene.getName() in self.initial_pos:
-            self.initial_pos[scene.getName()] = []
-
-        center_x = float(self.window.lineEdit_57.text())
+        center_x = float(self.window.lineEdit_57.text())   #FIXME
         center_y = float(self.window.lineEdit_58.text())
         radius = float(self.window.lineEdit_49.text())
         length = float(self.window.lineEdit_50.text())
-        width = float(self.window.lineEdit_51.text)
+        width = float(self.window.lineEdit_51.text())
 
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall

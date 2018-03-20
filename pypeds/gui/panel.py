@@ -4,62 +4,12 @@ from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDesktopWidget
-from pypeds.example.generator import *
+from pypeds.generator import *
 from pypeds.example.model.sfmodel import SFModel
 from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtGui
 from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.example.listener import PedestrianEscapeListener
-
-
-class Panel(SceneListener):
-    """
-    Wraps window class with scene listener. panel--window has a 1-to-1 relationship
-    """
-
-    def __init__(self, window, title="", fps=16):
-        super().__init__()
-
-        self.default_drawer_register = True
-        self.drawer_register = None
-
-        self.window = window
-        self.painter = self.window.painter
-
-    def register_drawer(self, drawer_register):
-        """ Give value to attribute 'drawer_register'.
-        And call add_drawer_support() to register entities and shapes with drawer in self.scene.
-        Shall be called after assigned a listening scene.1
-        Set drawer_register's device to self.painter
-        :param drawer_register: a scene_drawer_register
-        """
-        self.drawer_register = drawer_register
-        if self.drawer_register.device is not self.painter:
-            self.drawer_register.device = self.painter
-        self.drawer_register.add_drawer_support(self.scene)
-
-    def on_added(self):
-        """ After being added,  # TODO define behaviours
-
-        :return:
-        """
-        if self.default_drawer_register:
-            self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))
-
-    def on_begin(self):
-        """ When added to scene, Panel call drawer_register to register its entities and shapes with drawers.
-        If default_drawer_register is set to True, the drawer_register uses 'default' mode.
-        :param scene: the listening scene
-        """
-        pass
-
-    def on_stepped(self):
-        """ At each step, we call scene drawer to draw.
-
-        """
-
-    def on_removed(self):
-        pass
 
 
 class MainWindow(Ui_MainWindow_Main):
@@ -77,9 +27,9 @@ class MainWindow(Ui_MainWindow_Main):
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
-        self.panel = Panel(self)
         self.settingwindow = SettingWindow("Setting", 16, self)
         self.scenePool = self.settingwindow.scenePool
+        self.scene = None
         self.enable = False
         self.pause_flag = False
         self.pushButton_11.clicked.connect(self.hide)
@@ -89,6 +39,7 @@ class MainWindow(Ui_MainWindow_Main):
         self.pushButton_12.setEnabled(False)
         self.pushButton_14.setEnabled(False)
         self.horizontalSlider.valueChanged.connect(self.velocity_change)
+        self.comboBox.currentIndexChanged.connect(self.scene_select)
 
     def center(self):
         """
@@ -98,14 +49,6 @@ class MainWindow(Ui_MainWindow_Main):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-    @property
-    def scene(self):
-        return self.panel.scene
-
-    @property
-    def painter(self):
-        return self.area.painter
 
     def start(self):
         if self.enable == False:
@@ -139,14 +82,15 @@ class MainWindow(Ui_MainWindow_Main):
         # self.horizontalSlider.value()*0.0001919+0.001)
 
     def handle_click(self):
-        for scene in self.scenePool:
-            if self.panel in scene._listeners:
-                scene.remove_listener(self.panel)
+        self.scene_select()
         if not self.isVisible():
             self.show()
 
     def default_generate(self):
         pass
+
+    def scene_select(self):
+        self.scene = self.scenePool[self.comboBox.currentIndex()]
 
 
 class SettingWindow(Ui_MainWindow_Setting):
@@ -160,27 +104,20 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.generator = Generator(self)
         self.mainwindow = mainwindow
         self.scenePool = []
+        self.scene = None
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
-        self.panel = self.mainwindow.panel
         self.pushButton_11.clicked.connect(self.hide)
         self.pushButton_11.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_12.clicked.connect(self.hide)
         self.pushButton_12.clicked.connect(self.mainwindow.handle_click)
+        self.pushButton_26.clicked.connect(self.common_generate)
         self.pushButton_25.clicked.connect(self.random_generate)
         self.pushButton_24.clicked.connect(self.grid_generate)
         self.pushButton_19.clicked.connect(self.remove_all_entity)
         self.pushButton_20.clicked.connect(self.create_scene)
         self.comboBox.currentIndexChanged.connect(self.scene_select)
-
-    @property
-    def scene(self):
-        return self.mainwindow.scene
-
-    @property
-    def painter(self):
-        return self.area.painter
 
     def create_scene(self):
         """
@@ -188,7 +125,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         :return:
         """
         scene = Scene()
-        scene.model = SFModel(0.0001)
+        scene.model = SFModel(0.004)
         scene.add_listener(PedestrianEscapeListener())
         scene.add_listener(NearestGoalStrategy())
         self.scenePool.append(scene)
@@ -196,8 +133,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.mainwindow.comboBox.addItem(scene.getName())
 
     def scene_select(self):
-        scene = self.scenePool[self.comboBox.currentIndex()]
-        scene.add_listener(self.mainwindow.panel)
+        self.scene = self.scenePool[self.comboBox.currentIndex()]
 
     def center(self):
         """
@@ -209,9 +145,6 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.move(qr.topLeft())
 
     def handle_click(self):
-        for scene in self.scenePool:
-            if self.panel in scene._listeners:
-                scene.remove_listener(self.panel)
         if not self.isVisible():
             self.show()
 
@@ -220,7 +153,12 @@ class SettingWindow(Ui_MainWindow_Setting):
         use the setting window to generate the pedes in grid way
         :return: pedes generated in grid way
         """
-        pass
+        x = float(self.lineEdit_54.text())
+        y = float(self.lineEdit_55.text())
+        l = float(self.lineEdit_36.text())
+        w = float(self.lineEdit_37.text())
+        self.generator.grid_generate(self.scene, Box2D(Point2D(x,y), l ,w), self.comboBox_5.currentText(),
+                                     self.comboBox_3.currentText(), int(self.lineEdit_56.text()), int(self.lineEdit_52.text()))
 
     def random_generate(self):
         """
@@ -229,12 +167,12 @@ class SettingWindow(Ui_MainWindow_Setting):
         """
         pass
 
-    def item_generate(self):
+    def common_generate(self):
         """
         use the setting window to generate the item
         :return:
         """
-        pass
+        self.generator.common_generate(self.scene, self.comboBox_9.currentText(), self.comboBox_7.currentText())
 
     def remove_all_entity(self):
         """
@@ -274,10 +212,13 @@ class PaintArea(QWidget):
         :param e: painter event, not yet used
         :return:
         """
+        #print(self.window)
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
-        if self.scene is not None and self.scene.drawer is not None:
+        if self.scene is not None:
+            if self.scene.drawer is None or self.scene.drawer.device is not self.painter:
+                self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))   #fixme remove hard code
             self.scene.drawer.draw(self.scene)
         self.painter.end()
 
@@ -297,3 +238,15 @@ class PaintArea(QWidget):
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
         self.last_x = -1
         self.last_y = -1
+
+    def register_drawer(self, drawer_register):
+        """ Give value to attribute 'drawer_register'.
+        And call add_drawer_support() to register entities and shapes with drawer in self.scene.
+        Shall be called after assigned a listening scene.1
+        Set drawer_register's device to self.painter
+        :param drawer_register: a scene_drawer_register
+        """
+        self.drawer_register = drawer_register
+        if self.drawer_register.device is not self.painter:
+            self.drawer_register.device = self.painter
+        self.drawer_register.add_drawer_support(self.scene)

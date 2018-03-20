@@ -13,6 +13,7 @@ class SFModel(Model):
         self.regulations.append(SelfDrivenForceRegulation(self, 3, 0.5))
         self.regulations.append(SelfDrivenTorqueRegulation(self))
         self.regulations.append(SelfDampingTorqueRegulation(self, 0.5))
+        self.regulations.append(EscapeRegulation(self))
 
     def zero_angular_velocity(self):
         return 0
