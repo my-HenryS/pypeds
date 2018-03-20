@@ -9,14 +9,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
-    def __init__(self):
-        super(Ui_MainWindow_Setting, self).__init__()
-        self.setupUi(self)
-        self.retranslateUi(self)
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1313, 732)
+        MainWindow.resize(1327, 732)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
@@ -97,11 +92,8 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.pushButton_5.setGeometry(QtCore.QRect(1150, 520, 151, 30))
         self.pushButton_5.setObjectName("pushButton_5")
         self.pushButton_11 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_11.setGeometry(QtCore.QRect(820, 640, 221, 30))
+        self.pushButton_11.setGeometry(QtCore.QRect(820, 640, 481, 30))
         self.pushButton_11.setObjectName("pushButton_11")
-        self.pushButton_12 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_12.setGeometry(QtCore.QRect(1070, 640, 231, 30))
-        self.pushButton_12.setObjectName("pushButton_12")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(820, 180, 131, 30))
         self.label_5.setStyleSheet("QLabel{\n"
@@ -114,56 +106,14 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "\n"
 "}")
         self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(self.centralwidget)
-        self.label_6.setGeometry(QtCore.QRect(1060, 100, 131, 30))
-        self.label_6.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_6.setObjectName("label_6")
-        self.label_39 = QtWidgets.QLabel(self.centralwidget)
-        self.label_39.setGeometry(QtCore.QRect(1060, 140, 91, 30))
-        self.label_39.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_39.setObjectName("label_39")
-        self.label_40 = QtWidgets.QLabel(self.centralwidget)
-        self.label_40.setGeometry(QtCore.QRect(1060, 180, 91, 30))
-        self.label_40.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_40.setObjectName("label_40")
-        self.lineEdit_33 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_33.setGeometry(QtCore.QRect(1170, 140, 121, 31))
-        self.lineEdit_33.setObjectName("lineEdit_33")
-        self.lineEdit_34 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_34.setGeometry(QtCore.QRect(1170, 180, 121, 31))
-        self.lineEdit_34.setObjectName("lineEdit_34")
         self.pushButton_19 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_19.setGeometry(QtCore.QRect(1080, 20, 221, 30))
+        self.pushButton_19.setGeometry(QtCore.QRect(1080, 100, 221, 30))
         self.pushButton_19.setObjectName("pushButton_19")
         self.pushButton_20 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_20.setGeometry(QtCore.QRect(920, 20, 111, 30))
         self.pushButton_20.setObjectName("pushButton_20")
         self.tabWidget_2 = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget_2.setGeometry(QtCore.QRect(820, 220, 481, 251))
+        self.tabWidget_2.setGeometry(QtCore.QRect(820, 220, 491, 251))
         self.tabWidget_2.setObjectName("tabWidget_2")
         self.tab_7 = QtWidgets.QWidget()
         self.tab_7.setObjectName("tab_7")
@@ -281,7 +231,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_67.setObjectName("label_67")
         self.lineEdit_37 = QtWidgets.QLineEdit(self.tab_7)
-        self.lineEdit_37.setGeometry(QtCore.QRect(390, 50, 71, 31))
+        self.lineEdit_37.setGeometry(QtCore.QRect(390, 50, 81, 31))
         self.lineEdit_37.setObjectName("lineEdit_37")
         self.label_68 = QtWidgets.QLabel(self.tab_7)
         self.label_68.setGeometry(QtCore.QRect(10, 130, 91, 30))
@@ -359,7 +309,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_86.setObjectName("label_86")
         self.lineEdit_56 = QtWidgets.QLineEdit(self.tab_7)
-        self.lineEdit_56.setGeometry(QtCore.QRect(430, 10, 31, 31))
+        self.lineEdit_56.setGeometry(QtCore.QRect(430, 10, 41, 31))
         self.lineEdit_56.setObjectName("lineEdit_56")
         self.tabWidget_2.addTab(self.tab_7, "")
         self.tab_8 = QtWidgets.QWidget()
@@ -446,7 +396,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_41.setGeometry(QtCore.QRect(310, 10, 51, 31))
         self.lineEdit_41.setObjectName("lineEdit_41")
         self.lineEdit_42 = QtWidgets.QLineEdit(self.tab_8)
-        self.lineEdit_42.setGeometry(QtCore.QRect(390, 50, 71, 31))
+        self.lineEdit_42.setGeometry(QtCore.QRect(390, 50, 81, 31))
         self.lineEdit_42.setObjectName("lineEdit_42")
         self.comboBox_4 = QtWidgets.QComboBox(self.tab_8)
         self.comboBox_4.setGeometry(QtCore.QRect(110, 90, 91, 30))
@@ -541,7 +491,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_83.setObjectName("label_83")
         self.lineEdit_53 = QtWidgets.QLineEdit(self.tab_8)
-        self.lineEdit_53.setGeometry(QtCore.QRect(430, 10, 31, 31))
+        self.lineEdit_53.setGeometry(QtCore.QRect(430, 10, 41, 31))
         self.lineEdit_53.setObjectName("lineEdit_53")
         self.tabWidget_2.addTab(self.tab_8, "")
         self.tab = QtWidgets.QWidget()
@@ -669,9 +619,12 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_58.setGeometry(QtCore.QRect(390, 130, 71, 31))
         self.lineEdit_58.setObjectName("lineEdit_58")
         self.tabWidget_2.addTab(self.tab, "")
+        self.pushButton_21 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_21.setGeometry(QtCore.QRect(1080, 140, 221, 30))
+        self.pushButton_21.setObjectName("pushButton_21")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1313, 28))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1327, 28))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -681,7 +634,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.retranslateUi(MainWindow)
         self.tabWidget_2.setCurrentIndex(0)
         self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(0)
         self.stackedWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -698,13 +651,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.label_16.setText(_translate("MainWindow", "Manual Generate"))
         self.pushButton_5.setText(_translate("MainWindow", "Safe Region"))
         self.pushButton_11.setText(_translate("MainWindow", "Confirm"))
-        self.pushButton_12.setText(_translate("MainWindow", "Cancel"))
         self.label_5.setText(_translate("MainWindow", "Semi-Generate"))
-        self.label_6.setText(_translate("MainWindow", "Setting Goal"))
-        self.label_39.setText(_translate("MainWindow", "X"))
-        self.label_40.setText(_translate("MainWindow", "Y"))
-        self.lineEdit_33.setText(_translate("MainWindow", "100"))
-        self.lineEdit_34.setText(_translate("MainWindow", "100"))
         self.pushButton_19.setText(_translate("MainWindow", "Remove all entity"))
         self.pushButton_20.setText(_translate("MainWindow", "Create Scene"))
         self.pushButton_24.setText(_translate("MainWindow", "Grid Generate"))
@@ -731,7 +678,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.label_85.setText(_translate("MainWindow", "Y"))
         self.lineEdit_55.setText(_translate("MainWindow", "200"))
         self.label_86.setText(_translate("MainWindow", "Num"))
-        self.lineEdit_56.setText(_translate("MainWindow", "200"))
+        self.lineEdit_56.setText(_translate("MainWindow", "10"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_7), _translate("MainWindow", "Gird-Generate"))
         self.label_61.setText(_translate("MainWindow", "Region"))
         self.label_62.setText(_translate("MainWindow", "Shape"))
@@ -755,7 +702,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_6.setItemText(1, _translate("MainWindow", "Wall"))
         self.comboBox_6.setItemText(2, _translate("MainWindow", "Safe-Region"))
         self.label_83.setText(_translate("MainWindow", "Num"))
-        self.lineEdit_53.setText(_translate("MainWindow", "200"))
+        self.lineEdit_53.setText(_translate("MainWindow", "10"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_8), _translate("MainWindow", "Random-Generate"))
         self.label_74.setText(_translate("MainWindow", "Shape"))
         self.label_75.setText(_translate("MainWindow", "Entity"))
@@ -771,9 +718,10 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_9.setItemText(2, _translate("MainWindow", "Safe-Region"))
         self.label_87.setText(_translate("MainWindow", "X"))
         self.lineEdit_57.setText(_translate("MainWindow", "500"))
-        self.label_88.setText(_translate("MainWindow", "X"))
+        self.label_88.setText(_translate("MainWindow", "Y"))
         self.lineEdit_58.setText(_translate("MainWindow", "200"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), _translate("MainWindow", "Common-Generate"))
+        self.pushButton_21.setText(_translate("MainWindow", "Cancel "))
 
     def connectstack(self):
         self.comboBox_3.currentIndexChanged.connect(self.display_one)

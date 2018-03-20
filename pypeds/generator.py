@@ -15,17 +15,13 @@ class Generator(object):
 
     def __init__(self, window):
         self.window = window
+        self.last_time_generate = []
 
-    def grid_generate(self, scene, region_shape, entity, shape, number=0, interval=10):
+    def grid_generate(self, scene, region_shape, entity, shape, radius, length, width, number, interval):
         """
 
         :return: the ped enetities generated in the grid way and the ped_initial_pos with the entities' generated position
         """
-
-        radius = float(self.window.lineEdit_43.text())
-        length = float(self.window.lineEdit_44.text())
-        width = float(self.window.lineEdit_45.text())
-
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
@@ -33,43 +29,57 @@ class Generator(object):
         if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
             print("generator deny")
 
-        count_number = 0
-        number_x = int(region_shape.length / (interval + length * 2))
-        number_y = int(region_shape.width / (interval + width * 2))
-        for m in range(0, number_y):
-            for n in range(0, number_x):
-                if shape == "Box":
-                    scene.add_entity(entity(
+        self.last_time_generate = []
+
+        if shape == "Box":
+            count_number = 0
+            number_x = int(region_shape.length / (interval + length))
+            number_y = int(region_shape.width / (interval + width))
+            for m in range(0, number_y):
+                for n in range(0, number_x):
+                    generate_entity = entity(
                         Box2D(center=Point2D(region_shape.e_left + n * (interval + length / 2) + length / 2,
-                                         region_shape.e_down + m * (interval + width / 2) + width / 2),
-                          length=length, width=width)))
-                elif shape == 'Circle':
-                    scene.add_entity(entity(
+                                             region_shape.e_down + m * (interval + width / 2) + width / 2),
+                              length=length, width=width))
+                    scene.add_entity(generate_entity)
+                    self.last_time_generate.append(generate_entity)
+                    count_number += 1
+                    if count_number == number:
+                        print(self.last_time_generate)
+                        return
+
+        if shape == 'Circle':
+            count_number = 0
+            number_x = int(region_shape.length / (interval + radius * 2))
+            number_y = int(region_shape.width / (interval + radius * 2))
+            for m in range(0, number_y):
+                for n in range(0, number_x):
+                    generate_entity = entity(
                         Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius) + radius,
                                                 region_shape.e_down + m * (interval + radius) + radius),
-                                 radius=radius)))
+                                 radius=radius))
+                    scene.add_entity(generate_entity)
+                    self.last_time_generate.append(generate_entity)
 
-                count_number += 1
-                if count_number == number:
-                    return
+                    count_number += 1
+                    if count_number == number:
+                        return
 
-    def random_generate(self, scene, region_shape, entity, shape, number=0, radius=0.243, interval=10):
+    def random_generate(self, scene, region_shape, entity, shape, radius, length, width, number):
         """
 
         :return:the ped entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
         randomPool = []
 
-        radius = float(self.window.lineEdit_46.text())
-        length = float(self.window.lineEdit_47.text())
-        width = float(self.window.lineEdit_48.text())
-
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
         if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
             print("generator deny")
+
+        self.last_time_generate = []
 
         region_x = [region_shape.center.x - region_shape.length / 2 + radius,
                     region_shape.center.x + region_shape.length / 2 - radius]
@@ -85,10 +95,11 @@ class Generator(object):
                 for member in randomPool:
                     if index == member:
                         continue
-                    if not index == number and DistanceCalculator.distance(index.shape, member.shape)[0] < 0:
+                    if not index == member and DistanceCalculator.distance(index.shape, member.shape)[0] < 0:
                         randomPool.remove(member)
             for i in randomPool:
                 scene.add_entity(i)
+                self.last_time_generate.append(i)
 
         if shape == "Box":
             for n in range(0, number):
@@ -101,25 +112,26 @@ class Generator(object):
                         randomPool.remove(entity)
             for i in randomPool:
                 scene.add_entity(i)
+                self.last_time_generate.append(i)
 
-    def common_generate(self, scene, entity, shape):
+    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width):
         """
 
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
         """
 
-        center_x = float(self.window.lineEdit_57.text())   #FIXME
-        center_y = float(self.window.lineEdit_58.text())
-        radius = float(self.window.lineEdit_49.text())
-        length = float(self.window.lineEdit_50.text())
-        width = float(self.window.lineEdit_51.text())
-
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
+        self.last_time_generate = []
+
         if shape == "Circle":
-            scene.add_entity(entity(Circle2D(Point2D(center_x, center_y), radius)))
+            generate_entity = entity(Circle2D(Point2D(center_x, center_y), radius))
+            scene.add_entity(generate_entity)
+            self.last_time_generate.append(generate_entity)
 
         if shape == "Box":
-            scene.add_entity(entity(Box2D(Point2D(center_x, center_y), length, width)))
+            generate_entity = entity(Box2D(Point2D(center_x, center_y), length, width))
+            scene.add_entity(generate_entity)
+            self.last_time_generate.append(generate_entity)
