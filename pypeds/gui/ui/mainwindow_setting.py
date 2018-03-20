@@ -185,8 +185,8 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_3 = QtWidgets.QComboBox(self.tab_7)
         self.comboBox_3.setGeometry(QtCore.QRect(110, 90, 91, 30))
         self.comboBox_3.setObjectName("comboBox_3")
-        self.comboBox_3.insertItem(0,"Circle")
-        self.comboBox_3.insertItem(1,"Box")
+        self.comboBox_3.insertItem(0, "Circle")
+        self.comboBox_3.insertItem(1, "Box")
         self.label_63 = QtWidgets.QLabel(self.tab_7)
         self.label_63.setGeometry(QtCore.QRect(10, 90, 91, 30))
         self.label_63.setStyleSheet("QLabel{\n"
@@ -253,18 +253,6 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_45.setGeometry(QtCore.QRect(140, 40, 111, 31))
         self.lineEdit_45.setObjectName("lineEdit_45")
         self.stackedWidget.addWidget(self.page_4)
-        self.label_64 = QtWidgets.QLabel(self.tab_7)
-        self.label_64.setGeometry(QtCore.QRect(110, 10, 91, 30))
-        self.label_64.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_64.setObjectName("label_64")
         self.label_65 = QtWidgets.QLabel(self.tab_7)
         self.label_65.setGeometry(QtCore.QRect(110, 50, 91, 30))
         self.label_65.setStyleSheet("QLabel{\n"
@@ -277,27 +265,9 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "\n"
 "}")
         self.label_65.setObjectName("label_65")
-        self.lineEdit_35 = QtWidgets.QLineEdit(self.tab_7)
-        self.lineEdit_35.setGeometry(QtCore.QRect(210, 10, 71, 31))
-        self.lineEdit_35.setObjectName("lineEdit_35")
         self.lineEdit_36 = QtWidgets.QLineEdit(self.tab_7)
         self.lineEdit_36.setGeometry(QtCore.QRect(210, 50, 71, 31))
         self.lineEdit_36.setObjectName("lineEdit_36")
-        self.label_66 = QtWidgets.QLabel(self.tab_7)
-        self.label_66.setGeometry(QtCore.QRect(290, 10, 91, 30))
-        self.label_66.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_66.setObjectName("label_66")
-        self.lineEdit_38 = QtWidgets.QLineEdit(self.tab_7)
-        self.lineEdit_38.setGeometry(QtCore.QRect(390, 10, 71, 31))
-        self.lineEdit_38.setObjectName("lineEdit_38")
         self.label_67 = QtWidgets.QLabel(self.tab_7)
         self.label_67.setGeometry(QtCore.QRect(290, 50, 91, 30))
         self.label_67.setStyleSheet("QLabel{\n"
@@ -331,6 +301,66 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_5.addItem("")
         self.comboBox_5.addItem("")
         self.comboBox_5.addItem("")
+        self.label_82 = QtWidgets.QLabel(self.tab_7)
+        self.label_82.setGeometry(QtCore.QRect(10, 50, 41, 30))
+        self.label_82.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_82.setObjectName("label_82")
+        self.lineEdit_52 = QtWidgets.QLineEdit(self.tab_7)
+        self.lineEdit_52.setGeometry(QtCore.QRect(60, 50, 41, 31))
+        self.lineEdit_52.setObjectName("lineEdit_52")
+        self.label_84 = QtWidgets.QLabel(self.tab_7)
+        self.label_84.setGeometry(QtCore.QRect(110, 10, 61, 30))
+        self.label_84.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_84.setObjectName("label_84")
+        self.lineEdit_54 = QtWidgets.QLineEdit(self.tab_7)
+        self.lineEdit_54.setGeometry(QtCore.QRect(180, 10, 51, 31))
+        self.lineEdit_54.setObjectName("lineEdit_54")
+        self.label_85 = QtWidgets.QLabel(self.tab_7)
+        self.label_85.setGeometry(QtCore.QRect(240, 10, 61, 30))
+        self.label_85.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_85.setObjectName("label_85")
+        self.lineEdit_55 = QtWidgets.QLineEdit(self.tab_7)
+        self.lineEdit_55.setGeometry(QtCore.QRect(310, 10, 51, 31))
+        self.lineEdit_55.setObjectName("lineEdit_55")
+        self.label_86 = QtWidgets.QLabel(self.tab_7)
+        self.label_86.setGeometry(QtCore.QRect(370, 10, 51, 30))
+        self.label_86.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_86.setObjectName("label_86")
+        self.lineEdit_56 = QtWidgets.QLineEdit(self.tab_7)
+        self.lineEdit_56.setGeometry(QtCore.QRect(430, 10, 31, 31))
+        self.lineEdit_56.setObjectName("lineEdit_56")
         self.tabWidget_2.addTab(self.tab_7, "")
         self.tab_8 = QtWidgets.QWidget()
         self.tab_8.setObjectName("tab_8")
@@ -359,7 +389,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_62.setObjectName("label_62")
         self.label_69 = QtWidgets.QLabel(self.tab_8)
-        self.label_69.setGeometry(QtCore.QRect(110, 10, 91, 30))
+        self.label_69.setGeometry(QtCore.QRect(110, 10, 61, 30))
         self.label_69.setStyleSheet("QLabel{\n"
 "\n"
 "     border-width: 1px;\n"
@@ -383,13 +413,13 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_70.setObjectName("label_70")
         self.lineEdit_39 = QtWidgets.QLineEdit(self.tab_8)
-        self.lineEdit_39.setGeometry(QtCore.QRect(210, 10, 71, 31))
+        self.lineEdit_39.setGeometry(QtCore.QRect(180, 10, 51, 31))
         self.lineEdit_39.setObjectName("lineEdit_39")
         self.lineEdit_40 = QtWidgets.QLineEdit(self.tab_8)
         self.lineEdit_40.setGeometry(QtCore.QRect(210, 50, 71, 31))
         self.lineEdit_40.setObjectName("lineEdit_40")
         self.label_71 = QtWidgets.QLabel(self.tab_8)
-        self.label_71.setGeometry(QtCore.QRect(290, 10, 91, 30))
+        self.label_71.setGeometry(QtCore.QRect(240, 10, 61, 30))
         self.label_71.setStyleSheet("QLabel{\n"
 "\n"
 "     border-width: 1px;\n"
@@ -413,7 +443,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
 "}")
         self.label_72.setObjectName("label_72")
         self.lineEdit_41 = QtWidgets.QLineEdit(self.tab_8)
-        self.lineEdit_41.setGeometry(QtCore.QRect(390, 10, 71, 31))
+        self.lineEdit_41.setGeometry(QtCore.QRect(310, 10, 51, 31))
         self.lineEdit_41.setObjectName("lineEdit_41")
         self.lineEdit_42 = QtWidgets.QLineEdit(self.tab_8)
         self.lineEdit_42.setGeometry(QtCore.QRect(390, 50, 71, 31))
@@ -498,6 +528,21 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_6.addItem("")
         self.comboBox_6.addItem("")
         self.comboBox_6.addItem("")
+        self.label_83 = QtWidgets.QLabel(self.tab_8)
+        self.label_83.setGeometry(QtCore.QRect(370, 10, 51, 30))
+        self.label_83.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_83.setObjectName("label_83")
+        self.lineEdit_53 = QtWidgets.QLineEdit(self.tab_8)
+        self.lineEdit_53.setGeometry(QtCore.QRect(430, 10, 31, 31))
+        self.lineEdit_53.setObjectName("lineEdit_53")
         self.tabWidget_2.addTab(self.tab_8, "")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
@@ -516,8 +561,8 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_7 = QtWidgets.QComboBox(self.tab)
         self.comboBox_7.setGeometry(QtCore.QRect(10, 50, 91, 30))
         self.comboBox_7.setObjectName("comboBox_7")
-        self.comboBox_7.insertItem(0,"Circle")
-        self.comboBox_7.insertItem(1,"Box")
+        self.comboBox_7.insertItem(0, "Circle")
+        self.comboBox_7.insertItem(1, "Box")
         self.label_75 = QtWidgets.QLabel(self.tab)
         self.label_75.setGeometry(QtCore.QRect(10, 90, 91, 30))
         self.label_75.setStyleSheet("QLabel{\n"
@@ -534,7 +579,7 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.pushButton_26.setGeometry(QtCore.QRect(10, 170, 451, 30))
         self.pushButton_26.setObjectName("pushButton_26")
         self.stackedWidget_3 = QtWidgets.QStackedWidget(self.tab)
-        self.stackedWidget_3.setGeometry(QtCore.QRect(110, 10, 341, 141))
+        self.stackedWidget_3.setGeometry(QtCore.QRect(110, 10, 341, 101))
         self.stackedWidget_3.setObjectName("stackedWidget_3")
         self.page_7 = QtWidgets.QWidget()
         self.page_7.setObjectName("page_7")
@@ -593,6 +638,36 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_9.addItem("")
         self.comboBox_9.addItem("")
         self.comboBox_9.addItem("")
+        self.label_87 = QtWidgets.QLabel(self.tab)
+        self.label_87.setGeometry(QtCore.QRect(110, 130, 91, 30))
+        self.label_87.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_87.setObjectName("label_87")
+        self.lineEdit_57 = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_57.setGeometry(QtCore.QRect(210, 130, 71, 31))
+        self.lineEdit_57.setObjectName("lineEdit_57")
+        self.label_88 = QtWidgets.QLabel(self.tab)
+        self.label_88.setGeometry(QtCore.QRect(290, 130, 91, 30))
+        self.label_88.setStyleSheet("QLabel{\n"
+"\n"
+"     border-width: 1px;\n"
+"\n"
+"     border-style: solid;\n"
+"\n"
+"     border-color: rgb(96, 96, 96);\n"
+"\n"
+"}")
+        self.label_88.setObjectName("label_88")
+        self.lineEdit_58 = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_58.setGeometry(QtCore.QRect(390, 130, 71, 31))
+        self.lineEdit_58.setObjectName("lineEdit_58")
         self.tabWidget_2.addTab(self.tab, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -602,16 +677,13 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
+        self.connectstack()
         self.retranslateUi(MainWindow)
         self.tabWidget_2.setCurrentIndex(0)
         self.stackedWidget.setCurrentIndex(0)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(1)
         self.stackedWidget_3.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.comboBox_3.currentIndexChanged.connect(self.display_one)
-        self.comboBox_4.currentIndexChanged.connect(self.display_two)
-        self.comboBox_7.currentIndexChanged.connect(self.display_three)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -644,18 +716,22 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.lineEdit_44.setText(_translate("MainWindow", "10"))
         self.label_77.setText(_translate("MainWindow", "Width Of Box"))
         self.lineEdit_45.setText(_translate("MainWindow", "10"))
-        self.label_64.setText(_translate("MainWindow", "X"))
         self.label_65.setText(_translate("MainWindow", "Length"))
-        self.lineEdit_35.setText(_translate("MainWindow", "500"))
         self.lineEdit_36.setText(_translate("MainWindow", "100"))
-        self.label_66.setText(_translate("MainWindow", "Y"))
-        self.lineEdit_38.setText(_translate("MainWindow", "200"))
         self.label_67.setText(_translate("MainWindow", "Width"))
         self.lineEdit_37.setText(_translate("MainWindow", "50"))
         self.label_68.setText(_translate("MainWindow", "Entity"))
         self.comboBox_5.setItemText(0, _translate("MainWindow", "Ped"))
         self.comboBox_5.setItemText(1, _translate("MainWindow", "Wall"))
         self.comboBox_5.setItemText(2, _translate("MainWindow", "Safe-Region"))
+        self.label_82.setText(_translate("MainWindow", "INTV"))
+        self.lineEdit_52.setText(_translate("MainWindow", "10"))
+        self.label_84.setText(_translate("MainWindow", "X"))
+        self.lineEdit_54.setText(_translate("MainWindow", "500"))
+        self.label_85.setText(_translate("MainWindow", "Y"))
+        self.lineEdit_55.setText(_translate("MainWindow", "200"))
+        self.label_86.setText(_translate("MainWindow", "Num"))
+        self.lineEdit_56.setText(_translate("MainWindow", "200"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_7), _translate("MainWindow", "Gird-Generate"))
         self.label_61.setText(_translate("MainWindow", "Region"))
         self.label_62.setText(_translate("MainWindow", "Shape"))
@@ -678,6 +754,8 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_6.setItemText(0, _translate("MainWindow", "Ped"))
         self.comboBox_6.setItemText(1, _translate("MainWindow", "Wall"))
         self.comboBox_6.setItemText(2, _translate("MainWindow", "Safe-Region"))
+        self.label_83.setText(_translate("MainWindow", "Num"))
+        self.lineEdit_53.setText(_translate("MainWindow", "200"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_8), _translate("MainWindow", "Random-Generate"))
         self.label_74.setText(_translate("MainWindow", "Shape"))
         self.label_75.setText(_translate("MainWindow", "Entity"))
@@ -691,7 +769,16 @@ class Ui_MainWindow_Setting(QtWidgets.QMainWindow):
         self.comboBox_9.setItemText(0, _translate("MainWindow", "Ped"))
         self.comboBox_9.setItemText(1, _translate("MainWindow", "Wall"))
         self.comboBox_9.setItemText(2, _translate("MainWindow", "Safe-Region"))
+        self.label_87.setText(_translate("MainWindow", "X"))
+        self.lineEdit_57.setText(_translate("MainWindow", "500"))
+        self.label_88.setText(_translate("MainWindow", "X"))
+        self.lineEdit_58.setText(_translate("MainWindow", "200"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab), _translate("MainWindow", "Common-Generate"))
+
+    def connectstack(self):
+        self.comboBox_3.currentIndexChanged.connect(self.display_one)
+        self.comboBox_4.currentIndexChanged.connect(self.display_two)
+        self.comboBox_7.currentIndexChanged.connect(self.display_three)
 
     def display_one(self,i):
         self.stackedWidget.setCurrentIndex(i)
