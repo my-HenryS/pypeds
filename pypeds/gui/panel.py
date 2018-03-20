@@ -267,15 +267,6 @@ class PaintArea(QWidget):
     def scene(self):
         return self.window.scene
 
-    def add_panel(self):
-        """
-        when the current window's comboBox select a scene's name,give panel to the scene
-        :return:scene with a panel
-        """
-        scene_selected = [x for x in self.window.scenePool if x.getName() == self.window.comboBox.currentText()]
-        if scene_selected != [] and not self.window.panel in scene_selected[0]._listeners:
-            scene_selected[0].add_listener(self.window.panel)
-
     def paintEvent(self, e):
         """ Define that window will call scene's drawer to draw themselves (and it then will call entities
          & then shapes to draw)
@@ -286,7 +277,6 @@ class PaintArea(QWidget):
         self.painter.begin(self)
         self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
-        self.add_panel()
         if self.scene is not None and self.scene.drawer is not None:
             self.scene.drawer.draw(self.scene)
         self.painter.end()
