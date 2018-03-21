@@ -12,7 +12,6 @@ class Generator(object):
     Generator(.....).random_generator()
     the Generator which adds the entities in the entitiesPool
     """
-
     def __init__(self, window):
         self.window = window
         self.last_time_generate = []
@@ -45,7 +44,6 @@ class Generator(object):
                     self.last_time_generate.append(generate_entity)
                     count_number += 1
                     if count_number == number:
-                        print(self.last_time_generate)
                         return
 
         if shape == 'Circle':

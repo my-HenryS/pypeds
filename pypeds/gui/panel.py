@@ -1,6 +1,6 @@
 from pypeds.scene import *
 from pypeds.gui.ui.mainwindow_main import Ui_MainWindow_Main
-from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
+from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting, Dragebutton
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDesktopWidget
@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtGui
 from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.example.listener import PedestrianEscapeListener
-
+from PyQt5.QtCore import Qt
 
 class MainWindow(Ui_MainWindow_Main):
     """
@@ -79,7 +79,6 @@ class MainWindow(Ui_MainWindow_Main):
 
     def velocity_change(self):
         self.scene.model.time_per_step = self.horizontalSlider.value() * 0.0001919 + 0.001
-        # self.horizontalSlider.value()*0.0001919+0.001)
 
     def handle_click(self):
         self.scene_select()
@@ -90,7 +89,15 @@ class MainWindow(Ui_MainWindow_Main):
         pass
 
     def scene_select(self):
-        self.scene = self.scenePool[self.comboBox.currentIndex()]
+        if self.scene != None and self.scene.is_alive():
+            self.scene.stop()
+            self.pushButton_13.setText(self._translate("MainWindow", "Run"))
+            self.pushButton_12.setEnabled(False)
+            self.pushButton_12.setText(self._translate("MainWindow", "Pause"))
+            self.pushButton_14.setEnabled(False)
+            self.enable = False
+        if self.scenePool != None and self.comboBox.currentIndex() != -1:
+            self.scene = self.scenePool[self.comboBox.currentIndex()]
 
 
 class SettingWindow(Ui_MainWindow_Setting):
@@ -105,9 +112,19 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.mainwindow = mainwindow
         self.scenePool = []
         self.scene = None
+        self.drag_entity = ''
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.setAcceptDrops(True)
+        self.dragbutton = Dragebutton("Agent", self)
+        self.dragbutton.setGeometry(820, 520, 81, 30)
+        self.dragbutton_2 = Dragebutton("Wall", self)
+        self.dragbutton_2.setGeometry(910, 520, 81, 30)
+        self.dragbutton_3 = Dragebutton("Generate Region", self)
+        self.dragbutton_3.setGeometry(1000, 520, 141, 30)
+        self.dragbutton_4 = Dragebutton("Safe Region", self)
+        self.dragbutton_4.setGeometry(1150, 520, 151, 30)
         self.pushButton_11.clicked.connect(self.hide)
         self.pushButton_11.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_26.clicked.connect(self.common_generate)
@@ -135,10 +152,27 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.scene = self.scenePool[self.comboBox.currentIndex()]
 
     def cancel(self):
-        print(self.generator.last_time_generate)
-        print(self.scene._entities)
         for entity in self.generator.last_time_generate:
             self.scene.remove_entity(entity)
+
+    def dragEnterEvent(self, e):
+        e.accept()
+
+    def dropEvent(self, e):
+        position = e.pos()
+        if self.drag_entity == "Agent":
+            print(position.x())
+            print(position.y())
+            self.scene.add_entity(Pedestrian(Circle2D(Point2D(position.x(), position.y()), 2)))
+        if self.drag_entity == "Wall":
+            self.scene.add_entity(Wall(Box2D(Point2D(position.x(), position.y()), 5, 5)))
+        if self.drag_entity == "Generate Region":
+            pass
+        if self.drag_entity == "Safe Region":
+            self.scene.add_entity(SafetyRegion(Box2D(Point2D(position.x(), position.y()), 5, 5)))
+
+        e.setDropAction(Qt.MoveAction)
+        e.accept()
 
     def center(self):
         """
