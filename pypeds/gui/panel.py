@@ -160,16 +160,31 @@ class SettingWindow(Ui_MainWindow_Setting):
         e.accept()
 
     def dropEvent(self, e):
+
+        radius = float(self.lineEdit_49.text())
+        length = float(self.lineEdit_50.text())
+        width = float(self.lineEdit_51.text())
+        shape = self.comboBox_7.currentText()
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+
         position = e.pos()
         if self.drag_entity == "Agent":
-            self.scene.add_entity(Pedestrian(Circle2D(Point2D(position.x(), position.y()), 2)))
+            self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
         if self.drag_entity == "Wall":
-            self.scene.add_entity(Wall(Box2D(Point2D(position.x(), position.y()), 5, 5)))
+            self.generator.common_generate(self.scene, "Wall", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
         if self.drag_entity == "Generate Region":
             pass
         if self.drag_entity == "Safe Region":
-            self.scene.add_entity(SafetyRegion(Box2D(Point2D(position.x(), position.y()), 5, 5)))
-
+            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x(), position.y(), radius, length,
+                                           width,
+                                           a, b,
+                                           angle)
         e.setDropAction(Qt.MoveAction)
         e.accept()
 
@@ -273,7 +288,6 @@ class PaintArea(QWidget):
         self.offset_y = 0.0
         self.last_x = -1
         self.last_y = -1
-        # self.painter.translate(200,200)
 
     @property
     def scene(self):
