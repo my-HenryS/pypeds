@@ -12,11 +12,12 @@ class Generator(object):
     Generator(.....).random_generator()
     the Generator which adds the entities in the entitiesPool
     """
+
     def __init__(self, window):
         self.window = window
         self.last_time_generate = []
 
-    def grid_generate(self, scene, region_shape, entity, shape, radius, length, width, number, interval):
+    def grid_generate(self, scene, region_shape, entity, shape, radius, length, width, number, a, b, angle, interval):
         """
 
         :return: the ped enetities generated in the grid way and the ped_initial_pos with the entities' generated position
@@ -25,7 +26,9 @@ class Generator(object):
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
-        if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
+        if shape == "Circle" and number * radius ** 2 > region_shape.area() or \
+                shape == "Box" and number * width * length > region_shape.area() or \
+                shape == "Ellipse" and number * a * b * 4 > region_shape.area():
             print("generator deny")
 
         self.last_time_generate = []
@@ -37,8 +40,8 @@ class Generator(object):
             for m in range(0, number_y):
                 for n in range(0, number_x):
                     generate_entity = entity(
-                        Box2D(center=Point2D(region_shape.e_left + n * (interval + length / 2) + length / 2,
-                                             region_shape.e_down + m * (interval + width / 2) + width / 2),
+                        Box2D(center=Point2D(region_shape.e_left + n * (interval + length) + length / 2,
+                                             region_shape.e_down + m * (interval + width) + width / 2),
                               length=length, width=width))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)
@@ -53,8 +56,8 @@ class Generator(object):
             for m in range(0, number_y):
                 for n in range(0, number_x):
                     generate_entity = entity(
-                        Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius) + radius,
-                                                region_shape.e_down + m * (interval + radius) + radius),
+                        Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius * 2) + radius,
+                                                region_shape.e_down + m * (interval + radius * 2) + radius),
                                  radius=radius))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)
@@ -63,7 +66,24 @@ class Generator(object):
                     if count_number == number:
                         return
 
-    def random_generate(self, scene, region_shape, entity, shape, radius, length, width, number):
+        if shape == "Ellipse":
+            count_number = 0
+            number_x = int(region_shape.length / (interval + 2 * a * math.cos(angle)))
+            number_y = int(region_shape.width / (interval + 2 * a * math.sin(angle)))
+            for m in range(0, number_y):
+                for n in range(0, number_x):
+                    generate_entity = entity(
+                        Ellipse2D(center=Point2D(
+                            region_shape.e_left + n * (interval + 2 * abs(a * math.cos(angle))) + abs(a * math.cos(angle)),
+                            region_shape.e_down + m * (interval + 2 * abs(a * math.sin(angle))) + abs(a * math.sin(angle))),
+                            a=a, b=b, angle=angle))
+                    scene.add_entity(generate_entity)
+                    self.last_time_generate.append(generate_entity)
+                    count_number += 1
+                    if count_number == number:
+                        return
+
+    def random_generate(self, scene, region_shape, entity, shape, radius, length, width, number, a, b, angle):
         """
 
         :return:the ped entities generated in the random way and the ped_initial_pos with the entities' generated position
@@ -74,21 +94,24 @@ class Generator(object):
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
-        if shape == "Circle" and number * radius ** 2 > region_shape.area() or shape == "Box" and number * width * length > region_shape.area():
+        if shape == "Circle" and number * radius ** 2 > region_shape.area() or \
+                shape == "Box" and number * width * length > region_shape.area() or \
+                shape == "Ellipse" and number * a * b * 4 > region_shape.area():
             print("generator deny")
 
         self.last_time_generate = []
 
-        region_x = [region_shape.center.x - region_shape.length / 2 + radius,
-                    region_shape.center.x + region_shape.length / 2 - radius]
-        region_y = [region_shape.center.y - region_shape.width / 2 + radius,
-                    region_shape.center.y + region_shape.width / 2 - radius]
-        random_x = [random.uniform(region_x[0], region_x[1]) for _ in range(number)]
-        random_y = [random.uniform(region_y[0], region_y[1]) for _ in range(number)]
-
         if shape == "Circle":
+
+            region_x = [region_shape.center.x - region_shape.length / 2 + radius,
+                        region_shape.center.x + region_shape.length / 2 - radius]
+            region_y = [region_shape.center.y - region_shape.width / 2 + radius,
+                        region_shape.center.y + region_shape.width / 2 - radius]
+            random_x = [random.uniform(region_x[0], region_x[1]) for _ in range(number)]
+            random_y = [random.uniform(region_y[0], region_y[1]) for _ in range(number)]
+
             for n in range(0, number):
-                randomPool.append(entity(Circle2D(Point2D(random_x[n], random_y[n]), radius)))
+                randomPool.append(entity(Circle2D(center=Point2D(random_x[n], random_y[n]), radius=radius)))
             for index in randomPool:
                 for member in randomPool:
                     if index == member:
@@ -100,19 +123,48 @@ class Generator(object):
                 self.last_time_generate.append(i)
 
         if shape == "Box":
+
+            region_x = [region_shape.center.x - region_shape.length / 2 + length / 2,
+                        region_shape.center.x + region_shape.length / 2 - length / 2]
+            region_y = [region_shape.center.y - region_shape.width / 2 + width / 2,
+                        region_shape.center.y + region_shape.width / 2 - width / 2]
+            random_x = [random.uniform(region_x[0], region_x[1]) for _ in range(number)]
+            random_y = [random.uniform(region_y[0], region_y[1]) for _ in range(number)]
+
             for n in range(0, number):
-                randomPool.append(entity(Box2D(Point2D(random_x[n], random_y[n]), length, width)))
+                randomPool.append(entity(Box2D(center=Point2D(random_x[n], random_y[n]), length=length, width=width)))
             for index in randomPool:
                 for member in randomPool:
                     if index == member:
                         continue
                     if not index == member and DistanceCalculator.distance(index.shape, member.shape)[0] < 0:
-                        randomPool.remove(entity)
+                        randomPool.remove(member)
             for i in randomPool:
                 scene.add_entity(i)
                 self.last_time_generate.append(i)
 
-    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width):
+        if shape == "Ellipse":
+
+            region_x = [region_shape.center.x - region_shape.length / 2 + a * math.cos(angle),
+                        region_shape.center.x + region_shape.length / 2 - a * math.cos(angle)]
+            region_y = [region_shape.center.y - region_shape.width / 2 + a * math.sin(angle),
+                        region_shape.center.y + region_shape.width / 2 - a * math.sin(angle)]
+            random_x = [random.uniform(region_x[0], region_x[1]) for _ in range(number)]
+            random_y = [random.uniform(region_y[0], region_y[1]) for _ in range(number)]
+
+            for n in range(0, number):
+                randomPool.append(entity(Ellipse2D(center=Point2D(random_x[n], random_y[n]), a=a, b=b, angle=angle)))
+            for index in randomPool:
+                for member in randomPool:
+                    if index == member:
+                        continue
+                    if not index == member and DistanceCalculator.distance(index.shape, member.shape)[0] < 0:
+                        randomPool.remove(member)
+            for i in randomPool:
+                scene.add_entity(i)
+                self.last_time_generate.append(i)
+
+    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width, a, b, angle):
         """
 
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
@@ -125,11 +177,16 @@ class Generator(object):
         self.last_time_generate = []
 
         if shape == "Circle":
-            generate_entity = entity(Circle2D(Point2D(center_x, center_y), radius))
+            generate_entity = entity(Circle2D(center=Point2D(center_x, center_y), radius=radius))
             scene.add_entity(generate_entity)
             self.last_time_generate.append(generate_entity)
 
         if shape == "Box":
-            generate_entity = entity(Box2D(Point2D(center_x, center_y), length, width))
+            generate_entity = entity((Box2D(center=Point2D(center_x, center_y), length=length, width=width)))
+            scene.add_entity(generate_entity)
+            self.last_time_generate.append(generate_entity)
+
+        if shape == "Ellispse":
+            generate_entity = entity(Ellipse2D(center=Point2D(center_x, center_y), a=a, b=b, angle=angle))
             scene.add_entity(generate_entity)
             self.last_time_generate.append(generate_entity)

@@ -12,6 +12,7 @@ from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.example.listener import PedestrianEscapeListener
 from PyQt5.QtCore import Qt
 
+
 class MainWindow(Ui_MainWindow_Main):
     """
     Extends UI class with window and drawer methods
@@ -161,8 +162,6 @@ class SettingWindow(Ui_MainWindow_Setting):
     def dropEvent(self, e):
         position = e.pos()
         if self.drag_entity == "Agent":
-            print(position.x())
-            print(position.y())
             self.scene.add_entity(Pedestrian(Circle2D(Point2D(position.x(), position.y()), 2)))
         if self.drag_entity == "Wall":
             self.scene.add_entity(Wall(Box2D(Point2D(position.x(), position.y()), 5, 5)))
@@ -203,8 +202,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         width = float(self.lineEdit_45.text())
         number = int(self.lineEdit_56.text())
         intervel = int(self.lineEdit_52.text())
+        a = float(self.lineEdit_38.text())
+        b = float(self.lineEdit_59.text())
+        angle = float(self.lineEdit_60.text())
         self.generator.grid_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length, width,
-                                     number, intervel)
+                                     number, a, b, angle, intervel)
 
     def random_generate(self):
         """
@@ -221,8 +223,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         length = float(self.lineEdit_47.text())
         width = float(self.lineEdit_48.text())
         number = int(self.lineEdit_53.text())
+        a = float(self.lineEdit_61.text())
+        b = float(self.lineEdit_62.text())
+        angle = float(self.lineEdit_63.text())
         self.generator.random_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length,
-                                       width, number)
+                                       width, number, a, b, angle)
 
     def common_generate(self):
         """
@@ -236,7 +241,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         width = float(self.lineEdit_51.text())
         entity = self.comboBox_9.currentText()
         shape = self.comboBox_7.currentText()
-        self.generator.common_generate(self.scene, entity, shape, center_x, center_y, radius, length, width)
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+        self.generator.common_generate(self.scene, entity, shape, center_x, center_y, radius, length, width, a, b,
+                                       angle)
 
     def remove_all_entity(self):
         """
@@ -264,6 +273,7 @@ class PaintArea(QWidget):
         self.offset_y = 0.0
         self.last_x = -1
         self.last_y = -1
+        # self.painter.translate(200,200)
 
     @property
     def scene(self):
@@ -276,9 +286,7 @@ class PaintArea(QWidget):
         :param e: painter event, not yet used
         :return:
         """
-        # print(self.window)
         self.painter.begin(self)
-        self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
         if self.scene is not None:
             if self.scene.drawer is None or self.scene.drawer.device is not self.painter:

@@ -6,6 +6,7 @@ from pypeds.gui.drawer.shape_drawer import *
 from pypeds.gui.drawer.scene_drawer import *
 from pypeds.gui.drawer.entity_drawer import *
 
+
 # TODO write docs
 
 
@@ -33,8 +34,9 @@ class DrawerRegister(ABC):
 class ShapeDrawerRegister(DrawerRegister):
     # there are no inheritance between shapes
     def default_register(self):
-        self.register(Circle2D, Circle2DDrawer(self.device))   # FIXME remove hard code
+        self.register(Circle2D, Circle2DDrawer(self.device))  # FIXME remove hard code
         self.register(Box2D, Box2DDrawer(self.device))
+        self.register(Ellipse2D, Ellipse2DDrawer(self.device))
 
     def add_drawer_support(self, shape) -> bool:
         """ Find the exact shape drawer
@@ -57,7 +59,7 @@ class EntityDrawerRegister(DrawerRegister):
         super().__init__(device, mode)
 
     def default_register(self):
-        self.register(Entity, EntityDrawer(self.device, self.shape_drawer_register))    # FIXME remove hard code
+        self.register(Entity, EntityDrawer(self.device, self.shape_drawer_register))  # FIXME remove hard code
 
     def add_drawer_support(self, entity) -> bool:
         """ Find the first-matched entity drawer by matching either the entity class itself or any of its super classes
