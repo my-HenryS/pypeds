@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import math
 from functools import lru_cache
+#todo provide multiple init methods for shape
+
 
 def create_vector(type, *args):   # TODO: consider upgrade it to create_shape
     if type == Vector2D:
@@ -179,6 +181,7 @@ class Shape2D(ABC):
         """
         return DistanceCalculator.distance(self, other)
 
+    @property
     @abstractmethod
     def bound(self):
         """
@@ -186,13 +189,13 @@ class Shape2D(ABC):
         """
         pass
 
-    def intersects(self, other) -> bool:
+    def intersects(self, other, tlr_dist=0) -> bool:
         """
         :param other: the other shape
         :return: whether the two shapes are intersected
         """
         dist, dirt = self.distance(other)
-        return dist <= 0
+        return dist <= tlr_dist
 
     @abstractmethod
     def contains(self, point) -> bool:
@@ -233,10 +236,10 @@ class DistanceCalculator(object):
                 return dist, dirt*(-1)
             ## TODO When the shape contains centers of shape and other, dirt calculating maybe is error
             if isinstance(shape, Box2D) or isinstance(shape, Rectangle2D):
-                dist1, dirt1 = shape.get_left.distance(other)
-                dist2, dirt2 = shape.get_right.distance(other)
-                dist3, dirt3 = shape.get_down.distance(other)
-                dist4, dirt4 = shape.get_up.distance(other)
+                dist1, dirt1 = shape.left_edge.distance(other)
+                dist2, dirt2 = shape.right_edge.distance(other)
+                dist3, dirt3 = shape.low_edge.distance(other)
+                dist4, dirt4 = shape.upper_edge.distance(other)
                 dist = (dist1, dist2, dist3, dist4)
                 dirt = (dirt1, dirt2, dirt3, dirt4)
                 if shape.contains(other):
@@ -274,6 +277,7 @@ class Circle2D(Shape2D):
     def area(self) -> float:
         return math.pi() * self.radius * self.radius
 
+    @property
     def bound(self):
         return Box2D(self.center, 2 * self.radius, 2 * self.radius)
 
@@ -294,40 +298,41 @@ class Box2D(Shape2D):
         self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
 
     @property
-    def e_left(self):
+    def x_min(self):
         return self.center.x - self.length / 2
 
     @property
-    def e_right(self):
+    def x_max(self):
         return self.center.x + self.length / 2
 
     @property
-    def e_down(self):
+    def y_min(self):
         return self.center.y - self.width / 2
 
     @property
-    def e_up(self):
+    def y_max(self):
         return self.center.y + self.width / 2
 
     @property
-    def get_left(self):
-        return self.l_left.moveto(Point2D(self.e_left, self.center.y), self.width, math.pi/2)
+    def left_edge(self):
+        return self.l_left.moveto(Point2D(self.x_min, self.center.y), self.width, math.pi / 2)
 
     @property
-    def get_right(self):
-        return self.l_right.moveto(Point2D(self.e_right, self.center.y), self.width, math.pi/2)
+    def right_edge(self):
+        return self.l_right.moveto(Point2D(self.x_max, self.center.y), self.width, math.pi / 2)
 
     @property
-    def get_down(self):
-        return self.l_down.moveto(Point2D(self.center.x, self.e_down), self.length, 0)
+    def low_edge(self):
+        return self.l_down.moveto(Point2D(self.center.x, self.y_min), self.length, 0)
 
     @property
-    def get_up(self):
-        return self.l_up.moveto(Point2D(self.center.x, self.e_up), self.length, 0)
+    def upper_edge(self):
+        return self.l_up.moveto(Point2D(self.center.x, self.y_max), self.length, 0)
 
     def area(self) -> float:
         return self.length * self.width
 
+    @property
     def bound(self):
         return self
 
@@ -335,7 +340,7 @@ class Box2D(Shape2D):
         return Box2D(self.center, self.length + 2 * degree, self.width + 2 * degree)
 
     def contains(self, point) -> bool:
-        return self.e_left <= point.x <= self.e_right and self.e_down <= point.y <= self.e_up
+        return self.x_min <= point.x <= self.x_max and self.y_min <= point.y <= self.y_max
 
 
 class Ellipse2D(Shape2D):
@@ -361,6 +366,7 @@ class Ellipse2D(Shape2D):
     def area(self) -> float:
         return math.pi() * self.a * self.b
 
+    @property
     def bound(self):
         """
         Three stances of ellipse：horizontal, vertical, oblique
@@ -395,29 +401,30 @@ class Rectangle2D(Shape2D):
         self.l_down, self.l_up = Segment2D(Point2D(0, 0), 0, 0), Segment2D(Point2D(0, 0), 0, 0)
 
     @property
-    def get_left(self):
+    def left_edge(self):
         return self.l_left.moveto(Point2D(self.center.x - self.length * math.cos(self.angle) / 2,
                                    self.center.y - self.length * math.sin(self.angle) / 2), self.width,
                                   math.pi / 2 + self.angle)
     @property
-    def get_right(self):
+    def right_edge(self):
         return self.l_right.moveto(Point2D(self.center.x + self.length * math.cos(self.angle) / 2,
                                     self.center.y + self.length * math.sin(self.angle) / 2), self.width,
                                    math.pi / 2 + self.angle)
 
     @property
-    def get_down(self):
+    def low_edge(self):
         return self.l_down.moveto(Point2D(self.center.x + self.width * math.sin(self.angle) / 2,
                                    self.center.y - self.width * math.cos(self.angle) / 2), self.length, self.angle)
 
     @property
-    def get_up(self):
+    def upper_edge(self):
         return self.l_up.moveto(Point2D(self.center.x - self.width * math.sin(self.angle) / 2,
                                  self.center.y + self.width * math.cos(self.angle) / 2), self.length, self.angle)
 
     def area(self) -> float:
         return self.length * self.width
 
+    @property
     def bound(self):
         return Box2D(self.center,
                      self.length * math.fabs(math.cos(self.angle)) + self.width * math.fabs(math.sin(self.angle)),

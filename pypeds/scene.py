@@ -1,8 +1,10 @@
+from pypeds.example.entity import Wall
 from pypeds.pool import EntityPool
 from pypeds.entity import Entity
 from abc import ABC, abstractmethod
 from threading import Thread
 from pypeds.shape2d import *
+import time
 
 
 class Scene(Thread):
@@ -20,6 +22,8 @@ class Scene(Thread):
         self._listeners = []
         self.drawer = None
         self.strategy = strategy
+        self._is_paused = False
+        self.bound = None
 
     @property
     def entities(self):
@@ -75,10 +79,18 @@ class Scene(Thread):
         self._listeners.remove(listener)
         listener.on_removed()
 
+    def pack(self, margin = 10):
+        y_max = max(entity.shape.bound.y_max for entity in self.entities)
+        y_min = min(entity.shape.bound.y_min for entity in self.entities)
+        x_max = max(entity.shape.bound.x_max for entity in self.entities)
+        x_min = min(entity.shape.bound.x_min for entity in self.entities)
+        self.bound = Box2D(Point2D((x_max+x_min)/2, (y_max+y_min)/2), x_max - x_min + margin * 2, y_max - y_min + margin * 2)
+
     def begin(self):
         """
-        Call all listener's on_begin
+        Pack up scene. Call all listener's on_begin
         """
+        self.pack()
         for lis in self.listeners:
             lis.on_begin()
 
@@ -98,11 +110,54 @@ class Scene(Thread):
         """
         self.begin()  # pack up
         while not self._is_stopped:
-             self.step_next()  # step next
+            self.step_next()  # step next
+            while self._is_paused:
+                time.sleep(100)
 
     def stop(self):
         self._is_stopped = True  # inherit from class Thread
 
+    def pause(self):
+        self._is_paused = True
+
+    def resume(self):
+        self._is_paused = False
+
+    def to_grid(self, shape, div=0.4, default_value=0, block_value=1, run_off_rate=5):
+        """ Meshing the scene into grid, setting each cell with values that represents its accessibility by agents.
+
+        We classify entities in scene into blockable entities and other entities. When the 'shape' being placed in a cell
+         of the grid intersects with any blockable entity, we set the value of cell to 'block_value'.
+         Otherwise (aka 'shape' does not hit any blockable entities), we set the value to 'default_value'.
+        :param shape: the shape of agent
+        :param div: the division of cell (square)
+        :param default_value: value of accessible cell
+        :param block_value:  value of inaccessible cell
+        :return: grid: the grid of scene
+        """
+        import copy
+        template_shape = copy.deepcopy(shape)
+        if self.bound is None:
+            raise NotImplementedError
+
+        length = int(self.bound.length / div) + 1
+        width = int(self.bound.width / div) + 1
+        x_min = self.bound.x_min
+        y_min = self.bound.y_min
+
+        grid = [[0 for i in range(width)] for j in range(length)]
+
+        for j in range(width):
+            for i in range(length):
+                pos = Point2D(x_min + div * i, y_min + div * j)
+                template_shape.center = pos
+                grid[i][j] = default_value
+                for entity in self.entities_of_type(Wall):
+                    if entity.shape.intersects(template_shape, run_off_rate*div):
+                        grid[i][j] = block_value
+                        break
+
+        return grid, Point2D(x_min, y_min)
 
 class SceneListener(ABC):
 

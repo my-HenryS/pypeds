@@ -40,8 +40,8 @@ class Generator(object):
             for m in range(0, number_y):
                 for n in range(0, number_x):
                     generate_entity = entity(
-                        Box2D(center=Point2D(region_shape.e_left + n * (interval + length) + length / 2,
-                                             region_shape.e_down + m * (interval + width) + width / 2),
+                        Box2D(center=Point2D(region_shape.left_edge + n * (interval + length / 2) + length / 2,
+                                             region_shape.low_edge + m * (interval + width / 2) + width / 2),
                               length=length, width=width))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)
@@ -56,8 +56,8 @@ class Generator(object):
             for m in range(0, number_y):
                 for n in range(0, number_x):
                     generate_entity = entity(
-                        Circle2D(center=Point2D(region_shape.e_left + n * (interval + radius * 2) + radius,
-                                                region_shape.e_down + m * (interval + radius * 2) + radius),
+                        Circle2D(center=Point2D(region_shape.left_edge + n * (interval + radius) + radius,
+                                                region_shape.low_edge + m * (interval + radius) + radius),
                                  radius=radius))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)
