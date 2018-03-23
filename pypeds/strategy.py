@@ -31,12 +31,20 @@ class Strategy(SceneListener):
 
     @abstractmethod
     def on_stepped(self):
-        """ Some dynamic strategy will modify path each step
+        """ Dynamic strategy will set agent's path within certain interval
 
         """
         pass
 
     def on_removed(self):
+        pass
+
+
+class StaticStrategy(Strategy):
+    def on_stepped(self):
+        """ Static strategy will not modify agent's path after scene starts
+
+        """
         pass
 
 

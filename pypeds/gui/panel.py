@@ -161,8 +161,6 @@ class SettingWindow(Ui_MainWindow_Setting):
     def dropEvent(self, e):
         position = e.pos()
         if self.drag_entity == "Agent":
-            print(position.x())
-            print(position.y())
             self.scene.add_entity(Pedestrian(Circle2D(Point2D(position.x(), position.y()), 2)))
         if self.drag_entity == "Wall":
             self.scene.add_entity(Wall(Box2D(Point2D(position.x(), position.y()), 5, 5)))
@@ -287,21 +285,13 @@ class PaintArea(QWidget):
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):
-        self.zoom = self.zoom + event.angleDelta().y() / 1200.0
-        if self.zoom < 1:
-            self.zoom = 1
+        pass
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
-        if self.last_x is not -1:
-            self.offset_x += event.pos().x() - self.last_x
-            self.offset_y += event.pos().y() - self.last_y
-        else:
-            self.last_x = event.pos().x()
-            self.last_y = event.pos().y()
+        pass
 
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
-        self.last_x = -1
-        self.last_y = -1
+        pass
 
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.

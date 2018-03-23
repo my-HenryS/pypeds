@@ -52,7 +52,7 @@ class Box2DDrawer(ShapeDrawer):
         self.color = QColor(0, 0, 0, 200)
 
     def draw(self, box):
-        l, d, w, h = box.e_left, box.e_down, box.length, box.width
+        l, d, w, h = box.x_min, box.y_min, box.length, box.width
         self.device.setBrush(self.color)
         self.device.drawRect(QRectF(l, d, w, h))
 
