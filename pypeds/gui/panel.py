@@ -12,6 +12,7 @@ from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.example.listener import PedestrianEscapeListener
 from PyQt5.QtCore import Qt
 
+
 class MainWindow(Ui_MainWindow_Main):
     """
     Extends UI class with window and drawer methods
@@ -159,16 +160,31 @@ class SettingWindow(Ui_MainWindow_Setting):
         e.accept()
 
     def dropEvent(self, e):
+
+        radius = float(self.lineEdit_49.text())
+        length = float(self.lineEdit_50.text())
+        width = float(self.lineEdit_51.text())
+        shape = self.comboBox_7.currentText()
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+
         position = e.pos()
         if self.drag_entity == "Agent":
-            self.scene.add_entity(Pedestrian(Circle2D(Point2D(position.x(), position.y()), 2)))
+            self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
         if self.drag_entity == "Wall":
-            self.scene.add_entity(Wall(Box2D(Point2D(position.x(), position.y()), 5, 5)))
+            self.generator.common_generate(self.scene, "Wall", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
         if self.drag_entity == "Generate Region":
             pass
         if self.drag_entity == "Safe Region":
-            self.scene.add_entity(SafetyRegion(Box2D(Point2D(position.x(), position.y()), 5, 5)))
-
+            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x(), position.y(), radius, length,
+                                           width,
+                                           a, b,
+                                           angle)
         e.setDropAction(Qt.MoveAction)
         e.accept()
 
@@ -201,8 +217,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         width = float(self.lineEdit_45.text())
         number = int(self.lineEdit_56.text())
         intervel = int(self.lineEdit_52.text())
+        a = float(self.lineEdit_38.text())
+        b = float(self.lineEdit_59.text())
+        angle = float(self.lineEdit_60.text())
         self.generator.grid_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length, width,
-                                     number, intervel)
+                                     number, a, b, angle, intervel)
 
     def random_generate(self):
         """
@@ -219,8 +238,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         length = float(self.lineEdit_47.text())
         width = float(self.lineEdit_48.text())
         number = int(self.lineEdit_53.text())
+        a = float(self.lineEdit_61.text())
+        b = float(self.lineEdit_62.text())
+        angle = float(self.lineEdit_63.text())
         self.generator.random_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length,
-                                       width, number)
+                                       width, number, a, b, angle)
 
     def common_generate(self):
         """
@@ -234,7 +256,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         width = float(self.lineEdit_51.text())
         entity = self.comboBox_9.currentText()
         shape = self.comboBox_7.currentText()
-        self.generator.common_generate(self.scene, entity, shape, center_x, center_y, radius, length, width)
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+        self.generator.common_generate(self.scene, entity, shape, center_x, center_y, radius, length, width, a, b,
+                                       angle)
 
     def remove_all_entity(self):
         """
@@ -274,9 +300,7 @@ class PaintArea(QWidget):
         :param e: painter event, not yet used
         :return:
         """
-        # print(self.window)
         self.painter.begin(self)
-        self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
         if self.scene is not None:
             if self.scene.drawer is None or self.scene.drawer.device is not self.painter:
