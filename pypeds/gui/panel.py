@@ -1,6 +1,6 @@
 from pypeds.scene import *
 from pypeds.gui.ui.mainwindow_main import Ui_MainWindow_Main
-from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting
+from pypeds.gui.ui.mainwindow_setting import Ui_MainWindow_Setting, Dragebutton
 from pypeds.gui.drawer.drawer_register import SceneDrawerRegister
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDesktopWidget
@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5 import QtGui
 from pypeds.example.strategy import NearestGoalStrategy
 from pypeds.example.listener import PedestrianEscapeListener
+from PyQt5.QtCore import Qt
 
 
 class MainWindow(Ui_MainWindow_Main):
@@ -79,7 +80,6 @@ class MainWindow(Ui_MainWindow_Main):
 
     def velocity_change(self):
         self.scene.model.time_per_step = self.horizontalSlider.value() * 0.0001919 + 0.001
-        # self.horizontalSlider.value()*0.0001919+0.001)
 
     def handle_click(self):
         self.scene_select()
@@ -90,7 +90,15 @@ class MainWindow(Ui_MainWindow_Main):
         pass
 
     def scene_select(self):
-        self.scene = self.scenePool[self.comboBox.currentIndex()]
+        if self.scene != None and self.scene.is_alive():
+            self.scene.stop()
+            self.pushButton_13.setText(self._translate("MainWindow", "Run"))
+            self.pushButton_12.setEnabled(False)
+            self.pushButton_12.setText(self._translate("MainWindow", "Pause"))
+            self.pushButton_14.setEnabled(False)
+            self.enable = False
+        if self.scenePool != None and self.comboBox.currentIndex() != -1:
+            self.scene = self.scenePool[self.comboBox.currentIndex()]
 
 
 class SettingWindow(Ui_MainWindow_Setting):
@@ -105,18 +113,27 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.mainwindow = mainwindow
         self.scenePool = []
         self.scene = None
+        self.drag_entity = ''
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.setAcceptDrops(True)
+        self.dragbutton = Dragebutton("Agent", self)
+        self.dragbutton.setGeometry(820, 520, 81, 30)
+        self.dragbutton_2 = Dragebutton("Wall", self)
+        self.dragbutton_2.setGeometry(910, 520, 81, 30)
+        self.dragbutton_3 = Dragebutton("Generate Region", self)
+        self.dragbutton_3.setGeometry(1000, 520, 141, 30)
+        self.dragbutton_4 = Dragebutton("Safe Region", self)
+        self.dragbutton_4.setGeometry(1150, 520, 151, 30)
         self.pushButton_11.clicked.connect(self.hide)
         self.pushButton_11.clicked.connect(self.mainwindow.handle_click)
-        self.pushButton_12.clicked.connect(self.hide)
-        self.pushButton_12.clicked.connect(self.mainwindow.handle_click)
         self.pushButton_26.clicked.connect(self.common_generate)
         self.pushButton_25.clicked.connect(self.random_generate)
         self.pushButton_24.clicked.connect(self.grid_generate)
         self.pushButton_19.clicked.connect(self.remove_all_entity)
         self.pushButton_20.clicked.connect(self.create_scene)
+        self.pushButton_21.clicked.connect(self.cancel)
         self.comboBox.currentIndexChanged.connect(self.scene_select)
 
     def create_scene(self):
@@ -134,6 +151,42 @@ class SettingWindow(Ui_MainWindow_Setting):
 
     def scene_select(self):
         self.scene = self.scenePool[self.comboBox.currentIndex()]
+
+    def cancel(self):
+        for entity in self.generator.last_time_generate:
+            self.scene.remove_entity(entity)
+
+    def dragEnterEvent(self, e):
+        e.accept()
+
+    def dropEvent(self, e):
+
+        radius = float(self.lineEdit_49.text())
+        length = float(self.lineEdit_50.text())
+        width = float(self.lineEdit_51.text())
+        shape = self.comboBox_7.currentText()
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+
+        position = e.pos()
+        if self.drag_entity == "Agent":
+            self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
+        if self.drag_entity == "Wall":
+            self.generator.common_generate(self.scene, "Wall", shape, position.x(), position.y(), radius, length, width,
+                                           a, b,
+                                           angle)
+        if self.drag_entity == "Generate Region":
+            pass
+        if self.drag_entity == "Safe Region":
+            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x(), position.y(), radius, length,
+                                           width,
+                                           a, b,
+                                           angle)
+        e.setDropAction(Qt.MoveAction)
+        e.accept()
 
     def center(self):
         """
@@ -157,22 +210,57 @@ class SettingWindow(Ui_MainWindow_Setting):
         y = float(self.lineEdit_55.text())
         l = float(self.lineEdit_36.text())
         w = float(self.lineEdit_37.text())
-        self.generator.grid_generate(self.scene, Box2D(Point2D(x,y), l ,w), self.comboBox_5.currentText(),
-                                     self.comboBox_3.currentText(), int(self.lineEdit_56.text()), int(self.lineEdit_52.text()))
+        entity = self.comboBox_5.currentText()
+        shape = self.comboBox_3.currentText()
+        radius = float(self.lineEdit_43.text())
+        length = float(self.lineEdit_44.text())
+        width = float(self.lineEdit_45.text())
+        number = int(self.lineEdit_56.text())
+        intervel = int(self.lineEdit_52.text())
+        a = float(self.lineEdit_38.text())
+        b = float(self.lineEdit_59.text())
+        angle = float(self.lineEdit_60.text())
+        self.generator.grid_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length, width,
+                                     number, a, b, angle, intervel)
 
     def random_generate(self):
         """
         use the setting window to generate the pedes in random way
         :return: pedes generated in random way
         """
-        pass
+        x = float(self.lineEdit_39.text())
+        y = float(self.lineEdit_41.text())
+        l = float(self.lineEdit_40.text())
+        w = float(self.lineEdit_42.text())
+        entity = self.comboBox_6.currentText()
+        shape = self.comboBox_4.currentText()
+        radius = float(self.lineEdit_46.text())
+        length = float(self.lineEdit_47.text())
+        width = float(self.lineEdit_48.text())
+        number = int(self.lineEdit_53.text())
+        a = float(self.lineEdit_61.text())
+        b = float(self.lineEdit_62.text())
+        angle = float(self.lineEdit_63.text())
+        self.generator.random_generate(self.scene, Box2D(Point2D(x, y), l, w), entity, shape, radius, length,
+                                       width, number, a, b, angle)
 
     def common_generate(self):
         """
         use the setting window to generate the item
         :return:
         """
-        self.generator.common_generate(self.scene, self.comboBox_9.currentText(), self.comboBox_7.currentText())
+        center_x = float(self.lineEdit_57.text())
+        center_y = float(self.lineEdit_58.text())
+        radius = float(self.lineEdit_49.text())
+        length = float(self.lineEdit_50.text())
+        width = float(self.lineEdit_51.text())
+        entity = self.comboBox_9.currentText()
+        shape = self.comboBox_7.currentText()
+        a = float(self.lineEdit_64.text())
+        b = float(self.lineEdit_65.text())
+        angle = float(self.lineEdit_66.text())
+        self.generator.common_generate(self.scene, entity, shape, center_x, center_y, radius, length, width, a, b,
+                                       angle)
 
     def remove_all_entity(self):
         """
@@ -212,32 +300,22 @@ class PaintArea(QWidget):
         :param e: painter event, not yet used
         :return:
         """
-        #print(self.window)
         self.painter.begin(self)
-        self.painter.translate(self.offset_x, self.offset_y)
         self.painter.scale(self.zoom, self.zoom)
         if self.scene is not None:
             if self.scene.drawer is None or self.scene.drawer.device is not self.painter:
-                self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))   #fixme remove hard code
+                self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))  # fixme remove hard code
             self.scene.drawer.draw(self.scene)
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):
-        self.zoom = self.zoom + event.angleDelta().y() / 1200.0
-        if self.zoom < 1:
-            self.zoom = 1
+        pass
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
-        if self.last_x is not -1:
-            self.offset_x += event.pos().x() - self.last_x
-            self.offset_y += event.pos().y() - self.last_y
-        else:
-            self.last_x = event.pos().x()
-            self.last_y = event.pos().y()
+        pass
 
     def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
-        self.last_x = -1
-        self.last_y = -1
+        pass
 
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.

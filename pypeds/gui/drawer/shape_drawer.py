@@ -40,10 +40,11 @@ class Ellipse2DDrawer(ShapeDrawer):
         x, y = ellipse.center.x, ellipse.center.y
         a, b = ellipse.a, ellipse.b
         self.device.setBrush(self.color)
-        self.device.rotate(ellipse.angle)
-        self.device.drawEllipse(QPointF(x, y), a, b)  # draw ellipse by defining its bound box
+        self.device.translate(x, y)
         self.device.rotate(-ellipse.angle)
-
+        self.device.drawEllipse(QPointF(0, 0), a, b)  # draw ellipse by defining its bound box
+        self.device.rotate(ellipse.angle)
+        self.device.translate(-x, -y)
 
 class Box2DDrawer(ShapeDrawer):
 
@@ -52,9 +53,6 @@ class Box2DDrawer(ShapeDrawer):
         self.color = QColor(0, 0, 0, 200)
 
     def draw(self, box):
-        l, d, w, h = box.e_left, box.e_down, box.length, box.width
+        l, d, w, h = box.x_min, box.y_min, box.length, box.width
         self.device.setBrush(self.color)
         self.device.drawRect(QRectF(l, d, w, h))
-
-
-

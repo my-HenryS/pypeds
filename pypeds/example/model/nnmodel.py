@@ -32,7 +32,6 @@ class ConvLSTMCell(nn.Module):
         self.kernel_size = kernel_size
         self.padding = kernel_size[0] // 2, kernel_size[1] // 2
         self.bias = bias
-
         self.conv = nn.Conv2d(in_channels=self.input_dim + self.hidden_dim,
                               out_channels=4 * self.hidden_dim,
                               kernel_size=self.kernel_size,
@@ -166,12 +165,9 @@ class ConvLSTM(nn.Module):
             param = [param] * num_layers
         return param
 
-height = 10
-width = 10
-channels = 5
-model = ConvLSTM(input_size=(height, width),
-                 input_dim=channels,
-                 hidden_dim=[64, 64, 128],
+model = ConvLSTM(input_size=(5, 5),
+                 input_dim=5,
+                 hidden_dim=[64,64,128],
                  kernel_size=(3, 3),
                  num_layers=3,
                  batch_first=True,
@@ -179,3 +175,4 @@ model = ConvLSTM(input_size=(height, width),
                  return_all_layers=False)
 
 
+print(model)
