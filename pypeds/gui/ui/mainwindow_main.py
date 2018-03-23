@@ -103,6 +103,44 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.label_98 = QtWidgets.QLabel(self.centralwidget)
+        self.label_98.setGeometry(QtCore.QRect(820, 255, 211, 30))
+        self.label_98.setStyleSheet("QLabel{\n"
+                                    "\n"
+                                    "     border-width: 1px;\n"
+                                    "\n"
+                                    "     border-style: solid;\n"
+                                    "\n"
+                                    "     border-color: rgb(96, 96, 96);\n"
+                                    "\n"
+                                    "}")
+        self.label_98.setObjectName("label_98")
+        self.label_99 = QtWidgets.QLabel(self.centralwidget)
+        self.label_99.setGeometry(QtCore.QRect(820, 295, 211, 30))
+        self.label_99.setStyleSheet("QLabel{\n"
+                                    "\n"
+                                    "     border-width: 1px;\n"
+                                    "\n"
+                                    "     border-style: solid;\n"
+                                    "\n"
+                                    "     border-color: rgb(96, 96, 96);\n"
+                                    "\n"
+                                    "}")
+        self.label_99.setObjectName("label_98")
+        self.label_100 = QtWidgets.QLabel(self.centralwidget)
+        self.label_100.setGeometry(QtCore.QRect(1060, 295, 211, 30))
+        self.label_100.setStyleSheet("QLabel{\n"
+                                    "\n"
+                                    "     border-width: 1px;\n"
+                                    "\n"
+                                    "     border-style: solid;\n"
+                                    "\n"
+                                    "     border-color: rgb(96, 96, 96);\n"
+                                    "\n"
+                                    "}")
+        self.label_100.setObjectName("label_98")
+
+
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -118,4 +156,17 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.label_4.setText(_translate("MainWindow", "Running Time"))
         self.label_5.setText(_translate("MainWindow", "Velocity Control"))
         self.label_6.setText(_translate("MainWindow", "Scene"))
+        self.label_98.setText(_translate("MainWindow", "Mouse Pos"))
+
+    def eventFilter(self, source, event):
+        if event.type() == QtCore.QEvent.MouseMove:
+            if event.buttons() == QtCore.Qt.NoButton:
+                pos = event.pos()
+                if pos.x()>20 and pos.x()<781 and pos.y()>20 and pos.y()<654:
+                    self.label_99.setText(str(pos.x()))
+                    self.label_100.setText(str(pos.y()))
+                else:
+                    self.label_99.setText("")
+                    self.label_100.setText("")
+        return QtWidgets.QMainWindow.eventFilter(self, source, event)
 
