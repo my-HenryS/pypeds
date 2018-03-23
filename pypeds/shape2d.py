@@ -56,6 +56,9 @@ class Vector2D:
     def __abs__(self):
         return math.sqrt(self.x**2 + self.y**2)
 
+    def __cmp__(self, other):
+        return 0
+
     def unit(self):
         if abs(self) != 0:
             return self / abs(self)

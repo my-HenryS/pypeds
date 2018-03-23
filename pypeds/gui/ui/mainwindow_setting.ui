@@ -6,365 +6,1734 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1184</width>
-    <height>764</height>
+    <width>1313</width>
+    <height>732</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>80</y>
+      <x>20</x>
+      <y>20</y>
+      <width>781</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>779</width>
+       <height>649</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>520</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wall</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>560</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Model</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>520</y>
+      <width>81</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Agent</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>600</y>
       <width>481</width>
-      <height>561</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Scene</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox">
-       <item>
-        <property name="text">
-         <string>scene1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>scene2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>scene3</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>scene4</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>scene5</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioButton">
-       <property name="text">
-        <string>Default Generator</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioButton_2">
-       <property name="text">
-        <string>Semi-automatic Generator</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Agent Number</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="spinBox"/>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>Random Generator</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>Equal Distance Generator</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioButton_3">
-       <property name="text">
-        <string>manual Generator</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="text">
-          <string>Generator Region</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_6">
-         <property name="text">
-          <string>Safe Region</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_5">
-         <property name="text">
-          <string>Wall</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>Agent</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Model</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="comboBox_2">
-       <item>
-        <property name="text">
-         <string>ANN</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>SFC</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Real-life</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>LSTM</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>620</x>
-      <y>80</y>
-      <width>491</width>
-      <height>461</height>
+      <height>30</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>0</y>
-      <width>111</width>
-      <height>31</height>
+      <x>820</x>
+      <y>100</y>
+      <width>131</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Default Generate</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>60</y>
+      <width>481</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>20</y>
+      <width>91</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Scene</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>520</y>
+      <width>141</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Settting Menu</string>
+     <string>Generate Region</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_7">
+   <widget class="QPushButton" name="pushButton_10">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>600</y>
-      <width>121</width>
-      <height>41</height>
+      <x>820</x>
+      <y>140</y>
+      <width>221</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Comfirm</string>
+     <string>Default Generate</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_8">
+   <widget class="QLabel" name="label_16">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>600</y>
-      <width>121</width>
-      <height>41</height>
+      <x>820</x>
+      <y>480</y>
+      <width>131</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Manual Generate</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>1150</x>
+      <y>520</y>
+      <width>151</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Safe Region</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_11">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>640</y>
+      <width>221</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Confirm</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_12">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>640</y>
+      <width>231</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
      <string>Cancel</string>
     </property>
    </widget>
-   <widget class="Line" name="line">
+   <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>650</y>
-      <width>521</width>
-      <height>20</height>
+      <x>820</x>
+      <y>180</y>
+      <width>131</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Semi-Generate</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="Line" name="line_2">
+   <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>50</y>
-      <width>521</width>
-      <height>20</height>
+      <x>1060</x>
+      <y>100</y>
+      <width>131</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Setting Goal</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="Line" name="line_3">
+   <widget class="QLabel" name="label_39">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>20</width>
-      <height>601</height>
+      <x>1060</x>
+      <y>140</y>
+      <width>91</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>X</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="Line" name="line_4">
+   <widget class="QLabel" name="label_40">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>60</y>
-      <width>20</width>
-      <height>601</height>
+      <x>1060</x>
+      <y>180</y>
+      <width>91</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+    </property>
+    <property name="text">
+     <string>Y</string>
+    </property>
+    <property name="margin">
+     <number>-1</number>
     </property>
    </widget>
-   <widget class="Line" name="line_5">
+   <widget class="QLineEdit" name="lineEdit_33">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>50</y>
-      <width>531</width>
-      <height>20</height>
+      <x>1170</x>
+      <y>140</y>
+      <width>121</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="text">
+     <string>100</string>
     </property>
    </widget>
-   <widget class="Line" name="line_6">
+   <widget class="QLineEdit" name="lineEdit_34">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>550</y>
-      <width>531</width>
-      <height>20</height>
+      <x>1170</x>
+      <y>180</y>
+      <width>121</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+    <property name="text">
+     <string>100</string>
     </property>
    </widget>
-   <widget class="Line" name="line_7">
+   <widget class="QPushButton" name="pushButton_19">
     <property name="geometry">
      <rect>
-      <x>590</x>
-      <y>60</y>
-      <width>20</width>
-      <height>501</height>
+      <x>1080</x>
+      <y>20</y>
+      <width>221</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>Remove all entity</string>
     </property>
    </widget>
-   <widget class="Line" name="line_8">
+   <widget class="QPushButton" name="pushButton_20">
     <property name="geometry">
      <rect>
-      <x>1120</x>
-      <y>60</y>
-      <width>20</width>
-      <height>501</height>
+      <x>920</x>
+      <y>20</y>
+      <width>111</width>
+      <height>30</height>
      </rect>
     </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>Create Scene</string>
     </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>220</y>
+      <width>481</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab_7">
+     <attribute name="title">
+      <string>Gird-Generate</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButton_24">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>451</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Grid Generate</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_57">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Region</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_3">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>90</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_63">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Shape</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>90</y>
+        <width>251</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_3">
+       <widget class="QLabel" name="label_58">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>radius</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_43">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_4">
+       <widget class="QLabel" name="label_76">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Length Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_44">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_77">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Width Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_45">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>40</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_65">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Length</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_36">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>50</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>100</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_67">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>50</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Width</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_37">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>50</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>50</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_68">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Entity</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_5">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Ped</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Wall</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Safe-Region</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_82">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>41</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>INTV</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_52">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>50</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>10</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_84">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>10</y>
+        <width>61</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_54">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>10</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>500</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_85">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>10</y>
+        <width>61</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Y</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_55">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>10</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>200</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_86">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>10</y>
+        <width>51</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Num</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_56">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>10</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>200</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_8">
+     <attribute name="title">
+      <string>Random-Generate</string>
+     </attribute>
+     <widget class="QLabel" name="label_61">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Region</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_62">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Shape</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_69">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>10</y>
+        <width>61</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_70">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Length</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_39">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>10</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>500</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_40">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>50</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>100</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_71">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>10</y>
+        <width>61</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Y</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_72">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>50</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Width</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_41">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>10</y>
+        <width>51</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>200</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_42">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>50</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>50</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_4">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>90</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_73">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Entity</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_25">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>451</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Random Generate</string>
+      </property>
+     </widget>
+     <widget class="QStackedWidget" name="stackedWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>90</y>
+        <width>251</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page_5">
+       <widget class="QLabel" name="label_59">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>radius</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_46">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_6">
+       <widget class="QLabel" name="label_78">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Length Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_47">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_79">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Width Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_48">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>40</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QComboBox" name="comboBox_6">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Ped</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Wall</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Safe-Region</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_83">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>10</y>
+        <width>51</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Num</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_53">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>10</y>
+        <width>31</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>200</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Common-Generate</string>
+     </attribute>
+     <widget class="QLabel" name="label_74">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Shape</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_7">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_75">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>Entity</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_26">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>170</y>
+        <width>451</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Common Generate</string>
+      </property>
+     </widget>
+     <widget class="QStackedWidget" name="stackedWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>10</y>
+        <width>341</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page_7">
+       <widget class="QLabel" name="label_60">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>radius</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_49">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>2</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_8">
+       <widget class="QLabel" name="label_80">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Length Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_50">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>0</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_81">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+        </property>
+        <property name="text">
+         <string>Width Of Box</string>
+        </property>
+        <property name="margin">
+         <number>-1</number>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit_51">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>40</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>10</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QComboBox" name="comboBox_9">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Ped</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Wall</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Safe-Region</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_87">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_57">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>130</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>500</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_88">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>130</y>
+        <width>91</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+
+     border-width: 1px;
+
+     border-style: solid;
+
+     border-color: rgb(96, 96, 96);
+
+}</string>
+      </property>
+      <property name="text">
+       <string>X</string>
+      </property>
+      <property name="margin">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_58">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>130</y>
+        <width>71</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>200</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -372,7 +1741,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1184</width>
+     <width>1313</width>
      <height>28</height>
     </rect>
    </property>

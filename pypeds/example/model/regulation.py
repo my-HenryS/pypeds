@@ -5,7 +5,6 @@ from pypeds.model.regulation import SingleTargetRegulation, Regulation, SelfDriv
 import math
 
 
-# TODO Resolve view problem
 from pypeds.shape2d import Vector2D, Ellipse2D
 
 
@@ -88,7 +87,7 @@ class BodyForceRegulation(SingleTargetRegulation):
         sliding_force = vert * (self.k2 * abs(dist)) * (vert * v_diff_unit)
         force = body_force + sliding_force
         affection = Affection("Force", force)
-        target.affected(affection)     # TODO do not modify target directly (controversial)
+        target.affected(affection)
         if self.is_rotate:
             m_dist, m_dirt = source.shape.distance(target.shape.center)
             l_dist, l_dirt = source.shape.distance(target.shape.c_left)
@@ -99,7 +98,7 @@ class BodyForceRegulation(SingleTargetRegulation):
             if dist == m_dist:
                 return
             elif dist == l_dist:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)
+                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)  #fixme force point calculation
             else:
                 length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
             length = length_dirt * length_dist
