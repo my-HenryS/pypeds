@@ -161,10 +161,10 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
     def eventFilter(self, source, event):
         if event.type() == QtCore.QEvent.MouseMove:
             if event.buttons() == QtCore.Qt.NoButton:
-                pos = event.pos()
-                if pos.x()>20 and pos.x()<781 and pos.y()>20 and pos.y()<654:
-                    self.label_99.setText(str(pos.x()))
-                    self.label_100.setText(str(pos.y()))
+                pos = event.windowPos()
+                if pos.x()<801 and pos.y()<674 and pos.x()>20 and pos.y()>20:
+                    self.label_99.setText(str(pos.x()-20))
+                    self.label_100.setText(str(pos.y()-20))
                 else:
                     self.label_99.setText("")
                     self.label_100.setText("")

@@ -171,17 +171,17 @@ class SettingWindow(Ui_MainWindow_Setting):
 
         position = e.pos()
         if self.drag_entity == "Agent":
-            self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
+            self.generator.common_generate(self.scene, "Ped", shape, position.x()-20, position.y()-20, radius, length, width,
                                            a, b,
                                            angle)
         if self.drag_entity == "Wall":
-            self.generator.common_generate(self.scene, "Wall", shape, position.x(), position.y(), radius, length, width,
+            self.generator.common_generate(self.scene, "Wall", shape, position.x()-20, position.y()-20, radius, length, width,
                                            a, b,
                                            angle)
         if self.drag_entity == "Generate Region":
             pass
         if self.drag_entity == "Safe Region":
-            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x(), position.y(), radius, length,
+            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x()-20, position.y()-20, radius, length,
                                            width,
                                            a, b,
                                            angle)
