@@ -9,7 +9,7 @@ import time
 
 class Scene(Thread):
 
-    def __init__(self, model=None, strategy=None, pedestrain_shape=Circle2D):
+    def __init__(self, model=None, strategy=None):
         """ Define operations to the variable 'entities'.
         We here define a entities pool and restrict modifying it only with functions
         add_entity() and remove_entity(). We use EntityPool.get() to get a proportion of entities of a specific type.

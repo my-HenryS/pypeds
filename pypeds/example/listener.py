@@ -1,5 +1,5 @@
 from pypeds.scene import SceneListener
-from pypeds.entity import Agent
+from pypeds.entity import Agent, RotateAgent
 import math
 
 class PedestrianEscapeListener(SceneListener):
@@ -10,7 +10,7 @@ class PedestrianEscapeListener(SceneListener):
         pass
 
     def on_stepped(self):
-        for agent in self.scene.entities_of_type(Agent):
+        for agent in list(set(self.scene.entities_of_type(Agent)).union(set(self.scene.entities_of_type(RotateAgent)))):
             if agent.escaped:
                 self.scene.remove_entity(agent)
 

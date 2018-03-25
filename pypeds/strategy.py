@@ -1,4 +1,4 @@
-from pypeds.entity import Agent, Goal
+from pypeds.entity import Agent, Goal ,RotateAgent
 from pypeds.scene import SceneListener
 from abc import ABC, abstractmethod
 
@@ -14,6 +14,10 @@ class Strategy(SceneListener):
     @property
     def agents(self):
         return self.scene.entities_of_type(Agent)
+
+    @property
+    def rotateagent(self):
+        return self.scene.entities_of_type(RotateAgent)
 
     @property
     def goals(self):

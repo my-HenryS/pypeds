@@ -67,6 +67,7 @@ class Generator(object):
                         return
 
         if shape == "Ellipse":
+            if entity==Pedestrian: entity=RotatePedestrian
             count_number = 0
             number_x = int(region_shape.length / (interval + 2 * a * math.cos(angle)))
             number_y = int(region_shape.width / (interval + 2 * a * math.sin(angle)))
@@ -74,8 +75,8 @@ class Generator(object):
                 for n in range(0, number_x):
                     generate_entity = entity(
                         Ellipse2D(center=Point2D(
-                            region_shape.e_left + n * (interval + 2 * abs(a * math.cos(angle))) + abs(a * math.cos(angle)),
-                            region_shape.e_down + m * (interval + 2 * abs(a * math.sin(angle))) + abs(a * math.sin(angle))),
+                            region_shape.x_min + n * (interval + 2 * abs(a * math.cos(angle))) + abs(a * math.cos(angle)),
+                            region_shape.y_min + m * (interval + 2 * abs(a * math.sin(angle))) + abs(a * math.sin(angle))),
                             a=a, b=b, angle=angle))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)
@@ -144,7 +145,7 @@ class Generator(object):
                 self.last_time_generate.append(i)
 
         if shape == "Ellipse":
-
+            if entity==Pedestrian: entity=RotatePedestrian
             region_x = [region_shape.center.x - region_shape.length / 2 + a * math.cos(angle),
                         region_shape.center.x + region_shape.length / 2 - a * math.cos(angle)]
             region_y = [region_shape.center.y - region_shape.width / 2 + a * math.sin(angle),
@@ -187,6 +188,7 @@ class Generator(object):
             self.last_time_generate.append(generate_entity)
 
         if shape == "Ellispse":
+            if entity==Pedestrian: entity=RotatePedestrian
             generate_entity = entity(Ellipse2D(center=Point2D(center_x, center_y), a=a, b=b, angle=angle))
             scene.add_entity(generate_entity)
             self.last_time_generate.append(generate_entity)

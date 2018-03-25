@@ -10,11 +10,10 @@ from pypeds.shape2d import Vector2D, Ellipse2D
 
 class PsychologicalForceRegulation(SingleTargetRegulation):
 
-    def __init__(self, model, is_rotate):
+    def __init__(self, model):
         super().__init__(model)
         self._source_class = Movable
-        self._target_class = Pedestrian
-        self.is_rotate = is_rotate
+        self._target_class = Agent
 
     @property
     def A(self):
@@ -37,7 +36,7 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
         force = dirt * (self.A * math.exp(-dist) / self.B)
         affection = Affection("Force", force)
         target.affected(affection)
-        if self.is_rotate:
+        if hasattr(target, "is_rotate") and target.is_rotate:
             m_dist, m_dirt = source.shape.distance(target.shape.center)
             l_dist, l_dirt = source.shape.distance(target.shape.c_left)
             r_dist, r_dirt = source.shape.distance(target.shape.c_right)
@@ -47,9 +46,9 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
             if dist == m_dist:
                 return
             elif dist == l_dist:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)
+                length_dist, length_dirt = DistanceCalculator.distance(target.shape.center,target.shape.c_left)
             else:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
+                length_dist, length_dirt = DistanceCalculator.distance(target.shape.center,target.shape.c_right)
             length = length_dirt * length_dist
             torque = length.x * force.y - force.x * length.y
             affection = Affection("Torque", torque)
@@ -58,12 +57,11 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
 
 class BodyForceRegulation(SingleTargetRegulation):
 
-    def __init__(self, model, is_rotate):
+    def __init__(self, model):
         super().__init__(model)
 
-        self._source_class = Movable
-        self._target_class = Pedestrian
-        self.is_rotate = is_rotate
+        self._source_class =Movable
+        self._target_class = Agent
 
     @property
     def k1(self):
@@ -88,7 +86,7 @@ class BodyForceRegulation(SingleTargetRegulation):
         force = body_force + sliding_force
         affection = Affection("Force", force)
         target.affected(affection)
-        if self.is_rotate:
+        if hasattr(target, "is_rotate") and target.is_rotate:
             m_dist, m_dirt = source.shape.distance(target.shape.center)
             l_dist, l_dirt = source.shape.distance(target.shape.c_left)
             r_dist, r_dirt = source.shape.distance(target.shape.c_right)
@@ -111,8 +109,8 @@ class SelfDrivenForceRegulation(SelfDrivenRegulation):
     def __init__(self, model, expected_velocity, react_time):
         super().__init__(model)
 
-        self._source_class = Pedestrian
-        self._target_class = Pedestrian
+        self._source_class = Agent
+        self._target_class = Agent
         self.exp_v = expected_velocity
         self.react_t = react_time
 
@@ -132,12 +130,15 @@ class SelfDrivenTorqueRegulation(SelfDrivenRegulation):
 
     def exert(self, entity):
         dirt = entity.next_step()
-        face = Vector2D(- math.sin(entity.angle), math.cos(entity.angle))
-        rotate_angle = math.acos(dirt.x * face.x + dirt.y * face.y)
-        if face.x * dirt.y - dirt.x * face.y < 0:
+        face = Vector2D( math.sin(entity.angle),- math.cos(entity.angle))
+        result=dirt.x * face.x + dirt.y * face.y
+        if result>1:
+            result=1
+        rotate_angle = math.acos(result)
+        if result < 0:
             rotate_angle *= -1
-        torque = 40 * rotate_angle
-        affection = Affection("Torque ", torque)
+        torque = 40 * abs(rotate_angle)
+        affection = Affection("Torque", torque)
         entity.affected(affection)
 
 
@@ -151,7 +152,7 @@ class SelfDampingTorqueRegulation(SelfDrivenRegulation):
 
     def exert(self, entity):
         torque = (-5 * entity.palstance) * (entity.inertia / self.react_t)
-        affection = Affection("Torque ", torque)
+        affection = Affection("Torque", torque)
         entity.affected(affection)
 
 

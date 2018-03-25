@@ -158,15 +158,15 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.label_6.setText(_translate("MainWindow", "Scene"))
         self.label_98.setText(_translate("MainWindow", "Mouse Pos"))
 
-    def eventFilter(self, source, event):
-        if event.type() == QtCore.QEvent.MouseMove:
-            if event.buttons() == QtCore.Qt.NoButton:
-                pos = event.windowPos()
-                if pos.x()<801 and pos.y()<674 and pos.x()>20 and pos.y()>20:
-                    self.label_99.setText(str(pos.x()-20))
-                    self.label_100.setText(str(pos.y()-20))
-                else:
-                    self.label_99.setText("")
-                    self.label_100.setText("")
-        return QtWidgets.QMainWindow.eventFilter(self, source, event)
+    # def eventFilter(self, source, event):
+    #     if event.type() == QtCore.QEvent.MouseMove:
+    #         if event.buttons() == QtCore.Qt.NoButton:
+    #             pos = event.windowPos()
+    #             if pos.x()<801 and pos.y()<674 and pos.x()>20 and pos.y()>20:
+    #                 self.label_99.setText(str(pos.x()-20))
+    #                 self.label_100.setText(str(pos.y()-20))
+    #             else:
+    #                 self.label_99.setText("")
+    #                 self.label_100.setText("")
+    #     return QtWidgets.QMainWindow.eventFilter(self, source, event)
 
