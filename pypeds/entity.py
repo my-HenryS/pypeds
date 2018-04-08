@@ -68,8 +68,27 @@ class Movable(Entity):
         self.velocity = model.zero_velocity()
         self.acc = model.zero_velocity()
 
+class Escapable(Movable):
 
-class Rotatable(Movable):
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.escaped = False
+
+    def affected(self, affection):
+        super().affected(affection)
+        if affection.a_type == "Escape":
+            self.escaped = affection.value
+
+
+class Agent(Escapable):
+    def __init__(self, shape):
+        super().__init__(shape)
+        self.path = None
+
+    def next_step(self):
+        return self.path.next_step(self.position)
+
+class Rotatable(Agent):
 
     def __init__(self, shape):
         super().__init__(shape)
@@ -100,35 +119,16 @@ class Rotatable(Movable):
     @model.setter
     def model(self, model):
         self._model = model
+        self.velocity = model.zero_velocity()
+        self.acc=model.zero_velocity()
         self.palstance = model.zero_angular_velocity()
         self.angular_acc = model.zero_angular_velocity()
-
 
 class RotateAgent(Rotatable):
     def __init__(self, shape):
         super().__init__(shape)
         self.path = None
-
-    def next_step(self):
-        return self.path.next_step(self.position)
-
-
-class Escapable(Movable):
-
-    def __init__(self, shape):
-        super().__init__(shape)
-        self.escaped = False
-
-    def affected(self, affection):
-        super().affected(affection)
-        if affection.a_type == "Escape":
-            self.escaped = affection.value
-
-
-class Agent(Escapable):
-    def __init__(self, shape):
-        super().__init__(shape)
-        self.path = None
+        self.is_rotate=True
 
     def next_step(self):
         return self.path.next_step(self.position)

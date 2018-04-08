@@ -13,4 +13,5 @@ if __name__ == "__main__":
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     m = MainWindow("MainWindow")
     m.show()
+    app.installEventFilter(m)
     sys.exit(app.exec_())
