@@ -333,8 +333,8 @@ class PaintArea(QWidget):
         if not self.move:
             return
         x, y = event.pos().x(), event.pos().y()
-        self.offset_x += - (x - self.last_x)
-        self.offset_y += - (y - self.last_y)
+        self.offset_x += - (x - self.last_x) / self.zoom
+        self.offset_y += - (y - self.last_y) / self.zoom
         self.last_x, self.last_y = event.pos().x(), event.pos().y()
 
     def register_drawer(self, drawer_register):
