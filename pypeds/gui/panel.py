@@ -169,7 +169,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         b = float(self.lineEdit_65.text())
         angle = float(self.lineEdit_66.text())
 
-        position = e.pos()
+        position = e.pos() - self.scrollArea.pos()
         if self.drag_entity == "Agent":
             self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
                                            a, b,
@@ -288,6 +288,8 @@ class PaintArea(QWidget):
         self.offset_y = 0.0
         self.last_x = -1
         self.last_y = -1
+        self.move = False
+        self.min_scale = 0.4
 
     @property
     def scene(self):
@@ -302,6 +304,7 @@ class PaintArea(QWidget):
         """
         self.painter.begin(self)
         self.painter.scale(self.zoom, self.zoom)
+        self.painter.translate(-self.offset_x, -self.offset_y)
         if self.scene is not None:
             if self.scene.drawer is None or self.scene.drawer.device is not self.painter:
                 self.register_drawer(SceneDrawerRegister(self.painter, mode="default"))  # fixme remove hard code
@@ -309,13 +312,30 @@ class PaintArea(QWidget):
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):
-        pass
+        x, y = event.pos().x(), event.pos().y()
+        x = x / self.zoom + self.offset_x
+        y = y / self.zoom + self.offset_y
+        new_zoom = self.zoom + event.angleDelta().y() / 400
+        if new_zoom < self.min_scale and event.angleDelta().y() < 0:
+            new_zoom = self.min_scale
+        self.offset_x = ((new_zoom - self.zoom) * x + self.zoom * self.offset_x) / new_zoom
+        self.offset_y = ((new_zoom - self.zoom) * y + self.zoom * self.offset_y) / new_zoom
+        self.zoom = new_zoom
 
     def mousePressEvent(self, event: QtGui.QMouseEvent):
-        pass
+        self.move = True
+        self.last_x, self.last_y = event.pos().x(), event.pos().y()
 
-    def mouseReleaseEvent(self, a0: QtGui.QMouseEvent):
-        pass
+    def mouseReleaseEvent(self, event: QtGui.QMouseEvent):
+        self.move = False
+
+    def mouseMoveEvent(self, event: QtGui.QMouseEvent):
+        if not self.move:
+            return
+        x, y = event.pos().x(), event.pos().y()
+        self.offset_x += - (x - self.last_x)
+        self.offset_y += - (y - self.last_y)
+        self.last_x, self.last_y = event.pos().x(), event.pos().y()
 
     def register_drawer(self, drawer_register):
         """ Give value to attribute 'drawer_register'.

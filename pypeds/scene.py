@@ -152,7 +152,7 @@ class Scene(Thread):
                 pos = Point2D(x_min + div * i, y_min + div * j)
                 template_shape.center = pos
                 grid[i][j] = default_value
-                for entity in self.entities_of_type(Wall):
+                for entity in self.entities_of_type(Wall):    #remove hard code
                     if entity.shape.intersects(template_shape, run_off_rate*div):
                         grid[i][j] = block_value
                         break
