@@ -11,7 +11,8 @@ class NearestGoalStrategy(StaticStrategy):
         """
         for agent in self.agents:
             dsr_dist, dsr_goal = min((goal.distance(agent), goal.position) for goal in self.scene.entities_of_type(Goal))
-            agent.path = GridPath.create_path(self.scene, Circle2D(Point2D(0,0),1),dsr_goal)    # TODO implement path factory
+            agent.path=StraightPath(dsr_goal)
+            # agent.path = GridPath.create_path(self.scene, Circle2D(Point2D(0,0),1),dsr_goal)    # TODO implement path factory
 
     def on_stepped(self):
         pass
