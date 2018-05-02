@@ -99,7 +99,6 @@ class Scene(Thread):
         self.model.step_next(self)
         # time_step increment
         self.time_step += 1
-
         # call listeners
         for lis in self.listeners:
             lis.on_stepped()
@@ -112,7 +111,7 @@ class Scene(Thread):
         while not self._is_stopped:
             self.step_next()  # step next
             while self._is_paused:
-                time.sleep(100)
+                time.sleep(1)
 
     def stop(self):
         self._is_stopped = True  # inherit from class Thread
