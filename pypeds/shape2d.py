@@ -103,6 +103,10 @@ class Vector2D:
 class Point2D(Vector2D):
     def __repr__(self):
         return "Point2D(%.2f,%.2f)" % (self.x, self.y)
+
+    def __hash__(self):
+        return hash(self.x)+hash(self.y)
+
     pass
 
 
@@ -216,7 +220,7 @@ class Shape2D(ABC):
 
 class DistanceCalculator(object):
     @staticmethod
-    def distance(shape, other) -> (float, Vector2D):
+    def distance(shape, other) -> (float, Vector2D):  # todo add rect
         """
         There are 5 kinds of shape : Vector2D(point2D), Circle2D, Box2D, Ellipse2D, Rectangle2D
         The combination of <shape * other> is divided to 5 * 5 conditions
@@ -225,47 +229,63 @@ class DistanceCalculator(object):
         :param other:the distance and distance between two shapes(distance defined as a unit vector)
         :return:
         """
-        if isinstance(other, Point2D):
-            if isinstance(shape, Point2D):
+        if isinstance(shape, Point2D):
+            if isinstance(other, Point2D):
                 dist = other.dist(shape)
                 if dist == 0:
                     return 0, Vector2D(0, 0)
                 return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
-            if isinstance(shape, Circle2D) or isinstance(shape, Ellipse2D):
+
+            elif isinstance(other, Circle2D):
+                dist, dirt = DistanceCalculator.distance(shape, other.center)
+                dist -= other.radius
+                return dist, dirt
+
+            elif isinstance(other, Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
-                return dist, dirt*(-1)
-            ## TODO When the shape contains centers of shape and other, dirt calculating maybe is error
-            if isinstance(shape, Box2D) or isinstance(shape, Rectangle2D):
-                dist1, dirt1 = shape.left_edge.distance(other)
-                dist2, dirt2 = shape.right_edge.distance(other)
-                dist3, dirt3 = shape.low_edge.distance(other)
-                dist4, dirt4 = shape.upper_edge.distance(other)
+                return dist, dirt * (-1)
+
+            elif isinstance(other, Box2D):
+                dist1, dirt1 = other.left_edge.distance(shape)
+                dist2, dirt2 = other.right_edge.distance(shape)
+                dist3, dirt3 = other.low_edge.distance(shape)
+                dist4, dirt4 = other.upper_edge.distance(shape)
                 dist = (dist1, dist2, dist3, dist4)
                 dirt = (dirt1, dirt2, dirt3, dirt4)
-                if shape.contains(other):
+                if other.contains(shape):
                     return - min(dist), dirt[dist.index(min(dist))]
-                return min(dist), dirt[dist.index(min(dist))]
-        if isinstance(other, Circle2D):
-            dist, dirt = DistanceCalculator.distance(shape, other.center)
-            dist -= other.radius
-            if dist <= 0:
-                return dist, dirt*(-1)
-            return dist, dirt
-        if isinstance(other, Ellipse2D):
-            l_dist, l_dirt = DistanceCalculator.distance(shape, other.c_left)
-            r_dist, r_dirt = DistanceCalculator.distance(shape, other.c_right)
-            m_dist, m_dirt = DistanceCalculator.distance(shape, other.center)
-            l_dist -= (other.a - other.b) / 2
-            r_dist -= (other.a - other.b) / 2
-            m_dist -= other.b
+                return min(dist), dirt[dist.index(min(dist))] * (-1)
+
+        if isinstance(shape, Circle2D):
+            if isinstance(other, Point2D):
+                dist, dirt = DistanceCalculator.distance(other, shape)
+                return dist, dirt * (-1)
+
+            elif isinstance(other, Circle2D) or isinstance(other, Box2D) or isinstance(other, Ellipse2D):
+                dist, dirt = DistanceCalculator.distance(shape.center, other)
+                return dist - shape.radius, dirt
+
+        if isinstance(shape, Ellipse2D):
+            l_dist, l_dirt = DistanceCalculator.distance(shape.c_left, other)
+            r_dist, r_dirt = DistanceCalculator.distance(shape.c_right, other)
+            m_dist, m_dirt = DistanceCalculator.distance(shape.center, other)
+            l_dist -= (shape.a - shape.b) / 2
+            r_dist -= (shape.a - shape.b) / 2
+            m_dist -= shape.b
             dist = (l_dist, r_dist, m_dist)
             dirt = (l_dirt, r_dirt, m_dirt)
-            if min(dist) <= 0:
-                return min(dist), dirt[dist.index(min(dist))]*(-1)
             return min(dist), dirt[dist.index(min(dist))]
-        if isinstance(other, Box2D) or isinstance(other, Rectangle2D):
-            dist, dirt = DistanceCalculator.distance(other, shape)
-            return dist, dirt*(-1)
+
+
+        if isinstance(shape, Box2D):
+            if isinstance(other, Box2D):
+                pass
+
+            else:
+                dist, dirt = DistanceCalculator.distance(other, shape)
+                return dist, dirt * (-1)
+
+
 
 
 class Circle2D(Shape2D):
