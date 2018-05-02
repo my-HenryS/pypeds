@@ -5,17 +5,24 @@ from pypeds.utils import shortest_path
 
 class NearestGoalStrategy(StaticStrategy):
 
+    def __init__(self):
+        self.dict = {}
+
     def on_begin(self):
         """
         Set agents' paths on scene begin
         """
+        goals = self.scene.entities_of_type(Goal)
+        for goal in goals:
+            self.dict[goal.position] = GridPath.create_path(self.scene, Circle2D(Point2D(0, 0), 1), goal.position)
+
         for agent in self.agents:
-            dsr_dist, dsr_goal = min((goal.distance(agent), goal.position) for goal in self.scene.entities_of_type(Goal))
-            agent.path = GridPath.create_path(self.scene, Circle2D(Point2D(0,0),1),dsr_goal)    # TODO implement path factory
+            dsr_dist, dsr_goal = min(
+                (goal.distance(agent), goal.position) for goal in self.scene.entities_of_type(Goal))
+            agent.path = self.dict[dsr_goal]  # TODO implement path factory
 
     def on_stepped(self):
         pass
-
 
 class StraightPath(Path):
     def __init__(self, goal):
