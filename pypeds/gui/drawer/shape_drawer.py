@@ -21,7 +21,7 @@ class Circle2DDrawer(ShapeDrawer):
 
     def __init__(self, device):
         super().__init__(device)
-        self.color = QColor(0, 0, 0, 200)
+        self.color = QColor(0, 0, 0)
 
     def draw(self, circle):
         x, y = circle.center.x, circle.center.y
@@ -30,11 +30,12 @@ class Circle2DDrawer(ShapeDrawer):
         self.device.drawEllipse(QPointF(x, y), r, r)  # draw ellipse by defining its bound box
 
 
+
 class Ellipse2DDrawer(ShapeDrawer):
 
     def __init__(self, device):
         super().__init__(device)
-        self.color = QColor(0, 0, 0, 200)
+        self.color = QColor(0, 0, 0)
 
     def draw(self, ellipse):
         x, y = ellipse.center.x, ellipse.center.y
@@ -50,7 +51,7 @@ class Box2DDrawer(ShapeDrawer):
 
     def __init__(self, device):
         super().__init__(device)
-        self.color = QColor(0, 0, 0, 200)
+        self.color = QColor(0, 0, 0)
 
     def draw(self, box):
         l, d, w, h = box.x_min, box.y_min, box.length, box.width
