@@ -34,36 +34,36 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.pushButton_14 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_14.setGeometry(QtCore.QRect(940, 640, 211, 30))
         self.pushButton_14.setObjectName("pushButton_14")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(820, 110, 211, 30))
-        self.label_3.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_3.setObjectName("label_3")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(1060, 110, 211, 30))
-        self.label_4.setStyleSheet("QLabel{\n"
-"\n"
-"     border-width: 1px;\n"
-"\n"
-"     border-style: solid;\n"
-"\n"
-"     border-color: rgb(96, 96, 96);\n"
-"\n"
-"}")
-        self.label_4.setObjectName("label_4")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(820, 150, 211, 30))
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(1060, 150, 211, 30))
-        self.lineEdit_2.setObjectName("lineEdit_2")
+        # self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        # self.label_3.setGeometry(QtCore.QRect(820, 110, 211, 30))
+        # self.label_3.setStyleSheet("QLabel{\n"
+# "\n"
+# "     border-width: 1px;\n"
+# "\n"
+# "     border-style: solid;\n"
+# "\n"
+# "     border-color: rgb(96, 96, 96);\n"
+# "\n"
+# "}")
+#         self.label_3.setObjectName("label_3")
+#         self.label_4 = QtWidgets.QLabel(self.centralwidget)
+#         self.label_4.setGeometry(QtCore.QRect(1060, 110, 211, 30))
+#         self.label_4.setStyleSheet("QLabel{\n"
+# "\n"
+# "     border-width: 1px;\n"
+# "\n"
+# "     border-style: solid;\n"
+# "\n"
+# "     border-color: rgb(96, 96, 96);\n"
+# "\n"
+# "}")
+#         self.label_4.setObjectName("label_4")
+#         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+#         self.lineEdit.setGeometry(QtCore.QRect(820, 150, 211, 30))
+#         self.lineEdit.setObjectName("lineEdit")
+#         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
+#         self.lineEdit_2.setGeometry(QtCore.QRect(1060, 150, 211, 30))
+#         self.lineEdit_2.setObjectName("lineEdit_2")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(820, 190, 211, 30))
         self.label_5.setStyleSheet("QLabel{\n"
@@ -152,8 +152,8 @@ class Ui_MainWindow_Main(QtWidgets.QMainWindow):
         self.pushButton_12.setText(_translate("MainWindow", "Pause"))
         self.pushButton_13.setText(_translate("MainWindow", "Run"))
         self.pushButton_14.setText(_translate("MainWindow", "Skip"))
-        self.label_3.setText(_translate("MainWindow", "Average Velocity"))
-        self.label_4.setText(_translate("MainWindow", "Running Time"))
+        # self.label_3.setText(_translate("MainWindow", "Average Velocity"))
+        # self.label_4.setText(_translate("MainWindow", "Running Time"))
         self.label_5.setText(_translate("MainWindow", "Velocity Control"))
         self.label_6.setText(_translate("MainWindow", "Scene"))
         self.label_98.setText(_translate("MainWindow", "Mouse Pos"))
