@@ -315,7 +315,7 @@ class Circle2D(Shape2D):
         return dist <= self.radius
 
     def to_dict(self):
-        return {"circle2d": {"center": str(self.center), "radius": self.radius}}
+        return {"Circle2D": {"center": str(self.center), "radius": self.radius}}
 
     def from_dict(self, s_dict):
         """
@@ -323,8 +323,8 @@ class Circle2D(Shape2D):
         :param s_dict:
         :return:
         """
-        center = s_dict["circle2d"]["center"]
-        radius = s_dict["circle2d"]["radius"]
+        center = s_dict["Circle2D"]["center"]
+        radius = s_dict["Circle2D"]["radius"]
         return Circle2D(center, radius)
 
 class Box2D(Shape2D):
@@ -380,6 +380,20 @@ class Box2D(Shape2D):
     def contains(self, point) -> bool:
         return self.x_min <= point.x <= self.x_max and self.y_min <= point.y <= self.y_max
 
+    def to_dict(self):
+        return {"Box2D": {"center": str(self.center), "length": self.length, "width": self.width}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a box
+        :param s_dict:
+        :return:
+        """
+        center = s_dict["Box2D"]["center"]
+        length = s_dict["Box2D"]["length"]
+        width = s_dict["Box2D"]["width"]
+        return Box2D(center, length, width)
+
 
 class Ellipse2D(Shape2D):
 
@@ -430,7 +444,20 @@ class Ellipse2D(Shape2D):
                            self.a - self.b) / 2
 
     def to_dict(self):
-        return {"ellipse2d": {"center": str(self.center), "a": self.a, "b": self.b, "angle": self.angle}}
+        return {"Ellipse2D": {"center": str(self.center), "a": self.a, "b": self.b, "angle": self.angle}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a ellipse
+        :param s_dict:
+        :return:
+        """
+        center = s_dict["Ellipse2D"]["center"]
+        a = s_dict["Ellipse2D"]["a"]
+        b = s_dict["Ellipse2D"]["b"]
+        angle = s_dict["Ellipse2D"]["angle"]
+        return Ellipse2D(center, a, b, angle)
+
 
 class Rectangle2D(Shape2D):
 
@@ -478,3 +505,18 @@ class Rectangle2D(Shape2D):
             (point.x - self.center.x) * math.cos(self.angle) + (point.y - self.center.y) * math.sin(self.angle),
             - (point.x - self.center.x) * math.sin(self.angle) + (point.y - self.center.y) * math.cos(self.angle))
         return Box2D(self.center, self.length, self.width).contains(p_trans)
+
+    def to_dict(self):
+        return {"Rectangle2D": {"center": str(self.center), "length": self.length, "width": self.width, "angle": self.angle}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a rectangle
+        :param s_dict:
+        :return:
+        """
+        center = s_dict["Rectangle2D"]["center"]
+        length = s_dict["Rectangle2D"]["length"]
+        width = s_dict["Rectangle2D"]["width"]
+        angle = s_dict["Rectangle2D"]["angle"]
+        return Rectangle2D(center, length, width, angle)
