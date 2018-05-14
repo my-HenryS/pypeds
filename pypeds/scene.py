@@ -158,6 +158,30 @@ class Scene(Thread):
 
         return grid, Point2D(x_min, y_min)
 
+    def to_dict(self):
+        output = {}
+        entities = []
+        for entity in self.entities:
+            if entity.to_dict() is not None:
+                entities.append(entity.to_dict())
+        output["scene"] = entities
+        return output
+
+    def to_json(self, fpath = None):
+        """
+        将 dict 对象转换成微信支付交互所需的 JSON 格式数据
+
+        :return: json 格式数据
+        """
+        import json
+        if fpath is None:
+            return json.dumps(self.to_dict())
+        else:
+            with open(fpath, 'w') as f:
+                return json.dump(self.to_dict(),f)
+
+
+
 class SceneListener(ABC):
 
     def __init__(self):

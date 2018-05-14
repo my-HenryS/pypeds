@@ -30,6 +30,9 @@ if __name__ == "__main__":
     #generator.grid_generate(scene, Box2D(Point2D(5,5),6,6), "Ped", "Circle", 0.5/2, 0, 0, 10, 0, 0, 0, 1)
     #scene.add_entity(SafetyRegion(Box2D(Point2D(10, 30), 1, 4)))
     scene.add_entity(SafetyRegion(Circle2D(Point2D(10, 30), 4)))
+    scene.to_json("scene1.json")
+
+
     m.add_scene(scene)
     m.show()
     sys.exit(app.exec_())
