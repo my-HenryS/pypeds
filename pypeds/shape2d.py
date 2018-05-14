@@ -217,6 +217,12 @@ class Shape2D(ABC):
         """
         pass
 
+    @abstractmethod
+    def to_dict(self):
+        """
+
+        :return:
+        """
 
 class DistanceCalculator(object):
     @staticmethod
@@ -308,6 +314,18 @@ class Circle2D(Shape2D):
         dist, dirt = DistanceCalculator.distance(self.center, point)
         return dist <= self.radius
 
+    def to_dict(self):
+        return {"circle2d": {"center": str(self.center), "radius": self.radius}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a circle
+        :param s_dict:
+        :return:
+        """
+        center = s_dict["circle2d"]["center"]
+        radius = s_dict["circle2d"]["radius"]
+        return Circle2D(center, radius)
 
 class Box2D(Shape2D):
 
@@ -411,6 +429,8 @@ class Ellipse2D(Shape2D):
                            self.a - self.b) / 2 or DistanceCalculator.distance(self.c_right, point) <= (
                            self.a - self.b) / 2
 
+    def to_dict(self):
+        return {"ellipse2d": {"center": str(self.center), "a": self.a, "b": self.b, "angle": self.angle}}
 
 class Rectangle2D(Shape2D):
 

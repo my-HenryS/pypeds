@@ -6,6 +6,9 @@ class Pedestrian(Agent):
         super(Pedestrian, self).__init__(shape)
         self.mass = 80
 
+    def to_dict(self):
+        return {"pedestrian": {"shape": self.shape.to_dict(), "velocity":self.velocity, "mass": self.mass}}
+
 class Wall(Movable):
     def __init__(self,shape):
         super(Wall, self).__init__(shape)

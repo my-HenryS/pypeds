@@ -334,6 +334,7 @@ class PaintArea(QWidget):
     def mousePressEvent(self, event: QtGui.QMouseEvent):
         self.move = True
         self.last_x, self.last_y = event.pos().x(), event.pos().y()
+        print(self.translate(self.last_x, self.last_y))
 
     def mouseReleaseEvent(self, event: QtGui.QMouseEvent):
         self.move = False

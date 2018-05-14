@@ -32,6 +32,9 @@ class Entity(ABC):
     def position(self, pos):
         self.shape.center = pos
 
+    def to_dict(self):
+        return {"entity": self.shape.to_dict()}
+
 
 class Goal(Entity):
     def __init__(self, shape):
