@@ -28,8 +28,8 @@ class MainWindow(Ui_MainWindow_Main):
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
         self.scrollArea.setWidget(self.area)
+        self.scenePool = []
         self.settingwindow = SettingWindow("Setting", 16, self)
-        self.scenePool = self.settingwindow.scenePool
         self.scene = None
         self.enable = False
         self.pause_flag = False
@@ -72,11 +72,12 @@ class MainWindow(Ui_MainWindow_Main):
         if self.pause_flag == False:
             self.pushButton_12.setText(self._translate("MainWindow", "Resume"))
             self.pause_flag = not self.pause_flag
-            return
+            self.scene.pause()
 
-        if self.pause_flag == True:
+        elif self.pause_flag == True:
             self.pushButton_12.setText(self._translate("MainWindow", "Pause"))
             self.pause_flag = not self.pause_flag
+            self.scene.resume()
 
     def velocity_change(self):
         self.scene.model.time_per_step = self.horizontalSlider.value() * 0.0001919 + 0.001
@@ -100,6 +101,14 @@ class MainWindow(Ui_MainWindow_Main):
         if self.scenePool != None and self.comboBox.currentIndex() != -1:
             self.scene = self.scenePool[self.comboBox.currentIndex()]
 
+    def add_scene(self, scene):
+        self.scenePool.append(scene)
+        self.comboBox.addItem(scene.getName())
+        self.settingwindow.comboBox.addItem(scene.getName())
+
+    def closeEvent(self, a0: QtGui.QCloseEvent):
+        self.scene.stop()
+
 
 class SettingWindow(Ui_MainWindow_Setting):
     def __init__(self, title, fps, mainwindow):
@@ -109,9 +118,9 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.setWindowTitle(title)
         self.center()
         self.retranslateUi(self)
-        self.generator = Generator(self)
+        self.generator = Generator()
         self.mainwindow = mainwindow
-        self.scenePool = []
+        self.scenePool = self.mainwindow.scenePool
         self.scene = None
         self.drag_entity = ''
         # init paint area and assigned to scroll area
@@ -145,9 +154,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         scene.model = SFModel(0.004)
         scene.add_listener(PedestrianEscapeListener())
         scene.add_listener(NearestGoalStrategy())
-        self.scenePool.append(scene)
-        self.comboBox.addItem(scene.getName())
-        self.mainwindow.comboBox.addItem(scene.getName())
+        self.mainwindow.add_scene(scene)
 
     def scene_select(self):
         self.scene = self.scenePool[self.comboBox.currentIndex()]
@@ -170,18 +177,20 @@ class SettingWindow(Ui_MainWindow_Setting):
         angle = float(self.lineEdit_66.text())
 
         position = e.pos() - self.scrollArea.pos()
+        position_x, position_y = self.area.translate(position.x(), position.y())
+
         if self.drag_entity == "Agent":
-            self.generator.common_generate(self.scene, "Ped", shape, position.x(), position.y(), radius, length, width,
+            self.generator.common_generate(self.scene, "Ped", shape, position_x, position_y, radius, length, width,
                                            a, b,
                                            angle)
         if self.drag_entity == "Wall":
-            self.generator.common_generate(self.scene, "Wall", shape, position.x(), position.y(), radius, length, width,
+            self.generator.common_generate(self.scene, "Wall", shape, position_x, position_y, radius, length, width,
                                            a, b,
                                            angle)
         if self.drag_entity == "Generate Region":
             pass
         if self.drag_entity == "Safe Region":
-            self.generator.common_generate(self.scene, "Safe-Region", shape, position.x(), position.y(), radius, length,
+            self.generator.common_generate(self.scene, "Safe-Region", shape, position_x, position_y, radius, length,
                                            width,
                                            a, b,
                                            angle)
@@ -283,13 +292,13 @@ class PaintArea(QWidget):
         self.checkThreadTimer = QtCore.QTimer(self)
         self.checkThreadTimer.start(fps)
         self.checkThreadTimer.timeout.connect(self.update)
-        self.zoom = 1.0
+        self.zoom = 10.0
         self.offset_x = 0.0
         self.offset_y = 0.0
         self.last_x = -1
         self.last_y = -1
         self.move = False
-        self.min_scale = 0.4
+        self.min_scale = 4.0
 
     @property
     def scene(self):
@@ -303,6 +312,7 @@ class PaintArea(QWidget):
         :return:
         """
         self.painter.begin(self)
+        self.painter.setPen(Qt.NoPen)    # not painter the outline
         self.painter.scale(self.zoom, self.zoom)
         self.painter.translate(-self.offset_x, -self.offset_y)
         if self.scene is not None:
@@ -312,9 +322,8 @@ class PaintArea(QWidget):
         self.painter.end()
 
     def wheelEvent(self, event: QtGui.QWheelEvent):
-        x, y = event.pos().x(), event.pos().y()
-        x = x / self.zoom + self.offset_x
-        y = y / self.zoom + self.offset_y
+        x, y = self.translate(event.pos().x(), event.pos().y())
+
         new_zoom = self.zoom + event.angleDelta().y() / 400
         if new_zoom < self.min_scale and event.angleDelta().y() < 0:
             new_zoom = self.min_scale
@@ -348,3 +357,16 @@ class PaintArea(QWidget):
         if self.drawer_register.device is not self.painter:
             self.drawer_register.device = self.painter
         self.drawer_register.add_drawer_support(self.scene)
+
+    def translate(self, pos_x, pos_y):
+        """ Translate the mouse position into scene position
+
+        :param pos_x: mouse position x
+        :param pos_y: mouse position y
+        :return: scene position
+        """
+
+        x = pos_x / self.zoom + self.offset_x
+        y = pos_y / self.zoom + self.offset_y
+
+        return x, y

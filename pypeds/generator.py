@@ -13,8 +13,7 @@ class Generator(object):
     the Generator which adds the entities in the entitiesPool
     """
 
-    def __init__(self, window):
-        self.window = window
+    def __init__(self):
         self.last_time_generate = []
 
     def grid_generate(self, scene, region_shape, entity, shape, radius, length, width, number, a, b, angle, interval):
@@ -22,7 +21,7 @@ class Generator(object):
 
         :return: the ped enetities generated in the grid way and the ped_initial_pos with the entities' generated position
         """
-        if entity == "Ped": entity = Pedestrian
+        if entity == "Ped": entity = Pedestrian   # fixme str -> class ref
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
 
@@ -74,8 +73,8 @@ class Generator(object):
                 for n in range(0, number_x):
                     generate_entity = entity(
                         Ellipse2D(center=Point2D(
-                            region_shape.e_left + n * (interval + 2 * abs(a * math.cos(angle))) + abs(a * math.cos(angle)),
-                            region_shape.e_down + m * (interval + 2 * abs(a * math.sin(angle))) + abs(a * math.sin(angle))),
+                            region_shape.y_min + n * (interval + 2 * abs(a * math.cos(angle))) + abs(a * math.cos(angle)),
+                            region_shape.x_min + m * (interval + 2 * abs(a * math.sin(angle))) + abs(a * math.sin(angle))),
                             a=a, b=b, angle=angle))
                     scene.add_entity(generate_entity)
                     self.last_time_generate.append(generate_entity)

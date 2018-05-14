@@ -54,9 +54,12 @@ class Movable(Entity):
     def affected(self, affection):
         if affection.a_type == "Force":
             force = affection.value
-            self.acc = force / self.mass
-            self.velocity += self.acc * self.model.time_per_step
-            self.position += self.velocity * self.model.time_per_step
+            self.acc += force / self.mass
+
+    def move(self):
+        self.velocity += self.acc * self.model.time_per_step
+        self.position += self.velocity * self.model.time_per_step
+        self.acc = self.model.zero_velocity()
 
     @property
     def model(self):
@@ -89,9 +92,13 @@ class Rotatable(Movable):
         super().affected(affection)
         if affection.a_type == "Torque":
             torque = affection.value
-            self.angular_acc = torque / self.inertia
-            self.palstance += self.angular_acc * self.model.time_per_step
-            self.angle += self.palstance * self.model.time_per_step
+            self.angular_acc += torque / self.inertia
+
+    def move(self):
+        super().move()
+        self.palstance += self.angular_acc * self.model.time_per_step
+        self.angle += self.palstance * self.model.time_per_step
+        self.angular_acc = self.model.zero_angular_velocity()
 
     @property
     def model(self):

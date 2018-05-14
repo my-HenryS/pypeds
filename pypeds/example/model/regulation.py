@@ -34,7 +34,7 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
         dist, dirt = source.distance(target)
         if dist < self.view:
             return
-        force = dirt * (self.A * math.exp(-dist) / self.B)
+        force = dirt * (self.A * math.exp(-dist / self.B))
         affection = Affection("Force", force)
         target.affected(affection)
         if self.is_rotate:

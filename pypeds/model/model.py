@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import time
 
+from pypeds.entity import Movable
 from pypeds.model.regulation import SelfDrivenRegulation, Regulation
 
 
@@ -37,6 +38,9 @@ class Model(ABC):
                     targets_in_view = scene.entities_of_type(t_class)
                     # let source exert affection on targets in view
                     regulation.exert(source, targets_in_view)
+
+        for movable in scene.entities_of_type(Movable):
+            movable.move()
 
 
 
