@@ -11,7 +11,7 @@ class Pedestrian(Agent):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a pedestrian
+        read from s_dict to generate a Pedestrian
         :param s_dict:
         :return:
         """
@@ -33,7 +33,7 @@ class Wall(Movable):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a wall
+        read from s_dict to generate a Wall
         :param s_dict:
         :return:
         """
@@ -44,6 +44,18 @@ class Wall(Movable):
 class SafetyRegion(Goal):
     pass
 
+    def to_dict(self):
+        return {"SafetyRegion": {"shape": self.shape.to_dict()}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a SafetyRegion
+        :param s_dict:
+        :return:
+        """
+        shape = s_dict["SafetyRegion"]["shape"]
+        return SafetyRegion(shape)
+
 
 class RotatePedestrian(RotateAgent):
     def __init__(self, shape):
@@ -51,18 +63,18 @@ class RotatePedestrian(RotateAgent):
         self.mass = 80
         self.inertia = 4
 
-    TODO
-
     def to_dict(self):
-        return {"RotatePedestrian": {"shape": self.shape.to_dict(), "velocity": self.velocity, "mass": self.mass}}
+        return {"RotatePedestrian": {"shape": self.shape.to_dict(), "velocity": self.velocity, "palstance": self.palstance, "inertia": self.inertia, "mass": self.mass}}
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a pedestrian
+        read from s_dict to generate a RotatePedestrian
         :param s_dict:
         :return:
         """
-        shape = s_dict["pedestrian"]["shape"]
-        velocity = s_dict["pedestrian"]["velocity"]
-        mass = s_dict["pedestrian"]["mass"]
-        return Pedestrian(shape)
+        shape = s_dict["RotatePedestrian"]["shape"]
+        velocity = s_dict["RotatePedestrian"]["velocity"]
+        palstance = s_dict["RotatePedestrian"]["palstance"]
+        inertia = s_dict["RotatePedestrian"]["inertia"]
+        mass = s_dict["RotatePedestrian"]["mass"]
+        return RotatePedestrian(shape)

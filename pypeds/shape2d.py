@@ -110,7 +110,6 @@ class Point2D(Vector2D):
     pass
 
 
-
 class Segment2D:
     def __init__(self, center, length, angle):
         self.center = center
@@ -160,6 +159,20 @@ class Segment2D:
         self.length = length
         self.angle = angle
         return self
+
+    def to_dict(self):
+        return {"Segment2D": {"center": str(self.center), "length": self.length, "angle": self.angle}}
+
+    def from_dict(self, s_dict):
+        """
+        read from s_dict to generate a Segment2D
+        :param s_dict:
+        :return:
+        """
+        center = s_dict["Segment2D"]["center"]
+        length = s_dict["Segment2D"]["length"]
+        angle = s_dict["Segment2D"]["angle"]
+        return Segment2D(center, length, angle)
 
 
 class Shape2D(ABC):
@@ -224,6 +237,14 @@ class Shape2D(ABC):
         :return:
         """
 
+    @abstractmethod
+    def from_dict(self, s_dict):
+        """
+
+        :return:
+        """
+
+
 class DistanceCalculator(object):
     @staticmethod
     def distance(shape, other) -> (float, Vector2D):  # todo add rect
@@ -241,16 +262,13 @@ class DistanceCalculator(object):
                 if dist == 0:
                     return 0, Vector2D(0, 0)
                 return dist, Vector2D((other.x - shape.x) / dist, (other.y - shape.y) / dist)
-
             elif isinstance(other, Circle2D):
                 dist, dirt = DistanceCalculator.distance(shape, other.center)
                 dist -= other.radius
                 return dist, dirt
-
             elif isinstance(other, Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt * (-1)
-
             elif isinstance(other, Box2D):
                 dist1, dirt1 = other.left_edge.distance(shape)
                 dist2, dirt2 = other.right_edge.distance(shape)
@@ -261,16 +279,13 @@ class DistanceCalculator(object):
                 if other.contains(shape):
                     return - min(dist), dirt[dist.index(min(dist))]
                 return min(dist), dirt[dist.index(min(dist))] * (-1)
-
         if isinstance(shape, Circle2D):
             if isinstance(other, Point2D):
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt * (-1)
-
             elif isinstance(other, Circle2D) or isinstance(other, Box2D) or isinstance(other, Ellipse2D):
                 dist, dirt = DistanceCalculator.distance(shape.center, other)
                 return dist - shape.radius, dirt
-
         if isinstance(shape, Ellipse2D):
             l_dist, l_dirt = DistanceCalculator.distance(shape.c_left, other)
             r_dist, r_dirt = DistanceCalculator.distance(shape.c_right, other)
@@ -281,17 +296,12 @@ class DistanceCalculator(object):
             dist = (l_dist, r_dist, m_dist)
             dirt = (l_dirt, r_dirt, m_dirt)
             return min(dist), dirt[dist.index(min(dist))]
-
-
         if isinstance(shape, Box2D):
             if isinstance(other, Box2D):
                 pass
-
             else:
                 dist, dirt = DistanceCalculator.distance(other, shape)
                 return dist, dirt * (-1)
-
-
 
 
 class Circle2D(Shape2D):
@@ -319,13 +329,14 @@ class Circle2D(Shape2D):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a circle
+        read from s_dict to generate a Circle2D
         :param s_dict:
         :return:
         """
         center = s_dict["Circle2D"]["center"]
         radius = s_dict["Circle2D"]["radius"]
         return Circle2D(center, radius)
+
 
 class Box2D(Shape2D):
 
@@ -385,7 +396,7 @@ class Box2D(Shape2D):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a box
+        read from s_dict to generate a Box2D
         :param s_dict:
         :return:
         """
@@ -448,7 +459,7 @@ class Ellipse2D(Shape2D):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a ellipse
+        read from s_dict to generate a Ellipse2D
         :param s_dict:
         :return:
         """
@@ -511,7 +522,7 @@ class Rectangle2D(Shape2D):
 
     def from_dict(self, s_dict):
         """
-        read from s_dict to generate a rectangle
+        read from s_dict to generate a Rectangle2D
         :param s_dict:
         :return:
         """
