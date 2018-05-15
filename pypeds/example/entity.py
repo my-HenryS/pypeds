@@ -18,7 +18,10 @@ class Pedestrian(Agent):
         shape = s_dict["Pedestrian"]["shape"]
         velocity = s_dict["Pedestrian"]["velocity"]
         mass = s_dict["Pedestrian"]["mass"]
-        return Pedestrian(shape)
+        ped = Pedestrian(shape)
+        ped.velocity = velocity
+        ped.mass = mass
+        return ped
 
 
 class Wall(Movable):
@@ -77,4 +80,9 @@ class RotatePedestrian(RotateAgent):
         palstance = s_dict["RotatePedestrian"]["palstance"]
         inertia = s_dict["RotatePedestrian"]["inertia"]
         mass = s_dict["RotatePedestrian"]["mass"]
-        return RotatePedestrian(shape)
+        ped = RotatePedestrian(shape)
+        ped.palstance = palstance
+        ped.velocity = velocity
+        ped.inertia = inertia
+        ped.mass = mass
+        return ped
