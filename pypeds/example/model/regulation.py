@@ -32,7 +32,7 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
         if source is target:
             return
         dist, dirt = source.distance(target)
-        if dist < self.view:
+        if dist > self.view:
             return
         force = dirt * (self.A * math.exp(-dist / self.B))
         affection = Affection("Force", force)

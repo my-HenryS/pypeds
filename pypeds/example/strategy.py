@@ -14,7 +14,7 @@ class NearestGoalStrategy(StaticStrategy):
         """
         goals = self.scene.entities_of_type(Goal)
         for goal in goals:
-            self.dict[goal.position] = GridPath.create_path(self.scene, Circle2D(Point2D(0, 0), 1), goal.position)
+            self.dict[goal.position] = GridPath.create_path(self.scene, Circle2D(Point2D(0, 0), 0.0001), goal.position)
 
         for agent in self.agents:
             dsr_dist, dsr_goal = min(
@@ -31,7 +31,7 @@ class StraightPath(Path):
     def next_step(self, pos):
         return (self.goal - pos).unit()
 
-
+import random
 class GridPath(Path):
     def __init__(self, field, dist_field, div, offset):
         self.field = field
@@ -41,12 +41,19 @@ class GridPath(Path):
 
     def next_step(self, pos):
         translated = (pos - self.offset) / self.div
-        x, y = translated.x, translated.y
-        direction = (self.field[int(x)][int(y)] - Point2D(int(x),int(y))).unit()
+        x, y = int(translated.x), int(translated.y)
+        next = self.field[int(x)][int(y)]
+        if isinstance(next,int):
+            for i in range(x-1,x+2):
+                for j in range(y-1,y+2):
+                    next = self.field[int(i)][int(j)]
+                    if not isinstance(next,int):
+                        break
+        direction = (next - Point2D(x,y)).unit()
         return direction
 
     @staticmethod
-    def create_path(scene, shape, dest, div=0.4):
+    def create_path(scene, shape, dest, div=0.2):
         grid, offset = scene.to_grid(shape, div)
         translated_dest = (dest - offset) / div
         field, dist_field = shortest_path(grid, translated_dest)

@@ -79,7 +79,7 @@ class Scene(Thread):
         self._listeners.remove(listener)
         listener.on_removed()
 
-    def pack(self, margin = 10):
+    def pack(self, margin = 3):
         y_max = max(entity.shape.bound.y_max for entity in self.entities)
         y_min = min(entity.shape.bound.y_min for entity in self.entities)
         x_max = max(entity.shape.bound.x_max for entity in self.entities)
@@ -122,7 +122,7 @@ class Scene(Thread):
     def resume(self):
         self._is_paused = False
 
-    def to_grid(self, shape, div=0.4, default_value=0, block_value=1, run_off_rate=5):
+    def to_grid(self, shape, div=0.4, default_value=0, block_value=1, run_off_rate=0):
         """ Meshing the scene into grid, setting each cell with values that represents its accessibility by agents.
 
         We classify entities in scene into blockable entities and other entities. When the 'shape' being placed in a cell
