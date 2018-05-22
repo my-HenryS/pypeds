@@ -14,7 +14,7 @@ class NearestGoalStrategy(StaticStrategy):
         """
         goals = self.scene.entities_of_type(Goal)
         for goal in goals:
-            self.dict[goal.position] = GridPath.create_path(self.scene, Circle2D(Point2D(0, 0), 0.0001), goal.position)
+            self.dict[goal.position] = GridPath.create_path(self.scene, Circle2D(Point2D(0, 0), 0.45/2), goal.position)
 
         for agent in self.agents:
             dsr_dist, dsr_goal = min(
