@@ -20,7 +20,7 @@ if __name__ == "__main__":
     scene.add_entity(Wall(Box2D(Point2D(18, 25), 1, 10)))
     scene.add_entity(Wall(Box2D(Point2D(28, 25), 1, 10)))
     scene.add_entity(Wall(Box2D(Point2D(23, 29.5), 9, 1)))
-    scene.add_entity(Wall(Box2D(Point2D(20, 20.5), 3, 1)))
+    scene.add_entity(Wall(Box2D(Point2D(20.5, 20.5), 4, 1)))
     scene.add_entity(Wall(Box2D(Point2D(25.5, 20.5), 4, 1)))
     scene.add_entity(SafetyRegion(Box2D(Point2D(23, 15), 2, 1)))
 
