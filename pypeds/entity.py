@@ -110,6 +110,8 @@ class Rotatable(Movable):
     @model.setter
     def model(self, model):
         self._model = model
+        self.velocity = model.zero_velocity()
+        self.acc = model.zero_velocity()
         self.palstance = model.zero_angular_velocity()
         self.angular_acc = model.zero_angular_velocity()
 
