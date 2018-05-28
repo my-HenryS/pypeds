@@ -131,13 +131,13 @@ class SelfDrivenTorqueRegulation(SelfDrivenRegulation):
         self._target_class = RotatePedestrian
 
     def exert(self, entity):
-        dirt = entity.next_step()
+        dirt = Vector2D(1,0)    #fixme 因为测试原因修改原代码 entity.next_step()
         face = Vector2D(- math.sin(entity.angle), math.cos(entity.angle))
         rotate_angle = math.acos(dirt.x * face.x + dirt.y * face.y)
         if face.x * dirt.y - dirt.x * face.y < 0:
             rotate_angle *= -1
         torque = 40 * rotate_angle
-        affection = Affection("Torque ", torque)
+        affection = Affection("Torque", torque)
         entity.affected(affection)
 
 
@@ -151,7 +151,7 @@ class SelfDampingTorqueRegulation(SelfDrivenRegulation):
 
     def exert(self, entity):
         torque = (-5 * entity.palstance) * (entity.inertia / self.react_t)
-        affection = Affection("Torque ", torque)
+        affection = Affection("Torque", torque)
         entity.affected(affection)
 
 

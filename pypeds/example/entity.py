@@ -60,7 +60,7 @@ class SafetyRegion(Goal):
         return SafetyRegion(shape)
 
 
-class RotatePedestrian(RotateAgent):
+class RotatePedestrian(RotateAgent, Pedestrian):
     def __init__(self, shape):
         super(RotatePedestrian, self).__init__(shape)
         self.mass = 80

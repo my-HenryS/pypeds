@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from PyQt5.QtCore import QPointF, QRectF
 from PyQt5.QtGui import *
+import math
 
 
 class ShapeDrawer(ABC):
@@ -40,11 +41,12 @@ class Ellipse2DDrawer(ShapeDrawer):
     def draw(self, ellipse):
         x, y = ellipse.center.x, ellipse.center.y
         a, b = ellipse.a, ellipse.b
+        angle = ellipse.angle * 180 / math.pi
         self.device.setBrush(self.color)
         self.device.translate(x, y)
-        self.device.rotate(-ellipse.angle)
+        self.device.rotate(-angle)
         self.device.drawEllipse(QPointF(0, 0), a, b)  # draw ellipse by defining its bound box
-        self.device.rotate(ellipse.angle)
+        self.device.rotate(angle)
         self.device.translate(-x, -y)
 
 class Box2DDrawer(ShapeDrawer):
