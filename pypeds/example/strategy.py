@@ -21,6 +21,8 @@ class NearestGoalStrategy(StaticStrategy):
                 (goal.distance(agent), goal.position) for goal in self.scene.entities_of_type(Goal))
             agent.path = self.dict[dsr_goal]  # TODO implement path factory
 
+        pass
+
     def on_stepped(self):
         pass
 
@@ -53,7 +55,7 @@ class GridPath(Path):
         return direction
 
     @staticmethod
-    def create_path(scene, shape, dest, div=0.2):
+    def create_path(scene, shape, dest, div=0.4):
         grid, offset = scene.to_grid(shape, div)
         translated_dest = (dest - offset) / div
         field, dist_field = shortest_path(grid, translated_dest)
