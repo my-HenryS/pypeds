@@ -4,13 +4,14 @@ from pypeds.example.model.regulation import SelfDrivenTorqueRegulation
 from pypeds.example.model.sfmodel import SFModel
 from pypeds.example.entity import RotatePedestrian
 from pypeds.shape2d import Ellipse2D, Point2D, Vector2D
+import math
 
 
 class TestSelfDrivenTorqueRegulation(TestCase):
     def setUp(self):
         self.model = SFModel(0.004)
         self.regulation = SelfDrivenTorqueRegulation(self.model)
-        self.entity_1 = RotatePedestrian(Ellipse2D(Point2D(19.5, 26), 0.45 / 2, 0.25 / 2, 0))
+        self.entity_1 = RotatePedestrian(Ellipse2D(Point2D(19.5, 26), 0.45 / 2, 0.25 / 2, math.pi / (4)))
         self.entity_1.model = self.model
 
 
