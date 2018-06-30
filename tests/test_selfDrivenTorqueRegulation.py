@@ -17,7 +17,7 @@ class TestSelfDrivenTorqueRegulation(TestCase):
 
     def test_torque(self):
         n = 0
-        while n < 100:
+        while n < 1000:
             self.regulation_1.exert(self.entity_1)
             print(self.entity_1.angle, self.entity_1.palstance, self.entity_1.angular_acc)
             self.regulation_2.exert(self.entity_1)

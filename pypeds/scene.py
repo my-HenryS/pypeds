@@ -1,6 +1,6 @@
 from pypeds.example.entity import Wall
 from pypeds.pool import EntityPool
-from pypeds.entity import Entity
+from pypeds.entity import Entity, Agent
 from abc import ABC, abstractmethod
 from threading import Thread
 from pypeds.shape2d import *

@@ -131,15 +131,15 @@ class SelfDrivenTorqueRegulation(SelfDrivenRegulation):
         self._target_class = RotatePedestrian
 
     def exert(self, entity):
-        dirt = Vector2D(math.sqrt(2)/2, math.sqrt(2)/2) #entity.next_step()    #fixme 此处需要是期望速度方向。  因为测试原因修改原代码 Vector2D(math.sqrt(2)/2, math.sqrt(2)/2)
-        face = Vector2D(- math.sin(entity.angle), math.cos(entity.angle))
+        dirt = entity.next_step()  #Vector2D(math.sqrt(2)/2, math.sqrt(2)/2)    #fixme 此处需要是期望速度方向。  因为测试原因修改原代码 Vector2D(math.sqrt(2)/2, math.sqrt(2)/2)
+        face = Vector2D(math.sin(entity.angle), math.cos(entity.angle))
         if dirt.x * face.x + dirt.y * face.y > 1:
             rotate_angle = 0
         elif dirt.x * face.x + dirt.y * face.y < -1:
             rotate_angle = math.pi
         else:
             rotate_angle = math.acos(dirt.x * face.x + dirt.y * face.y)
-        if (face.x * dirt.y - dirt.x * face.y) < 0:
+        if (face.x * dirt.y - dirt.x * face.y) >= 0:
             rotate_angle *= -1
         torque = 40 * rotate_angle
         affection = Affection("Torque", torque)

@@ -405,6 +405,9 @@ class Box2D(Shape2D):
         width = s_dict["Box2D"]["width"]
         return Box2D(center, length, width)
 
+    def __str__(self):
+        return "Box2D(%s, length=%.2f, width=%.2f" %(str(self.center), self.length, self.width)
+
 
 class Ellipse2D(Shape2D):
 

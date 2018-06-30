@@ -51,7 +51,7 @@ class GridPath(Path):
                     next = self.field[int(i)][int(j)]
                     if not isinstance(next,int):
                         break
-        direction = (next - Point2D(x,y)).unit()
+        direction = (next - Point2D(pos.x,pos.y)).unit()
         return direction
 
     @staticmethod
