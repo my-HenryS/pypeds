@@ -47,9 +47,10 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
             if dist == m_dist:
                 return
             elif dist == l_dist:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)
+                length_dist = target.shape.center.dist(target.shape.c_left)
             else:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
+                length_dist = target.shape.center.dist(target.shape.c_right)
+            length_dirt = (target.shape.center - target.shape.c_right).unit()
             length = length_dirt * length_dist
             torque = length.x * force.y - force.x * length.y
             affection = Affection("Torque", torque)
@@ -98,9 +99,10 @@ class BodyForceRegulation(SingleTargetRegulation):
             if dist == m_dist:
                 return
             elif dist == l_dist:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_left)  #fixme force point calculation
+                length_dist = target.shape.center.dist(target.shape.c_left)  #fixme force point calculation
             else:
-                length_dist, length_dirt = target.shape.center.distance(target.shape.c_right)
+                length_dist = target.shape.center.dist(target.shape.c_right)
+            length_dirt = (target.shape.center - target.shape.c_right).unit()
             length = length_dirt * length_dist
             torque = length.x * force.y - force.x * length.y
             affection = Affection("Torque", torque)

@@ -41,12 +41,12 @@ if __name__ == "__main__":
     scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(23.5, 27), 0.45 / 2, 0.25 / 2, math.pi)))
     scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(24.5, 27.5), 0.45 / 2, 0.25 / 2, math.pi)))
     scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(23.5, 28), 0.45 / 2, 0.25 / 2, math.pi)))
-
-    scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 26), 0.45 / 2, 0.25 / 2, math.pi)))
-    scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(26.5, 26.5), 0.45 / 2, 0.25 / 2, math.pi)))
-    scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 27), 0.45 / 2, 0.25 / 2, math.pi)))
-    scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(26.5, 27.5), 0.45 / 2, 0.25 / 2, math.pi)))
-    scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 28), 0.45 / 2, 0.25 / 2, math.pi)))
+    #
+    # scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 26), 0.45 / 2, 0.25 / 2, math.pi)))
+    # scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(26.5, 26.5), 0.45 / 2, 0.25 / 2, math.pi)))
+    # scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 27), 0.45 / 2, 0.25 / 2, math.pi)))
+    # scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(26.5, 27.5), 0.45 / 2, 0.25 / 2, math.pi)))
+    # scene.add_entity(RotatePedestrian(Ellipse2D(Point2D(25.5, 28), 0.45 / 2, 0.25 / 2, math.pi)))
 
 
     generator = Generator()
