@@ -48,9 +48,10 @@ class PsychologicalForceRegulation(SingleTargetRegulation):
                 return
             elif dist == l_dist:
                 length_dist = target.shape.center.dist(target.shape.c_left)
+                length_dirt = (target.shape.center - target.shape.c_left).unit()
             else:
                 length_dist = target.shape.center.dist(target.shape.c_right)
-            length_dirt = (target.shape.center - target.shape.c_right).unit()
+                length_dirt = (target.shape.center - target.shape.c_right).unit()
             length = length_dirt * length_dist
             torque = length.x * force.y - force.x * length.y
             affection = Affection("Torque", torque)
@@ -99,10 +100,11 @@ class BodyForceRegulation(SingleTargetRegulation):
             if dist == m_dist:
                 return
             elif dist == l_dist:
-                length_dist = target.shape.center.dist(target.shape.c_left)  #fixme force point calculation
+                length_dist = target.shape.center.dist(target.shape.c_left)
+                length_dirt = (target.shape.center - target.shape.c_left).unit()
             else:
                 length_dist = target.shape.center.dist(target.shape.c_right)
-            length_dirt = (target.shape.center - target.shape.c_right).unit()
+                length_dirt = (target.shape.center - target.shape.c_right).unit()
             length = length_dirt * length_dist
             torque = length.x * force.y - force.x * length.y
             affection = Affection("Torque", torque)
@@ -143,7 +145,7 @@ class SelfDrivenTorqueRegulation(SelfDrivenRegulation):
             rotate_angle = math.acos(dirt.x * face.x + dirt.y * face.y)
         if (face.x * dirt.y - dirt.x * face.y) >= 0:
             rotate_angle *= -1
-        torque = 40 * rotate_angle
+        torque = 80 * rotate_angle
         affection = Affection("Torque", torque)
         entity.affected(affection)
 
