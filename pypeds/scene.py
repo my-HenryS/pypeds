@@ -155,7 +155,6 @@ class Scene(Thread):
                     if entity.shape.intersects(template_shape, run_off_rate*div):
                         grid[i][j] = block_value
                         break
-
         return grid, Point2D(x_min, y_min)
 
     def to_dict(self):

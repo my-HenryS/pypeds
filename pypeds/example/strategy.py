@@ -46,16 +46,22 @@ class GridPath(Path):
         x, y = int(translated.x), int(translated.y)
         next = self.field[int(x)][int(y)]
         if isinstance(next,int):
-            for i in range(x-1,x+2):
-                for j in range(y-1,y+2):
-                    next = self.field[int(i)][int(j)]
-                    if not isinstance(next,int):
+            break_flag = False
+            h = 0
+            while not break_flag and h >= 0:
+                for i in range(x-1-h,x+2+h):
+                    for j in range(y-1-h,y+2+h):
+                        next = self.field[int(i)][int(j)]
+                        if not isinstance(next,int):
+                            break_flag = True
+                            break
+                    if break_flag:
                         break
         direction = (next - Point2D(x,y)).unit()
         return direction
 
     @staticmethod
-    def create_path(scene, shape, dest, div=0.4):
+    def create_path(scene, shape, dest, div=0.2):
         grid, offset = scene.to_grid(shape, div)
         translated_dest = (dest - offset) / div
         field, dist_field = shortest_path(grid, translated_dest)
