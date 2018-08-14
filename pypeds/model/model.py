@@ -9,6 +9,7 @@ class Model(ABC):
         self.time_per_step = time_per_step
         self.regulations = regulations or []
 
+
     def step_next(self, scene):
         """ Define how will the model controls each entity's movement (or other changes in their attributes)
 
@@ -37,9 +38,10 @@ class Model(ABC):
                     # let source exert affection on targets in view
                     regulation.exert(source, targets_in_view)
 
+            # have changed here
             elif isinstance(regulation, CsvRegulation):
-                if self.regulations[0].pos_list == None:
-                    pass
+                # if regulation.pos_list == None:
+                #     regulation.get_pos_list()
 
                 s_class = regulation.target_class
                 targets = scene.entities_of_type(s_class)

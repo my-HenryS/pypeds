@@ -109,10 +109,10 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.setWindowTitle(title)
         self.center()
         self.retranslateUi(self)
-        self.generator = Generator(self)
+        self.scene = None
+        self.generator = Generator(self.scene)
         self.mainwindow = mainwindow
         self.scenePool = []
-        self.scene = None
         self.drag_entity = ''
         # init paint area and assigned to scroll area
         self.area = PaintArea(self, fps)
@@ -141,8 +141,11 @@ class SettingWindow(Ui_MainWindow_Setting):
         use the button to create a scene(Thread)
         :return:
         """
+        #change the model from the SFM to CSVmodel
         scene = Scene()
-        scene.model = SFModel(0.004)
+        # scene.model = SFModel(0.004)
+        scene.add_model(CSVModel(0.004,"/home/hdl/PycharmProjects/pypeds/pypeds/example/resources/ffffffffffff.csv", scene))
+        print(scene.entities)
         scene.add_listener(PedestrianEscapeListener())
         scene.add_listener(NearestGoalStrategy())
         self.scenePool.append(scene)
@@ -150,6 +153,10 @@ class SettingWindow(Ui_MainWindow_Setting):
         self.mainwindow.comboBox.addItem(scene.getName())
 
     def scene_select(self):
+        # print(self.scene)
+        if self.scene !=None:
+            pass
+            # print(self.scene.entities)
         self.scene = self.scenePool[self.comboBox.currentIndex()]
 
     def cancel(self):

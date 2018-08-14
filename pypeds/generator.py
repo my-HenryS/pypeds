@@ -13,9 +13,9 @@ class Generator(object):
     the Generator which adds the entities in the entitiesPool
     """
 
-    def __init__(self, window):
-        self.window = window
+    def __init__(self, scene):
         self.last_time_generate = []
+        self.scene = scene
 
     def grid_generate(self, scene, region_shape, entity, shape, radius, length, width, number, a, b, angle, interval):
         """

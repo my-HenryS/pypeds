@@ -5,7 +5,8 @@ from abc import ABC, abstractmethod
 from threading import Thread
 from pypeds.shape2d import *
 import time
-
+from pypeds.example.model.csvmodel import *
+from pypeds.generator import *
 
 class Scene(Thread):
 
@@ -24,14 +25,22 @@ class Scene(Thread):
         self.strategy = strategy
         self._is_paused = False
         self.bound = None
+        self.generator = Generator(self)
 
     @property
     def entities(self):
         return self._entities.select_by_type(Entity)
+
     """
     Add and remove entity
     
     """
+
+    def add_model(self, model):
+        self.model = model
+        if isinstance(model, CSVModel):
+            model.on_add()
+
     def add_entity(self, new_entity):
         self._entities.add(new_entity)
         new_entity.model = self.model
@@ -66,6 +75,7 @@ class Scene(Thread):
         add_listener() and remove_listener(). By adding (or removing) a listener we call its on_added()
          (or on_removed()) function.
     """
+
     @property
     def listeners(self):
         return self._listeners.__iter__()
@@ -79,12 +89,13 @@ class Scene(Thread):
         self._listeners.remove(listener)
         listener.on_removed()
 
-    def pack(self, margin = 10):
+    def pack(self, margin=10):
         y_max = max(entity.shape.bound.y_max for entity in self.entities)
         y_min = min(entity.shape.bound.y_min for entity in self.entities)
         x_max = max(entity.shape.bound.x_max for entity in self.entities)
         x_min = min(entity.shape.bound.x_min for entity in self.entities)
-        self.bound = Box2D(Point2D((x_max+x_min)/2, (y_max+y_min)/2), x_max - x_min + margin * 2, y_max - y_min + margin * 2)
+        self.bound = Box2D(Point2D((x_max + x_min) / 2, (y_max + y_min) / 2), x_max - x_min + margin * 2,
+                           y_max - y_min + margin * 2)
 
     def begin(self):
         """
@@ -153,11 +164,12 @@ class Scene(Thread):
                 template_shape.center = pos
                 grid[i][j] = default_value
                 for entity in self.entities_of_type(Wall):
-                    if entity.shape.intersects(template_shape, run_off_rate*div):
+                    if entity.shape.intersects(template_shape, run_off_rate * div):
                         grid[i][j] = block_value
                         break
 
         return grid, Point2D(x_min, y_min)
+
 
 class SceneListener(ABC):
 
