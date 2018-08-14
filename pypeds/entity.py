@@ -45,7 +45,7 @@ class Goal(Entity):
 
 class Movable(Entity):
 
-    def __init__(self, shape,):
+    def __init__(self, shape, ):
         super(Movable, self).__init__(shape)
         self.velocity = None
         self.acc = None
@@ -58,6 +58,9 @@ class Movable(Entity):
             self.velocity += self.acc * self.model.time_per_step
             self.position += self.velocity * self.model.time_per_step
 
+        if affection.a_type == "Csv":
+            self.position += affection.value
+
     @property
     def model(self):
         return self._model
@@ -67,6 +70,7 @@ class Movable(Entity):
         self._model = model
         self.velocity = model.zero_velocity()
         self.acc = model.zero_velocity()
+
 
 class Escapable(Movable):
 
@@ -88,6 +92,7 @@ class Agent(Escapable):
     def next_step(self):
         return self.path.next_step(self.position)
 
+
 class Rotatable(Agent):
 
     def __init__(self, shape):
@@ -98,7 +103,7 @@ class Rotatable(Agent):
 
     @property
     def angle(self):
-        return self.shape.angle     # TODO: shape need to be defined as ellipse2D compulsively
+        return self.shape.angle  # TODO: shape need to be defined as ellipse2D compulsively
 
     @angle.setter
     def angle(self, ang):
@@ -120,16 +125,16 @@ class Rotatable(Agent):
     def model(self, model):
         self._model = model
         self.velocity = model.zero_velocity()
-        self.acc=model.zero_velocity()
+        self.acc = model.zero_velocity()
         self.palstance = model.zero_angular_velocity()
         self.angular_acc = model.zero_angular_velocity()
+
 
 class RotateAgent(Rotatable):
     def __init__(self, shape):
         super().__init__(shape)
         self.path = None
-        self.is_rotate=True
+        self.is_rotate = True
 
     def next_step(self):
         return self.path.next_step(self.position)
-

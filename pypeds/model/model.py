@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-import time
-
+from pypeds.example.model.csvregulation import *
 from pypeds.model.regulation import SelfDrivenRegulation, Regulation
 
 
@@ -16,7 +15,7 @@ class Model(ABC):
         :param scene:
         :return:
         """
-        #time.sleep(self.time_per_step)    # FIXME  implement frame lock
+        # time.sleep(self.time_per_step)    # FIXME  implement frame lock
         for regulation in self.regulations:
             if isinstance(regulation, SelfDrivenRegulation):
                 s_class = regulation.source_class
@@ -38,7 +37,15 @@ class Model(ABC):
                     # let source exert affection on targets in view
                     regulation.exert(source, targets_in_view)
 
+            elif isinstance(regulation, CsvRegulation):
+                if self.regulations[0].pos_list == None:
+                    pass
 
+                s_class = regulation.target_class
+                targets = scene.entities_of_type(s_class)
+
+                for target in targets:
+                    regulation.exert(target)
 
     @abstractmethod
     def zero_velocity(self):
