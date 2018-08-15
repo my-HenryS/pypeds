@@ -13,6 +13,15 @@ class Wall(Movable):
     def affected(self, affection):
         pass
 
+class RecordPed(Pedestrian):
+    def __init__(self, shape, data_list=None):
+        super(Pedestrian, self).__init__(shape)
+        self.data_list = data_list
+
+    def affected(self, affection):
+        if affection.a_type == "Csv":
+            self.position = affection.value
+
 class SafetyRegion(Goal):
     pass
 

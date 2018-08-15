@@ -165,7 +165,7 @@ class Generator(object):
                 scene.add_entity(i)
                 self.last_time_generate.append(i)
 
-    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width, a, b, angle):
+    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width, a, b, angle, data_list):
         """
 
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position
@@ -174,11 +174,14 @@ class Generator(object):
         if entity == "Ped": entity = Pedestrian
         if entity == "Wall": entity = Wall
         if entity == "Safe-Region": entity = SafetyRegion
+        if entity == "RecordPed": entity = RecordPed
 
         self.last_time_generate = []
 
         if shape == "Circle":
-            generate_entity = entity(Circle2D(center=Point2D(center_x, center_y), radius=radius))
+            generate_entity = entity(Circle2D(center=Point2D(center_x*50, center_y*50), radius=radius))
+            if entity == RecordPed:
+                generate_entity.data_list = data_list
             scene.add_entity(generate_entity)
             self.last_time_generate.append(generate_entity)
 

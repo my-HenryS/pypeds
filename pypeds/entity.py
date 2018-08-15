@@ -45,7 +45,7 @@ class Goal(Entity):
 
 class Movable(Entity):
 
-    def __init__(self, shape, ):
+    def __init__(self, shape):
         super(Movable, self).__init__(shape)
         self.velocity = None
         self.acc = None
@@ -57,9 +57,6 @@ class Movable(Entity):
             self.acc = force / self.mass
             self.velocity += self.acc * self.model.time_per_step
             self.position += self.velocity * self.model.time_per_step
-
-        if affection.a_type == "Csv":
-            self.position += affection.value
 
     @property
     def model(self):

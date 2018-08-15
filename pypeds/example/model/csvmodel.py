@@ -15,8 +15,8 @@ class CSVModel(Model):
     def on_add(self):
         self.regulations[0].get_pos_list()
         for index in self.regulations[0].pos_list:
-            self.scene.generator.common_generate(scene=self.scene, entity="Ped",shape= "Circle", center_x=float(index[0].split(",")[0]),center_y= float(index[0].split(",")[1]),
-                                                 radius=2,length= 5,width= 5,a=5,b= 5, angle=5)
+            self.scene.generator.common_generate(scene=self.scene, entity="RecordPed",shape= "Circle", center_x=float(index[0].split(",")[0]),center_y= float(index[0].split(",")[1]),
+                                                 radius=2,length= 5,width= 5,a=5,b= 5, angle=5,data_list=index)
 
 
     def zero_angular_velocity(self):
