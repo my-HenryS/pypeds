@@ -16,10 +16,12 @@ class CsvRegulation():
 
     def exert(self, entity):
         if len(entity.data_list) != 1:
-            affection = Affection(a_type="Csv", value=Point2D(50*float(entity.data_list[0].split(",")[0]),50*float(entity.data_list[0].split(",")[1])))
+            affection = Affection(a_type="Csv", value=Point2D(50 * float(entity.data_list[0].split(",")[0]),
+                                                              50 * float(entity.data_list[0].split(",")[1])))
             del entity.data_list[0]
         else:
-            affection = Affection(a_type="CSV",value=Point2D(50*float(entity.data_list[0].split(",")[0]),50*float(entity.data_list[0].split(",")[1])))
+            affection = Affection(a_type="CSV", value=Point2D(50 * float(entity.data_list[0].split(",")[0]),
+                                                              50 * float(entity.data_list[0].split(",")[1])))
         time.sleep(0.001)
 
         entity.affected(affection)

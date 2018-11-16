@@ -165,7 +165,7 @@ class Generator(object):
                 scene.add_entity(i)
                 self.last_time_generate.append(i)
 
-    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width, a, b, angle, data_list):
+    def common_generate(self, scene, entity, shape, center_x, center_y, radius, length, width, a, b, angle, data_list = None):
         """
 
         :return: the item entities generated in the random way and the ped_initial_pos with the entities' generated position

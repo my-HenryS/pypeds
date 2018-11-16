@@ -144,7 +144,7 @@ class SettingWindow(Ui_MainWindow_Setting):
         #change the model from the SFM to CSVmodel
         scene = Scene()
         # scene.model = SFModel(0.004)
-        scene.add_model(CSVModel(0.004,"/home/hdl/PycharmProjects/pypeds/pypeds/example/resources/ffffffffffff.csv", scene))
+        scene.add_model(CSVModel(0.004,"/home/hdl/PycharmProjects/pypeds/pypeds/example/resources/纵向单障碍物快速真实.csv", scene))
         print(scene.entities)
         # scene.add_listener(PedestrianEscapeListener())
         # scene.add_listener(NearestGoalStrategy())
