@@ -1,6 +1,6 @@
 # pypeds
 
-A Python pedestrian simulation simulation library
+A Python pedestrian simulation simulation library (for Java version please checkout https://github.com/my-HenryS/multi-agent-simulation)
 
 ### Installation
 
